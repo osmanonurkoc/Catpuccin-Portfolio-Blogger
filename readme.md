@@ -21,8 +21,8 @@ This theme allows you to customize your entire site without needing to know HTML
 1. Copy the contents of the `theme.xml` file.
 2. Go to your Blogger Dashboard.
 3. Click on the **Theme** tab on the left sidebar.
-4. Click the down arrow next to the "Customize" button and select **Edit HTML**.
-5. Delete all the existing code, paste the copied code, and hit **Save**.
+4. Click the down arrow next to the "Customize" button and select **Restore**.
+5. Click upload, and select **Catpuccin-Portfolio-Blogger-Template.xml**.
 
 ---
 
@@ -94,7 +94,7 @@ Find the `<div class='social-links'>` section. There are 9 different pre-built s
 
 -   **Currently Active (`cond='true'`):** GitHub, Instagram, LinkedIn, Twitter/X.
     
--   **Currently Hidden (`cond='false'`):** YouTube, Dribbble, Behance, Facebook, Medium.
+-   **Currently Hidden (`cond='false'`):** YouTube, Dribbble, Behance, Facebook, Medium, Deviantart, Telegram, Google Play, Spotify.
     
 
 Just toggle the ones you need and replace the `#` inside the `<a href='#'>` tag with your actual profile URL.
@@ -105,7 +105,7 @@ You can find the Email, Phone, Location, Date of Birth, and Website info rows in
 
 ### "Reach Me" Call to Action
 
-If you want to completely remove the gradient contact box at the bottom of the sidebar, simply change the `<b:if cond='true'>` right above it to `false`. If you decide to keep it, update the `mailto:your.email@example.com` string with your real email address.
+If you want to completely remove the gradient contact box at the bottom of the sidebar, simply change the `<b:if cond='true'>` right above it to `false`. If you decide to keep it, update the `mailto:your.email@example.com` string with your real email address. Also you can insert custom "Contacts page" url.
 
 ### Service and Project Cards
 

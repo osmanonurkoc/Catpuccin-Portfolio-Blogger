@@ -496,7 +496,7 @@
 
         <b:if cond='false'>
           <a expr:href='data:blog.homepageUrl' >
-            <img alt='Profile Picture' src='https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/logos/exports/1544x1544_circle.png'/>
+            <img alt='Profile Picture' src='YOUR_IMAGE_URL_HERE'/>
           </a>
         </b:if>
       </div>
