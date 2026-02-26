@@ -132,6 +132,7 @@ To add or remove a skill, simply insert a `<span class='skill-pill'>` inside the
   <span class='skill-pill'>Android</span>
   <span class='skill-pill'>Figma</span>
 </div>
+```
 
 ## 📄 License
 
