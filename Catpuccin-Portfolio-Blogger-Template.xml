@@ -95,11 +95,18 @@
     --accent-primary: var(--dark-accent-primary);
     --accent-secondary: var(--dark-accent-secondary);
 
-    /* Glow Effects */
+    /* Glow Effects & Dynamic Pill Gradients (Mocha Mode) */
     --shadow-color: color-mix(in srgb, var(--accent-primary) 15%, transparent);
     --hover-shadow: color-mix(in srgb, var(--accent-primary) 30%, transparent);
     --gradient-text: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
     --gradient-btn: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+
+    --pill-grad-1: linear-gradient(135deg, var(--mocha-blue), var(--mocha-mauve));
+    --pill-grad-2: linear-gradient(135deg, var(--mocha-green), var(--mocha-teal));
+    --pill-grad-3: linear-gradient(135deg, var(--mocha-peach), var(--mocha-yellow));
+    --pill-grad-4: linear-gradient(135deg, var(--mocha-red), var(--mocha-maroon));
+    --pill-grad-5: linear-gradient(135deg, var(--mocha-sapphire), var(--mocha-lavender));
+    --pill-grad-6: linear-gradient(135deg, var(--mocha-pink), var(--mocha-flamingo));
     }
 
     /* LIGHT MODE (LATTE) OVERRIDES */
@@ -124,11 +131,18 @@
     --accent-primary: var(--light-accent-primary);
     --accent-secondary: var(--light-accent-secondary);
 
-    /* Vibrant Glow Effects */
+    /* Vibrant Glow Effects & Dynamic Pill Gradients (Latte Mode) */
     --shadow-color: rgba(76, 79, 105, 0.05);
     --hover-shadow: color-mix(in srgb, var(--accent-primary) 25%, transparent);
     --gradient-text: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
     --gradient-btn: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+
+    --pill-grad-1: linear-gradient(135deg, var(--latte-blue), var(--latte-mauve));
+    --pill-grad-2: linear-gradient(135deg, var(--latte-green), var(--latte-teal));
+    --pill-grad-3: linear-gradient(135deg, var(--latte-peach), var(--latte-yellow));
+    --pill-grad-4: linear-gradient(135deg, var(--latte-red), var(--latte-maroon));
+    --pill-grad-5: linear-gradient(135deg, var(--latte-sapphire), var(--latte-lavender));
+    --pill-grad-6: linear-gradient(135deg, var(--latte-pink), var(--latte-flamingo));
     }
 
     /* ==========================================================
@@ -383,6 +397,49 @@
     }
 
     /* --------------------------------------
+    SKILL PILLS (TAGS) - AUTOMATIC DYNAMIC COLORS
+    -------------------------------------- */
+    .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    margin-bottom: 1rem;
+    }
+
+    /* Base Pill Style */
+    .skill-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    color: var(--crust); /* Dark text on pastel backgrounds in Dark Mode */
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    }
+
+    /* Light Mode Override for Text */
+    body.latte .skill-pill {
+    color: #ffffff; /* White text on vibrant backgrounds in Light Mode */
+    }
+
+    /* Zero-Code Randomization:
+    We use CSS :nth-child to automatically assign beautiful gradients
+    to the pills in a repeating pattern. No manual class names required!
+    */
+    .skill-pill:nth-child(6n + 1) { background: var(--pill-grad-1); }
+    .skill-pill:nth-child(6n + 2) { background: var(--pill-grad-2); }
+    .skill-pill:nth-child(6n + 3) { background: var(--pill-grad-3); }
+    .skill-pill:nth-child(6n + 4) { background: var(--pill-grad-4); }
+    .skill-pill:nth-child(6n + 5) { background: var(--pill-grad-5); }
+    .skill-pill:nth-child(6n + 6) { background: var(--pill-grad-6); }
+
+    /* Fix spacing for project cards so button is pushed to bottom after tags */
+    .project-card .card-tags { margin-bottom: 1.5rem; }
+
+
+    /* --------------------------------------
     8. FLOATING THEME SWITCHER
     -------------------------------------- */
     .floating-theme-toggle {
@@ -484,302 +541,368 @@
   //]]>
 </script>
 
-<b:if cond='data:view.isHomepage'>
-  <div class='layout-wrapper'>
-
-    <aside class='sidebar'>
-
-      <div class='profile-img'>
-        <b:if cond='true'>
-          <i class='ti ti-user-code'></i>
-        </b:if>
-
-        <b:if cond='false'>
-          <a expr:href='data:blog.homepageUrl' >
-            <img alt='Profile Picture' src='YOUR_IMAGE_URL_HERE'/>
-          </a>
-        </b:if>
-      </div>
-
-      <h1 class='gradient-text'>Osman Onur Koç</h1>
-      <span class='title'>Android Themer &amp; Web/3D Designer</span>
-
-      <div class='social-links'>
-
-        <b:if cond='true'>
-          <a href='https://github.com/osmanonurkoc' target='_blank' title='GitHub'><i class='ti ti-brand-github'/></a>
-        </b:if>
-
-        <b:if cond='true'>
-          <a href='https://instagram.com/osmanonurkoc' target='_blank' title='Instagram'><i class='ti ti-brand-instagram'/></a>
-        </b:if>
-
-        <b:if cond='true'>
-          <a href='https://www.linkedin.com/in/osmanonurkoc/' target='_blank' title='LinkedIn'><i class='ti ti-brand-linkedin'/></a>
-        </b:if>
-
-        <b:if cond='true'>
-          <a href='https://www.twitter.com/osmanonurkoc' target='_blank' title='Twitter'><i class='ti ti-brand-x'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='YouTube'><i class='ti ti-brand-youtube'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Dribbble'><i class='ti ti-brand-dribbble'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Behance'><i class='ti ti-brand-behance'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Facebook'><i class='ti ti-brand-facebook'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Medium'><i class='ti ti-brand-medium'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Deviantart'><i class='ti ti-brand-deviantart'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Telegram'><i class='ti ti-brand-telegram'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Google Play'><i class='ti ti-brand-google-play'/></a>
-        </b:if>
-
-        <b:if cond='false'>
-          <a href='#' target='_blank' title='Spotify'><i class='ti ti-brand-spotify'/></a>
-        </b:if>
-
-      </div>
-
-      <div class='sidebar-info'>
-
-        <b:if cond='true'>
-          <div class='info-item'>
-            <i class='ti ti-mail'></i>
-            <div class='info-text-group'>
-              <span class='info-label'>Email / Username</span>
-              <span class='info-value'>osmanonurkoc</span>
-            </div>
-          </div>
-        </b:if>
-
-        <b:if cond='true'>
-          <div class='info-item'>
-            <i class='ti ti-device-mobile'></i>
-            <div class='info-text-group'>
-              <span class='info-label'>Phone</span>
-              <span class='info-value'>+90 000 000 00 00</span>
-            </div>
-          </div>
-        </b:if>
-
-        <b:if cond='true'>
-          <div class='info-item'>
-            <i class='ti ti-map-pin'></i>
-            <div class='info-text-group'>
-              <span class='info-label'>Location</span>
-              <span class='info-value'>Samsun / Amasya, Türkiye</span>
-            </div>
-          </div>
-        </b:if>
-
-        <b:if cond='false'>
-          <div class='info-item'>
-            <i class='ti ti-calendar'></i>
-            <div class='info-text-group'>
-              <span class='info-label'>Date of Birth</span>
-              <span class='info-value'>29 August 2000</span>
-            </div>
-          </div>
-        </b:if>
-
-        <b:if cond='true'>
-          <div class='info-item'>
-            <i class='ti ti-world'/>
-            <div class='info-text-group'>
-              <span class='info-label'>Website</span>
-              <span class='info-value'>
-                <a href='https://osmanonurkoc.com' target='_blank' style='color: inherit;'>osmanonurkoc.com</a>
-              </span>
-            </div>
-          </div>
-        </b:if>
-
-      </div>
-
-      <b:if cond='true'>
-        <div class='sidebar-cta'>
-          <h3>Reach Me</h3>
-          <p>Have a project in mind or just want to say hi? Drop me a line!</p>
-          <a class='email-btn' href='mailto:your.email@example.com'>
-            <i class='ti ti-send'></i> Send Email
-          </a>
-        </div>
-      </b:if>
-
-    </aside>
-
-    <main class='main-content'>
-
-      <section id='about'>
-        <h2 class='section-title gradient-text'>About Me</h2>
-        <p class='about-text'>
-          I am a multidisciplinary creator working at the intersection of illustration, web design, 3D design, and Android customization. My work fuses creativity and technology, bringing both functional and immersive designs to life.<br/><br/>
-          Whether designing from scratch or working with frameworks, I create websites that are both visually appealing and highly functional. Beyond design, I contribute to the open-source community by translating projects into Turkish and automating software environments.
-        </p>
-      </section>
-
-      <section id='services'>
-        <h2 class='section-title gradient-text'>What I&#39;m Doing</h2>
-        <div class='services-grid'>
-
-          <b:if cond='true'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-brand-android'></i> Android Customization</h3>
-              <p>Showcasing creative and functional apps built with a focus on user experience and UI themes, including Lavien Adaptive Icon Packs.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='true'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-code'></i> Web Development</h3>
-              <p>Developing modern, responsive digital experiences using HTML5, CSS3, WordPress, and JS frameworks like Swiper.js.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='true'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-brush'></i> Digital Art &amp; 3D</h3>
-              <p>Creating bold expressive digital art, 3D game assets, and visualizations inspired by culture and storytelling.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='true'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-writing'></i> Content &amp; Automation</h3>
-              <p>Writing insightful content for Haymatlos and scripting complex automated software deployment tasks using AutoIt and Batch.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='false'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-device-desktop-analytics'></i> UI/UX Design</h3>
-              <p>Designing intuitive interfaces and prototyping modern experiences tailored for both mobile and desktop platforms.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='false'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-video'></i> Motion Graphics</h3>
-              <p>Bringing still graphics to life with smooth animations and engaging video editing techniques.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='false'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-rocket'></i> SEO &amp; Marketing</h3>
-              <p>Optimizing web content to rank higher on search engines and ensuring maximum digital visibility.</p>
-            </a>
-          </b:if>
-
-          <b:if cond='false'>
-            <a class='card-base service-card' href='javascript:void(0)'>
-              <h3><i class='ti ti-server'></i> Server Administration</h3>
-              <p>Configuring, maintaining, and automating secure server deployments using modern hosting environments.</p>
-            </a>
-          </b:if>
-
-        </div>
-      </section>
-
-      <section id='portfolio'>
-        <h2 class='section-title gradient-text'>Portfolio &amp; Projects</h2>
-        <div class='projects-grid'>
-
-          <b:if cond='true'>
-            <div class='card-base project-card'>
-              <h3>Home Backup &amp; Restore</h3>
-              <p>A powerful backup solution for Windows utilizing NTFS Hard links, featuring Time Machine style incremental backups.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'></i> View Details</a>
-            </div>
-          </b:if>
-
-          <b:if cond='true'>
-            <div class='card-base project-card'>
-              <h3>Lavien Adaptive Icons</h3>
-              <p>A comprehensive Android customization tool and icon pack family tailored for seamless and elegant design.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-brand-google-play'></i> Google Play</a>
-            </div>
-          </b:if>
-
-          <b:if cond='true'>
-            <div class='card-base project-card'>
-              <h3>Linux Grub Themes</h3>
-              <p>Clean and modern bootloader interfaces including Papirus and Sheffield themes.</p>
-              <a class='btn' href='https://github.com/osmanonurkoc' target='_blank'><i class='ti ti-brand-github'></i> GitHub</a>
-            </div>
-          </b:if>
-
-          <b:if cond='true'>
-            <div class='card-base project-card'>
-              <h3>Haymatlos.org</h3>
-              <p>Open access societal publishing platform and community content management.</p>
-              <a class='btn' href='https://www.haymatlos.org' target='_blank'><i class='ti ti-world'></i> Visit Site</a>
-            </div>
-          </b:if>
-
-          <b:if cond='false'>
-            <div class='card-base project-card'>
-              <h3>Open Source Script</h3>
-              <p>An automation script designed to help developers deploy server environments faster and safer.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-code'></i> Source Code</a>
-            </div>
-          </b:if>
-
-          <b:if cond='false'>
-            <div class='card-base project-card'>
-              <h3>3D Asset Pack</h3>
-              <p>A collection of stylized 3D models and textures built specifically for indie game developers.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-box'></i> Download</a>
-            </div>
-          </b:if>
-
-          <b:if cond='false'>
-            <div class='card-base project-card'>
-              <h3>Client Website</h3>
-              <p>A fully responsive e-commerce web platform developed for a local creative business agency.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-browser'></i> Live Demo</a>
-            </div>
-          </b:if>
-
-          <b:if cond='false'>
-            <div class='card-base project-card'>
-              <h3>Experimental UI</h3>
-              <p>A creative user interface concept focusing on micro-interactions and minimal layout design.</p>
-              <a class='btn' href='#' target='_blank'><i class='ti ti-color-swatch'></i> View Design</a>
-            </div>
-          </b:if>
-
-        </div>
-      </section>
-
-    </main>
-  </div>
-</b:if>
-
 <b:section class='main' id='portfolio-blog' showaddelement='yes'>
   <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
 
     <b:includable id='main' var='top'>
+
+      <b:if cond='data:view.isHomepage'>
+        <div class='layout-wrapper'>
+
+          <aside class='sidebar'>
+
+            <div class='profile-img'>
+              <b:if cond='true'>
+                <i class='ti ti-user-code'></i>
+              </b:if>
+
+              <b:if cond='false'>
+                <a expr:href='data:blog.homepageUrl' >
+                  <img alt='Profile Picture' src='YOUR_IMAGE_URL_HERE'/>
+                </a>
+              </b:if>
+            </div>
+
+            <h1 class='gradient-text'>Osman Onur Koç</h1>
+            <span class='title'>Android Themer &amp; Web/3D Designer</span>
+
+            <div class='social-links'>
+
+              <b:if cond='true'>
+                <a href='https://github.com/osmanonurkoc' target='_blank' title='GitHub'><i class='ti ti-brand-github'/></a>
+              </b:if>
+
+              <b:if cond='true'>
+                <a href='https://instagram.com/osmanonurkoc' target='_blank' title='Instagram'><i class='ti ti-brand-instagram'/></a>
+              </b:if>
+
+              <b:if cond='true'>
+                <a href='https://www.linkedin.com/in/osmanonurkoc/' target='_blank' title='LinkedIn'><i class='ti ti-brand-linkedin'/></a>
+              </b:if>
+
+              <b:if cond='true'>
+                <a href='https://www.twitter.com/osmanonurkoc' target='_blank' title='Twitter'><i class='ti ti-brand-x'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='YouTube'><i class='ti ti-brand-youtube'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Dribbble'><i class='ti ti-brand-dribbble'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Behance'><i class='ti ti-brand-behance'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Facebook'><i class='ti ti-brand-facebook'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Medium'><i class='ti ti-brand-medium'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Deviantart'><i class='ti ti-brand-deviantart'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Telegram'><i class='ti ti-brand-telegram'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Google Play'><i class='ti ti-brand-google-play'/></a>
+              </b:if>
+
+              <b:if cond='false'>
+                <a href='#' target='_blank' title='Spotify'><i class='ti ti-brand-spotify'/></a>
+              </b:if>
+
+            </div>
+
+            <div class='sidebar-info'>
+
+              <b:if cond='true'>
+                <div class='info-item'>
+                  <i class='ti ti-mail'></i>
+                  <div class='info-text-group'>
+                    <span class='info-label'>Email / Username</span>
+                    <span class='info-value'>osmanonurkoc</span>
+                  </div>
+                </div>
+              </b:if>
+
+              <b:if cond='true'>
+                <div class='info-item'>
+                  <i class='ti ti-device-mobile'></i>
+                  <div class='info-text-group'>
+                    <span class='info-label'>Phone</span>
+                    <span class='info-value'>+90 000 000 00 00</span>
+                  </div>
+                </div>
+              </b:if>
+
+              <b:if cond='true'>
+                <div class='info-item'>
+                  <i class='ti ti-map-pin'></i>
+                  <div class='info-text-group'>
+                    <span class='info-label'>Location</span>
+                    <span class='info-value'>Samsun / Amasya, Türkiye</span>
+                  </div>
+                </div>
+              </b:if>
+
+              <b:if cond='false'>
+                <div class='info-item'>
+                  <i class='ti ti-calendar'></i>
+                  <div class='info-text-group'>
+                    <span class='info-label'>Date of Birth</span>
+                    <span class='info-value'>29 August 2000</span>
+                  </div>
+                </div>
+              </b:if>
+
+              <b:if cond='true'>
+                <div class='info-item'>
+                  <i class='ti ti-world'/>
+                  <div class='info-text-group'>
+                    <span class='info-label'>Website</span>
+                    <span class='info-value'>
+                      <a href='https://osmanonurkoc.com' target='_blank' style='color: inherit;'>osmanonurkoc.com</a>
+                    </span>
+                  </div>
+                </div>
+              </b:if>
+
+            </div>
+
+            <b:if cond='true'>
+              <div class='sidebar-cta'>
+                <h3>Reach Me</h3>
+                <p>Have a project in mind or just want to say hi? Drop me a line!</p>
+                <a class='email-btn' href='mailto:your.email@example.com'>
+                  <i class='ti ti-send'></i> Send Email
+                </a>
+              </div>
+            </b:if>
+
+          </aside>
+
+          <main class='main-content'>
+
+            <section id='about'>
+              <h2 class='section-title gradient-text'>About Me</h2>
+              <p class='about-text'>
+                I am a multidisciplinary creator working at the intersection of illustration, web design, 3D design, and Android customization. My work fuses creativity and technology, bringing both functional and immersive designs to life.<br/><br/>
+                Whether designing from scratch or working with frameworks, I create websites that are both visually appealing and highly functional. Beyond design, I contribute to the open-source community by translating projects into Turkish and automating software environments.
+              </p>
+            </section>
+
+            <section id='services'>
+              <h2 class='section-title gradient-text'>What I&#39;m Doing</h2>
+              <div class='services-grid'>
+
+                <b:if cond='true'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-brand-android'></i> Android Customization</h3>
+                    <p>Showcasing creative and functional apps built with a focus on user experience and UI themes, including Lavien Adaptive Icon Packs.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>UI / UX</span>
+                      <span class='skill-pill'>Android</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='true'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-code'></i> Web Development</h3>
+                    <p>Developing modern, responsive digital experiences using HTML5, CSS3, WordPress, and JS frameworks like Swiper.js.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>HTML5</span>
+                      <span class='skill-pill'>CSS3</span>
+                      <span class='skill-pill'>Wordpress</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='true'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-brush'></i> Digital Art &amp; 3D</h3>
+                    <p>Creating bold expressive digital art, 3D game assets, and visualizations inspired by culture and storytelling.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Illustration</span>
+                      <span class='skill-pill'>Blender</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='true'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-writing'></i> Content &amp; Automation</h3>
+                    <p>Writing insightful content for Haymatlos and scripting complex automated software deployment tasks using AutoIt and Batch.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>AutoIt</span>
+                      <span class='skill-pill'>Batch</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='false'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-device-desktop-analytics'></i> UI/UX Design</h3>
+                    <p>Designing intuitive interfaces and prototyping modern experiences tailored for both mobile and desktop platforms.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Figma</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='false'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-video'></i> Motion Graphics</h3>
+                    <p>Bringing still graphics to life with smooth animations and engaging video editing techniques.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>After Effects</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='false'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-rocket'></i> SEO &amp; Marketing</h3>
+                    <p>Optimizing web content to rank higher on search engines and ensuring maximum digital visibility.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>SEO</span>
+                    </div>
+                  </a>
+                </b:if>
+
+                <b:if cond='false'>
+                  <a class='card-base service-card' href='javascript:void(0)'>
+                    <h3><i class='ti ti-server'></i> Server Administration</h3>
+                    <p>Configuring, maintaining, and automating secure server deployments using modern hosting environments.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Linux</span>
+                    </div>
+                  </a>
+                </b:if>
+
+              </div>
+            </section>
+
+            <section id='portfolio'>
+              <h2 class='section-title gradient-text'>Portfolio &amp; Projects</h2>
+              <div class='projects-grid'>
+
+                <b:if cond='true'>
+                  <div class='card-base project-card'>
+                    <h3>Home Backup &amp; Restore</h3>
+                    <p>A powerful backup solution for Windows utilizing NTFS Hard links, featuring Time Machine style incremental backups.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Windows</span>
+                      <span class='skill-pill'>Scripting</span>
+                    </div>
+
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'></i> View Details</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='true'>
+                  <div class='card-base project-card'>
+                    <h3>Lavien Adaptive Icons</h3>
+                    <p>A comprehensive Android customization tool and icon pack family tailored for seamless and elegant design.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Android</span>
+                      <span class='skill-pill'>Design</span>
+                    </div>
+
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-brand-google-play'></i> Google Play</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='true'>
+                  <div class='card-base project-card'>
+                    <h3>Linux Grub Themes</h3>
+                    <p>Clean and modern bootloader interfaces including Papirus and Sheffield themes.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Linux</span>
+                      <span class='skill-pill'>Theming</span>
+                    </div>
+
+                    <a class='btn' href='https://github.com/osmanonurkoc' target='_blank'><i class='ti ti-brand-github'></i> GitHub</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='true'>
+                  <div class='card-base project-card'>
+                    <h3>Haymatlos.org</h3>
+                    <p>Open access societal publishing platform and community content management.</p>
+
+                    <div class='card-tags'>
+                      <span class='skill-pill'>Web</span>
+                      <span class='skill-pill'>Content</span>
+                    </div>
+
+                    <a class='btn' href='https://www.haymatlos.org' target='_blank'><i class='ti ti-world'></i> Visit Site</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='false'>
+                  <div class='card-base project-card'>
+                    <h3>Open Source Script</h3>
+                    <p>An automation script designed to help developers deploy server environments faster and safer.</p>
+                    <div class='card-tags'><span class='skill-pill'>Automation</span></div>
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-code'></i> Source Code</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='false'>
+                  <div class='card-base project-card'>
+                    <h3>3D Asset Pack</h3>
+                    <p>A collection of stylized 3D models and textures built specifically for indie game developers.</p>
+                    <div class='card-tags'><span class='skill-pill'>3D</span></div>
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-box'></i> Download</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='false'>
+                  <div class='card-base project-card'>
+                    <h3>Client Website</h3>
+                    <p>A fully responsive e-commerce web platform developed for a local creative business agency.</p>
+                    <div class='card-tags'><span class='skill-pill'>E-Commerce</span></div>
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-browser'></i> Live Demo</a>
+                  </div>
+                </b:if>
+
+                <b:if cond='false'>
+                  <div class='card-base project-card'>
+                    <h3>Experimental UI</h3>
+                    <p>A creative user interface concept focusing on micro-interactions and minimal layout design.</p>
+                    <div class='card-tags'><span class='skill-pill'>UI/UX</span></div>
+                    <a class='btn' href='#' target='_blank'><i class='ti ti-color-swatch'></i> View Design</a>
+                  </div>
+                </b:if>
+
+              </div>
+            </section>
+
+          </main>
+        </div>
+      </b:if>
+
       <b:if cond='data:view.isPage or data:view.isPost'>
         <div class='layout-wrapper'>
           <main class='main-content'>

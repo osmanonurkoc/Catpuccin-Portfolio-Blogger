@@ -118,6 +118,21 @@ There are **8 pre-built cards** (16 in total) under both the "What I'm Doing" (S
 
 When you need to add a new project, you don't need to copy/paste any code. Just find a hidden card, set it to `true`, and fill in the title, description, and the `<a class='btn' href='#'>` link with your project details!
 
+### Skill Pills (Tags)
+
+You can add "Skill Pills" (small tag bubbles) inside any Service or Project card to highlight specific tools, skills, or technologies. 
+
+Thanks to the zero-code design, you **do not** need to assign manual color classes to each pill. The theme automatically applies a repeating sequence of 6 beautiful Catppuccin gradients based on the pill's order. These gradients dynamically adapt to look perfect in both Dark (Mocha) and Light (Latte) modes.
+
+To add or remove a skill, simply insert a `<span class='skill-pill'>` inside the `<div class='card-tags'>` container of any card:
+
+```html
+<div class='card-tags'>
+  <span class='skill-pill'>UI / UX</span>
+  <span class='skill-pill'>Android</span>
+  <span class='skill-pill'>Figma</span>
+</div>
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
