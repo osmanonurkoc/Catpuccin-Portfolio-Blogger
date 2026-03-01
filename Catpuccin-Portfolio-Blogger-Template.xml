@@ -949,17 +949,20 @@
 <script type='text/javascript'>
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
+
+  // ----------------------------------------------------
+  // 1. THEME TOGGLER (LIGHT/DARK MODE)
+  // ----------------------------------------------------
   var toggleBtn = document.getElementById('theme-toggle');
   var themeIcon = document.getElementById('theme-icon');
 
-  // Update the icon based on the active theme
   function updateIcon(isLatte) {
   if (themeIcon) {
   themeIcon.className = isLatte ? 'ti ti-moon' : 'ti ti-sun';
   }
   }
 
-  // Check the current applied state
+  // Check the current applied state from local storage or class
   var isLatte = document.body.classList.contains('latte');
   updateIcon(isLatte);
 
@@ -968,15 +971,57 @@
   toggleBtn.addEventListener('click', function() {
   document.body.classList.toggle('latte');
   var currentlyLatte = document.body.classList.contains('latte');
-
-  // Save preference to browser storage
   localStorage.setItem('portfolio-theme', currentlyLatte ? 'latte' : 'mocha');
   updateIcon(currentlyLatte);
   });
   }
-  });
-  //]]>
-</script>
+
+  // ----------------------------------------------------
+  // 2. SMART SOCIAL ICON BALANCER (DYNAMIC WRAP)
+  // ----------------------------------------------------
+  function balanceSocialIcons() {
+  var container = document.querySelector('.social-links');
+  if (!container) return;
+
+  var icons = container.querySelectorAll('a');
+  var count = icons.length;
+  if (count === 0) return;
+
+  // Reset max-width to measure the natural capacity of a single row
+  container.style.maxWidth = 'none';
+
+  var firstTop = icons[0].offsetTop;
+  var maxCols = 0;
+
+  // Count how many icons fit naturally in the first row based on screen size
+  for (var i = 0; i < count; i++) {
+    if (icons[i].offsetTop === firstTop) {
+    maxCols++;
+    } else {
+    break;
+    }
+    }
+
+    // If icons wrap to multiple rows, distribute them evenly (e.g., 4-4 instead of 5-3)
+    if (count > maxCols) {
+    var rows = Math.ceil(count / maxCols); // Total number of rows needed
+    var cols = Math.ceil(count / rows);    // Ideal number of columns per row
+
+    // Constrain the container width based on the calculated optimal columns
+    // Note: 40px is the icon width, 0.8rem is the gap between icons
+    container.style.maxWidth = 'calc(' + cols + ' * 40px + ' + (cols - 1) + ' * 0.8rem)';
+    container.style.margin = '0.5rem auto 0'; // Keep the container centered
+    }
+    }
+
+    // Run the balancer on initial load
+    balanceSocialIcons();
+
+    // Recalculate if the screen is resized (e.g., window resize or device rotation)
+    window.addEventListener('resize', balanceSocialIcons);
+    });
+    //]]>
+  </script>
 
 </body>
 </html>
