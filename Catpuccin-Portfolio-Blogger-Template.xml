@@ -371,7 +371,7 @@
     .post-snippet { color: var(--subtext0); margin-bottom: 1.5rem; line-height: 1.7; }
 
     .post-meta-single { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); color: var(--subtext1); font-size: 0.9rem; font-weight: 600;}
-    .meta-item { display: inline-flex; align-items: center; gap: 0.5rem; }
+    .meta-item { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 
     .custom-pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem; flex-wrap: wrap;}
     .page-num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; background: var(--social-bg); color: var(--text); font-weight: 700; transition: 0.3s; }
