@@ -142,6 +142,24 @@ To add or remove a skill, simply insert a `<span class='skill-pill'>` inside the
 </div>
 ```
 
+### 💻 Code Blocks (Syntax Box)
+
+As a developer, sharing code snippets should look beautiful. This theme includes a custom, zero-code syntax box parser. You **do not** need to switch to HTML view to add code blocks!
+
+Simply wrap your code with `[code]` and `[/code]` tags directly in Blogger's standard Compose mode. 
+
+**Example:**
+```text
+Here is my awesome script:
+
+[code]
+function sayHello() {
+  console.log("Hello, World!");
+}
+[/code]
+```
+The theme will automatically parse these tags and render a sleek, Mac-window style code block that perfectly adapts to both Dark (Mocha) and Light (Latte) modes, complete with horizontal scrolling for long lines!
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
