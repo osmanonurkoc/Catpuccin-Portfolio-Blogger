@@ -383,21 +383,21 @@
     .share-icons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
     .share-btn { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 12px; background: var(--social-bg); color: var(--text); font-size: 1.5rem; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-    /* Share Buttons Opaque Hover Colors (Catppuccin Palette) */
-    .share-btn.share-x:hover { background: var(--text); color: var(--app-bg); transform: translateY(-4px); }
-    .share-btn.share-fb:hover { background: var(--mocha-blue); color: #11111b; transform: translateY(-4px); }
-    .share-btn.share-in:hover { background: var(--mocha-sapphire); color: #11111b; transform: translateY(-4px); }
-    .share-btn.share-pin:hover { background: var(--mocha-red); color: #11111b; transform: translateY(-4px); }
-    .share-btn.share-wa:hover { background: var(--mocha-green); color: #11111b; transform: translateY(-4px); }
-    .share-btn.share-tg:hover { background: var(--mocha-sky); color: #11111b; transform: translateY(-4px); }
-    .share-btn.share-mail:hover { background: var(--mocha-peach); color: #11111b; transform: translateY(-4px); }
+    /* Share Buttons Gradient Hover Colors (Catppuccin Palette) */
+    .share-btn.share-x:hover { background: linear-gradient(135deg, var(--text), var(--surface2)); color: var(--app-bg); transform: translateY(-4px); }
+    .share-btn.share-fb:hover { background: linear-gradient(135deg, var(--mocha-blue), var(--mocha-lavender)); color: var(--crust); transform: translateY(-4px); }
+    .share-btn.share-in:hover { background: linear-gradient(135deg, var(--mocha-sapphire), var(--mocha-sky)); color: var(--crust); transform: translateY(-4px); }
+    .share-btn.share-pin:hover { background: linear-gradient(135deg, var(--mocha-red), var(--mocha-maroon)); color: var(--crust); transform: translateY(-4px); }
+    .share-btn.share-wa:hover { background: linear-gradient(135deg, var(--mocha-green), var(--mocha-teal)); color: var(--crust); transform: translateY(-4px); }
+    .share-btn.share-tg:hover { background: linear-gradient(135deg, var(--mocha-sky), var(--mocha-blue)); color: var(--crust); transform: translateY(-4px); }
+    .share-btn.share-mail:hover { background: linear-gradient(135deg, var(--mocha-peach), var(--mocha-yellow)); color: var(--crust); transform: translateY(-4px); }
 
-    body.latte .share-btn.share-fb:hover { background: var(--latte-blue); color: #ffffff; }
-    body.latte .share-btn.share-in:hover { background: var(--latte-sapphire); color: #ffffff; }
-    body.latte .share-btn.share-pin:hover { background: var(--latte-red); color: #ffffff; }
-    body.latte .share-btn.share-wa:hover { background: var(--latte-green); color: #ffffff; }
-    body.latte .share-btn.share-tg:hover { background: var(--latte-sky); color: #ffffff; }
-    body.latte .share-btn.share-mail:hover { background: var(--latte-peach); color: #ffffff; }
+    body.latte .share-btn.share-fb:hover { background: linear-gradient(135deg, var(--latte-blue), var(--latte-lavender)); color: #ffffff; }
+    body.latte .share-btn.share-in:hover { background: linear-gradient(135deg, var(--latte-sapphire), var(--latte-sky)); color: #ffffff; }
+    body.latte .share-btn.share-pin:hover { background: linear-gradient(135deg, var(--latte-red), var(--latte-maroon)); color: #ffffff; }
+    body.latte .share-btn.share-wa:hover { background: linear-gradient(135deg, var(--latte-green), var(--latte-teal)); color: #ffffff; }
+    body.latte .share-btn.share-tg:hover { background: linear-gradient(135deg, var(--latte-sky), var(--latte-blue)); color: #ffffff; }
+    body.latte .share-btn.share-mail:hover { background: linear-gradient(135deg, var(--latte-peach), var(--latte-yellow)); color: #ffffff; }
 
 /* --------------------------------------
     9.5. EMPTY STATES & 404 ERROR PAGE
