@@ -448,7 +448,8 @@
     -------------------------------------- */
     .page-title { font-size: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); text-align: center; }
     .page-body { color: var(--text); line-height: 1.8; font-size: 1.1rem; }
-    .page-body img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); display: block; margin: 0 auto 0.5rem auto; }
+    .page-body img { max-width: 100%; height: auto !important; border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); display: block; margin: 0 auto 0.5rem auto; }
+
 
     /* --------------------------------------
     10. FLOATING THEME SWITCHER & FOOTER
