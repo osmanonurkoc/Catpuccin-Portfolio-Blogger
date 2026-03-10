@@ -8,17 +8,18 @@ A zero-code, modern, responsive, and single-page portfolio theme for Blogger, in
 This theme allows you to customize your entire site without needing to know HTML or CSS. By simply changing a few boolean values (`true`/`false`) and CSS variables, you can make it truly yours.
 
 ## 🚀 Features
+* **Modular Blog Architecture:** Seamlessly enable or disable the built-in blog system with a single boolean toggle. When disabled, blog links redirect to the homepage, but your static pages remain perfectly accessible.
 * **Dark / Light Mode:** Seamless one-click transition (User preference is saved in browser local storage).
 * **Catppuccin Palette:** Fully integrates official Latte (Vibrant) and Mocha (Pastel) color palettes.
 * **Magic Variables:** Change the global accent color (buttons, highlights, shadows, text gradients) instantly by changing a single variable name.
-* **Wide Mode:** Easily adjust the maximum width of your website.
+* **Wide Mode & Lazy Grid:** Easily adjust the maximum width of your website and let the CSS `auto-fit` grid handle the responsive layout automatically.
 * **Boolean Toggle System:** Turn social media buttons, personal info, or project cards ON or OFF simply by changing a `false` to `true` in the HTML. No structural coding required!
 
 ---
 
 ## 🛠️ Installation
 
-1. Copy the contents of the `theme.xml` file.
+1. Download the `Catpuccin-Portfolio-Blogger-Template.xml` file.
 2. Go to your Blogger Dashboard.
 3. Click on the **Theme** tab on the left sidebar.
 4. Click the down arrow next to the "Customize" button and select **Restore**.
@@ -58,18 +59,25 @@ Find the `/* 3. LAYOUT & GRID CONFIGURATION */` section in the CSS.
         
     -   Fluid / Full Screen: `95%`
         
--   **Card Columns:** By increasing the `260px` value (e.g., `350px`) inside `--services-columns` and `--projects-columns`, you can fit fewer cards per row. By decreasing it (e.g., `200px`), you can fit more cards side-by-side.
+-   **Card Columns:** The theme uses a lazy responsive grid (`auto-fit`). By increasing the `300px` or `260px` minimum values inside `--services-columns` and `--projects-columns`, you can fit fewer cards per row. By decreasing it (e.g., `200px`), you can fit more cards side-by-side.
     
 
 ----------
 
-## 📝 Creating Sub-Pages (Important!)
+## 📝 Creating Sub-Pages & The Modular Blog
 
-This theme is specifically designed to function as a **single-page portfolio** on the homepage.
+### The Blog Toggle
 
-If you want to create separate, standalone sub-pages (like a dedicated About page, Resume, or Contact page), **DO NOT use the Blogger "Posts" feature**.
+Find `<b:with expr:value='true' var='enableBlog'>` at the top of the HTML.
 
-Instead, use Blogger's built-in **"Pages"** feature from the left sidebar. The theme includes a dedicated, clean layout specifically designed for Static Pages, complete with a "Back to Portfolio" navigation button.
+-   Set it to `true` to use the theme as a hybrid Portfolio + Blog.
+    
+-   Set it to `false` to use it as a strict single-page portfolio (direct hits to /search or /archive will redirect to the homepage).
+    
+
+### Static Pages
+
+Whether the blog is enabled or disabled, **Static Pages** (created from the "Pages" tab in Blogger) are permanently whitelisted. The theme includes a dedicated, clean layout specifically designed for these pages, complete with a "Back to Portfolio" navigation button.
 
 ----------
 
@@ -90,7 +98,7 @@ The theme offers two modes for the profile area: "Icon Mode" and "Photo Mode". Y
 
 ### Social Media Links
 
-Find the `<div class='social-links'>` section. There are 9 different pre-built social media buttons waiting for you.
+Find the `<div class='social-links'>` section. There are **13 different pre-built social media buttons** waiting for you.
 
 -   **Currently Active (`cond='true'`):** GitHub, Instagram, LinkedIn, Twitter/X.
     
@@ -109,11 +117,11 @@ If you want to completely remove the gradient contact box at the bottom of the s
 
 ### Service and Project Cards
 
-There are **8 pre-built cards** (16 in total) under both the "What I'm Doing" (Services) and "Portfolio & Projects" sections.
+The theme is packed with pre-built card slots under both the "What I'm Doing" (Services) and "Portfolio & Projects" sections.
 
--   The first 4 cards are active by default (`cond='true'`).
+-   **Services:** Features up to 12 slots.
     
--   The remaining 4 cards are hidden as backups (`cond='false'`).
+-   **Projects:** Features up to 12 slots for your extensive portfolio.
     
 
 When you need to add a new project, you don't need to copy/paste any code. Just find a hidden card, set it to `true`, and fill in the title, description, and the `<a class='btn' href='#'>` link with your project details!

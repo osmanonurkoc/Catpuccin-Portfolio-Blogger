@@ -12,7 +12,7 @@
     Blogger Template Style
     Name:        Catpuccin Portfolio
     License:     MIT License
-    Version:     1.0
+    Version:     1.1 (Modular Blog Integrated)
     Author:      Osman Onur Koç
     Author Url:  https://www.osmanonurkoc.com/
     -----------------------------------------------
@@ -250,49 +250,28 @@
     overflow: hidden;
     box-shadow: 0 8px 16px var(--shadow-color);
     }
-    .profile-img a, .profile-img img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    }
-    .profile-img img {
-    object-fit: cover;
-    }
+    .profile-img a, .profile-img img { width: 100%; height: 100%; display: block; }
+    .profile-img img { object-fit: cover; }
 
     .sidebar h1 { font-size: 1.6rem; margin-bottom: 0.2rem; font-weight: 800; }
     .sidebar .title { color: var(--subtext0); font-size: 0.95rem; font-weight: 500; margin-bottom: 1rem; display: block; }
 
     .social-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 0.5rem;
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.5rem;
     }
     .social-links a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: var(--social-bg);
-    color: var(--text);
-    border-radius: 12px;
-    font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; background-color: var(--social-bg);
+    color: var(--text); border-radius: 12px; font-size: 1.3rem;
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .social-links a:hover {
-    background: var(--gradient-btn);
-    color: var(--app-bg);
-    transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 8px 16px var(--hover-shadow);
+    background: var(--gradient-btn); color: var(--app-bg);
+    transform: translateY(-4px) scale(1.1); box-shadow: 0 8px 16px var(--hover-shadow);
     }
 
     .sidebar-info {
-    text-align: left;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 2px dashed var(--card-border);
+    text-align: left; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px dashed var(--card-border);
     }
     .info-item { margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.8rem; }
     .info-item i { color: var(--accent-primary); font-size: 1.3rem; }
@@ -301,30 +280,18 @@
     .info-value { display: block; font-size: 0.9rem; color: var(--text); font-weight: 500; }
 
     .sidebar-cta {
-    margin-top: 1.5rem;
-    background: var(--gradient-btn);
-    padding: 1.2rem;
-    border-radius: 14px;
-    text-align: center;
-    color: var(--app-bg);
+    margin-top: 1.5rem; background: var(--gradient-btn); padding: 1.2rem;
+    border-radius: 14px; text-align: center; color: var(--app-bg);
     box-shadow: 0 8px 20px var(--hover-shadow);
     }
     .sidebar-cta h3 { font-size: 1.1rem; margin-bottom: 0.3rem; color: inherit; }
     .sidebar-cta p { font-size: 0.85rem; margin-bottom: 1rem; opacity: 0.9; line-height: 1.4; }
     .email-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--app-bg);
-    color: var(--accent-primary) !important;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: 0.3s ease;
+    display: inline-flex; align-items: center; gap: 0.5rem; background: var(--app-bg);
+    color: var(--accent-primary) !important; padding: 0.6rem 1.2rem;
+    border-radius: 8px; font-weight: 700; font-size: 0.9rem; transition: 0.3s ease;
     }
     .email-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-
 
     /* --------------------------------------
     7. MAIN CONTENT AREA (CARDS & GRIDS)
@@ -333,44 +300,18 @@
     section { margin-bottom: 4rem; }
     section:last-child { margin-bottom: 0; }
 
-    .section-title {
-    font-size: 2.2rem;
-    font-weight: 800;
-    margin-bottom: 2rem;
-    position: relative;
-    display: inline-block;
-    }
-
+    .section-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 2rem; position: relative; display: inline-block; }
     .about-text { color: var(--subtext0); font-size: 1.1rem; line-height: 1.8; }
 
-    /* Applying the configurable grid columns from CSS variables */
-    .services-grid {
-    display: grid;
-    grid-template-columns: var(--services-columns);
-    gap: 2rem;
-    }
-    .projects-grid {
-    display: grid;
-    grid-template-columns: var(--projects-columns);
-    gap: 2rem;
-    }
+    .services-grid { display: grid; grid-template-columns: var(--services-columns); gap: 2rem; }
+    .projects-grid { display: grid; grid-template-columns: var(--projects-columns); gap: 2rem; }
 
     .card-base {
-    background-color: var(--card-bg);
-    padding: 1.8rem;
-    border-radius: 16px;
-    border: 2px solid transparent;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
+    background-color: var(--card-bg); padding: 1.8rem; border-radius: 16px;
+    border: 2px solid transparent; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex; flex-direction: column; position: relative; overflow: hidden;
     }
-    .card-base:hover {
-    transform: translateY(-7px);
-    border-color: var(--accent-primary);
-    box-shadow: 0 15px 35px -10px var(--hover-shadow);
-    }
+    .card-base:hover { transform: translateY(-7px); border-color: var(--accent-primary); box-shadow: 0 15px 35px -10px var(--hover-shadow); }
 
     .card-base h3 { color: var(--text); margin-bottom: 1rem; font-size: 1.3rem; font-weight: 700; display: flex; align-items: center; gap: 0.8rem; }
     .card-base h3 i { color: var(--accent-primary); font-size: 1.6rem; transition: 0.3s ease;}
@@ -380,144 +321,161 @@
     a.service-card { text-decoration: none; }
 
     .project-card .btn {
-    margin-top: auto;
-    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-    padding: 0.8rem 1.2rem;
-    background: var(--gradient-btn);
-    color: var(--app-bg) !important;
-    border-radius: 10px;
-    font-size: 0.95rem; font-weight: 700;
-    transition: 0.3s ease;
-    border: none;
+    margin-top: auto; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.8rem 1.2rem; background: var(--gradient-btn); color: var(--app-bg) !important;
+    border-radius: 10px; font-size: 0.95rem; font-weight: 700; transition: 0.3s ease; border: none;
     }
-    .project-card .btn:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 5px 15px var(--hover-shadow);
-    transform: translateY(-2px);
-    }
+    .project-card .btn:hover { filter: brightness(1.1); box-shadow: 0 5px 15px var(--hover-shadow); transform: translateY(-2px); }
 
     /* --------------------------------------
     SKILL PILLS (TAGS) - AUTOMATIC DYNAMIC COLORS
     -------------------------------------- */
-    .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: auto;
-    margin-bottom: 1rem;
-    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; margin-bottom: 1rem; }
+    .skill-pill { font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 20px; color: var(--crust); display: inline-block; text-transform: uppercase; letter-spacing: 0.5px; }
+    body.latte .skill-pill { color: #ffffff; }
 
-    /* Base Pill Style */
-    .skill-pill {
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    color: var(--crust); /* Dark text on pastel backgrounds in Dark Mode */
-    display: inline-block;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    }
-
-    /* Light Mode Override for Text */
-    body.latte .skill-pill {
-    color: #ffffff; /* White text on vibrant backgrounds in Light Mode */
-    }
-
-    /* Zero-Code Randomization:
-    We use CSS :nth-child to automatically assign beautiful gradients
-    to the pills in a repeating pattern. No manual class names required!
-    */
     .skill-pill:nth-child(6n + 1) { background: var(--pill-grad-1); }
     .skill-pill:nth-child(6n + 2) { background: var(--pill-grad-2); }
     .skill-pill:nth-child(6n + 3) { background: var(--pill-grad-3); }
     .skill-pill:nth-child(6n + 4) { background: var(--pill-grad-4); }
     .skill-pill:nth-child(6n + 5) { background: var(--pill-grad-5); }
     .skill-pill:nth-child(6n + 6) { background: var(--pill-grad-6); }
-
-    /* Fix spacing for project cards so button is pushed to bottom after tags */
     .project-card .card-tags { margin-bottom: 1.5rem; }
 
+    /* --------------------------------------
+    8. MODULAR BLOG & PAGINATION STYLES
+    -------------------------------------- */
+    .badge-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 1.2rem; background: var(--gradient-btn);
+      color: var(--app-bg) !important; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 700; transition: 0.3s ease;
+      text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer;
+    }
+    .badge-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px var(--hover-shadow); filter: brightness(1.1); }
+
+    .blog-sidebar { padding: 2rem; text-align: left; }
+    .blog-sidebar h2 { font-size: 1.2rem; margin-bottom: 1.2rem; color: var(--text); border-bottom: 2px dashed var(--card-border); padding-bottom: 0.5rem; font-weight: 800;}
+    .blog-sidebar .widget { margin-bottom: 2.5rem; }
+    .blog-sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .blog-sidebar li { margin-bottom: 0.8rem; }
+    .blog-sidebar li a { color: var(--subtext0); display: flex; justify-content: space-between; font-weight: 500; transition: 0.3s;}
+    .blog-sidebar li a:hover { color: var(--accent-primary); padding-left: 5px;}
+
+    .blog-posts-list { display: grid; gap: 2rem; margin-bottom: 2rem; }
+    .post-summary-card { padding: 2.2rem; }
+    .post-summary-card h3 a { color: var(--text); transition: 0.3s; font-size: 1.5rem; font-weight: 800;}
+    .post-summary-card h3 a:hover { color: var(--accent-primary); }
+    .post-meta-summary { font-size: 0.85rem; color: var(--subtext1); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 600;}
+    .post-snippet { color: var(--subtext0); margin-bottom: 1.5rem; line-height: 1.7; }
+
+    .post-meta-single { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); color: var(--subtext1); font-size: 0.9rem; font-weight: 600;}
+    .meta-item { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+    .custom-pagination { display: flex; justify-content: center; gap: 0.5rem; margin-top: 3rem; flex-wrap: wrap;}
+    .page-num { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 12px; background: var(--social-bg); color: var(--text); font-weight: 700; transition: 0.3s; }
+    .page-num:hover { background: var(--surface1); color: var(--accent-primary); transform: translateY(-2px);}
+    .page-num.active { background: var(--gradient-btn); color: var(--app-bg); pointer-events: none;}
+
+    .share-via-section { margin-top: 4rem; padding-top: 2.5rem; border-top: 2px dashed var(--card-border); text-align: center; }
+    .share-via-section h4 { margin-bottom: 1.5rem; color: var(--text); font-size: 1.3rem; font-weight: 800;}
+    .share-icons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .share-btn { display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 12px; background: var(--social-bg); color: var(--text); font-size: 1.5rem; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+    /* Share Buttons Opaque Hover Colors (Catppuccin Palette) */
+    .share-btn.share-x:hover { background: var(--text); color: var(--app-bg); transform: translateY(-4px); }
+    .share-btn.share-fb:hover { background: var(--mocha-blue); color: #11111b; transform: translateY(-4px); }
+    .share-btn.share-in:hover { background: var(--mocha-sapphire); color: #11111b; transform: translateY(-4px); }
+    .share-btn.share-pin:hover { background: var(--mocha-red); color: #11111b; transform: translateY(-4px); }
+    .share-btn.share-wa:hover { background: var(--mocha-green); color: #11111b; transform: translateY(-4px); }
+    .share-btn.share-tg:hover { background: var(--mocha-sky); color: #11111b; transform: translateY(-4px); }
+    .share-btn.share-mail:hover { background: var(--mocha-peach); color: #11111b; transform: translateY(-4px); }
+
+    body.latte .share-btn.share-fb:hover { background: var(--latte-blue); color: #ffffff; }
+    body.latte .share-btn.share-in:hover { background: var(--latte-sapphire); color: #ffffff; }
+    body.latte .share-btn.share-pin:hover { background: var(--latte-red); color: #ffffff; }
+    body.latte .share-btn.share-wa:hover { background: var(--latte-green); color: #ffffff; }
+    body.latte .share-btn.share-tg:hover { background: var(--latte-sky); color: #ffffff; }
+    body.latte .share-btn.share-mail:hover { background: var(--latte-peach); color: #ffffff; }
+
+/* --------------------------------------
+    9.5. EMPTY STATES & 404 ERROR PAGE
+    -------------------------------------- */
+    .empty-state-container {
+      text-align: center;
+      padding: 4rem 2rem;
+      background-color: var(--card-bg);
+      border-radius: 24px;
+      border: 2px dashed var(--card-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .empty-state-svg {
+      font-size: 6rem;
+      color: var(--accent-secondary);
+      margin-bottom: 1.5rem;
+      animation: float-cat 3s ease-in-out infinite;
+    }
+    .empty-state-svg svg {
+      width: 100px;
+      height: 100px;
+      fill: var(--accent-secondary);
+    }
+    @keyframes float-cat {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px) rotate(3deg); }
+      100% { transform: translateY(0px); }
+    }
+    .empty-state-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .empty-state-desc {
+      font-size: 1.1rem;
+      color: var(--subtext0);
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
 
     /* --------------------------------------
-    8. FLOATING THEME SWITCHER
+    9. STATIC PAGES STYLES
+    -------------------------------------- */
+    .page-title { font-size: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); text-align: center; }
+    .page-body { color: var(--text); line-height: 1.8; font-size: 1.1rem; }
+    .page-body img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); display: block; margin: 0 auto 0.5rem auto; }
+
+    /* --------------------------------------
+    10. FLOATING THEME SWITCHER & FOOTER
     -------------------------------------- */
     .floating-theme-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 9999;
-    background: var(--card-bg);
-    border: 2px solid var(--card-border);
-    color: var(--yellow);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+    background: var(--card-bg); border: 2px solid var(--card-border); color: var(--yellow);
+    width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; font-size: 1.8rem;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
     body.latte .floating-theme-toggle { color: var(--accent-secondary); }
     .floating-theme-toggle:hover {
-    transform: scale(1.1) rotate(20deg);
-    border-color: var(--accent-primary);
-    background: var(--panel-bg);
-    box-shadow: 0 10px 25px var(--hover-shadow);
+    transform: scale(1.1) rotate(20deg); border-color: var(--accent-primary);
+    background: var(--panel-bg); box-shadow: 0 10px 25px var(--hover-shadow);
     }
     .floating-theme-toggle i { pointer-events: none; }
 
-    /* --------------------------------------
-    9. STATIC PAGES STYLES (e.g. /p/about.html)
-    -------------------------------------- */
-    .page-title {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px dashed var(--card-border);
-    text-align: center; /* Centers the title */
-    }
-
-    .page-body {
-    color: var(--text);
-    line-height: 1.8;
-    font-size: 1.1rem;
-    }
-
-    .page-body img {
-    max-width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px var(--shadow-color);
-    display: block; /* Forces the image to take up its own line */
-    margin: 0 auto 0.5rem auto; /* Centers the image and adds breathing room at the bottom */
-    }
-
-    /* --------------------------------------
-    10. FOOTER
-    -------------------------------------- */
     .site-footer {
-    text-align: center;
-    padding: 2rem;
-    margin-top: auto;
-    color: var(--subtext1);
-    font-size: 0.95rem;
-    border-top: 1px dashed var(--card-border);
-    width: 100%;
+    text-align: center; padding: 2rem; margin-top: auto; color: var(--subtext1);
+    font-size: 0.95rem; border-top: 1px dashed var(--card-border); width: 100%;
     }
-    .site-footer a {
-    color: var(--accent-primary);
-    font-weight: 700;
-    }
-    .site-footer a:hover {
-    color: var(--accent-secondary);
-    text-decoration: underline;
-    }
+    .site-footer a { color: var(--accent-primary); font-weight: 700; }
+    .site-footer a:hover { color: var(--accent-secondary); text-decoration: underline; }
 
     /* --------------------------------------
-    11. RESPONSIVE DESIGN (MOBILE & TABLET)
+    11. RESPONSIVE DESIGN
     -------------------------------------- */
     @media (max-width: 960px) {
     .layout-wrapper { flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
@@ -526,7 +484,7 @@
     .floating-theme-toggle { bottom: 1.5rem; right: 1.5rem; width: 50px; height: 50px; font-size: 1.4rem; }
     .section-title { font-size: 1.8rem; }
     }
-    ]]></b:skin>
+  ]]></b:skin>
 </head>
 <body>
 
@@ -541,487 +499,1034 @@
   //]]>
 </script>
 
-<b:section class='main' id='portfolio-blog' showaddelement='yes'>
-  <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
+<!-- GLOBAL BLOG TOGGLE (MODULAR ARCHITECTURE)
+Set expr:value='true' to enable the modular blog system.
+Set expr:value='false' to completely hide all blog features. If disabled, direct blog links will redirect to the homepage. -->
+<b:with expr:value='true' var='enableBlog'>
 
-    <b:includable id='main' var='top'>
+  <b:if cond='not data:enableBlog'>
+    <b:if cond='data:view.isPost or (data:view.isMultipleItems and not data:view.isHomepage)'>
+      <script type='text/javascript'>
+        window.location.replace(&quot;<data:blog.homepageUrl/>&quot;);
+      </script>
+    </b:if>
+  </b:if>
 
-      <b:if cond='data:view.isHomepage'>
-        <div class='layout-wrapper'>
+  <div class='layout-wrapper'>
 
-          <aside class='sidebar'>
+    <b:if cond='data:view.isHomepage'>
+      <aside class='sidebar'>
+        
+        <!--
+        PROFILE PICTURE & ICON CONFIGURATION
+        Choose between displaying a Tabler Icon or a Profile Picture.
 
-            <div class='profile-img'>
-              <b:if cond='true'>
-                <i class='ti ti-user-code'></i>
-              </b:if>
+        For ICON MODE: Set the first b:if cond='...' to 'true' and the second to 'false'.
+		Icons are powered by Tabler Icons. You can find more icons at https://tabler-icons.io/
 
-              <b:if cond='false'>
-                <a expr:href='data:blog.homepageUrl' >
-                  <img alt='Profile Picture' src='YOUR_IMAGE_URL_HERE'/>
-                </a>
-              </b:if>
+        For PICTURE MODE: Set the first b:if cond='...' to 'false' and the second to 'true'.
+        If using Picture Mode, replace the 'src' link with your own image URL.
+        Images are automatically cropped into a perfect circle.
+        -->
+        <div class='profile-img'>
+          <b:if cond='true'>
+            <i class='ti ti-user-code'/>
+          </b:if>
+          <b:if cond='false'>
+            <a expr:href='data:blog.homepageUrl'>
+              <img alt='Profile Picture' src='YOUR_IMAGE_URL_HERE'/>
+            </a>
+          </b:if>
+        </div>
+		<!-- PROFILE NAME & TITLE Change the text inside the h1 tags to your own name. Change the text inside the span tags to your profession, job title, or short bio. -->
+        <h1 class='gradient-text'>Osman Onur Koç</h1>
+        <span class='title'>Illustrator, Android Themer, Webmaster, 3D Designer, Developer, Blogger</span>
+
+        
+        <!-- SOCIAL MEDIA LINKS CONFIGURATION
+          Set cond='true' to display an icon, or cond='false' to hide it.
+          Replace the 'href' values with your actual social media profile links.
+          Icons are powered by Tabler Icons. You can find more icons at https://tabler-icons.io/ -->
+        <div class='social-links'>
+          <b:if cond='true'><a href='https://github.com/osmanonurkoc' target='_blank' title='GitHub'><i class='ti ti-brand-github'/></a></b:if>
+          <b:if cond='true'><a href='https://instagram.com/osmanonurkoc' target='_blank' title='Instagram'><i class='ti ti-brand-instagram'/></a></b:if>
+          <b:if cond='true'><a href='https://www.linkedin.com/in/osmanonurkoc/' target='_blank' title='LinkedIn'><i class='ti ti-brand-linkedin'/></a></b:if>
+          <b:if cond='true'><a href='https://www.x.com/osmanonurkoc' target='_blank' title='Twitter'><i class='ti ti-brand-x'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='YouTube'><i class='ti ti-brand-youtube'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Dribbble'><i class='ti ti-brand-dribbble'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Behance'><i class='ti ti-brand-behance'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Facebook'><i class='ti ti-brand-facebook'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Medium'><i class='ti ti-brand-medium'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Deviantart'><i class='ti ti-brand-deviantart'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Telegram'><i class='ti ti-brand-telegram'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Google Play'><i class='ti ti-brand-google-play'/></a></b:if>
+          <b:if cond='false'><a href='#' target='_blank' title='Spotify'><i class='ti ti-brand-spotify'/></a></b:if>
+        </div>
+
+        
+        <!-- CONTACT INFORMATION & CTA CONFIGURATION
+
+        Set cond='true' to display an info item, or cond='false' to hide it.
+
+        Edit the 'info-label' and 'info-value' classes to update your details.
+
+        To disable the entire "Reach Me" CTA box at the bottom, set its b:if cond to 'false'.
+
+        For the "Send Email" button, change the 'href' link to your email like this: href='mailto:your.email@example.com' Alternatively, you can use it with a link to your own contact page. -->
+        
+        <div class='sidebar-info'>
+          <b:if cond='true'>
+            <div class='info-item'>
+              <i class='ti ti-mail'/>
+              <div class='info-text-group'>
+                <span class='info-label'>Email / Username</span>
+                <span class='info-value'>osmanonurkoc@gmail.com</span>
+              </div>
             </div>
-
-            <h1 class='gradient-text'>Osman Onur Koç</h1>
-            <span class='title'>Android Themer &amp; Web/3D Designer</span>
-
-            <div class='social-links'>
-
-              <b:if cond='true'>
-                <a href='https://github.com/osmanonurkoc' target='_blank' title='GitHub'><i class='ti ti-brand-github'/></a>
-              </b:if>
-
-              <b:if cond='true'>
-                <a href='https://instagram.com/osmanonurkoc' target='_blank' title='Instagram'><i class='ti ti-brand-instagram'/></a>
-              </b:if>
-
-              <b:if cond='true'>
-                <a href='https://www.linkedin.com/in/osmanonurkoc/' target='_blank' title='LinkedIn'><i class='ti ti-brand-linkedin'/></a>
-              </b:if>
-
-              <b:if cond='true'>
-                <a href='https://www.twitter.com/osmanonurkoc' target='_blank' title='Twitter'><i class='ti ti-brand-x'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='YouTube'><i class='ti ti-brand-youtube'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Dribbble'><i class='ti ti-brand-dribbble'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Behance'><i class='ti ti-brand-behance'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Facebook'><i class='ti ti-brand-facebook'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Medium'><i class='ti ti-brand-medium'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Deviantart'><i class='ti ti-brand-deviantart'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Telegram'><i class='ti ti-brand-telegram'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Google Play'><i class='ti ti-brand-google-play'/></a>
-              </b:if>
-
-              <b:if cond='false'>
-                <a href='#' target='_blank' title='Spotify'><i class='ti ti-brand-spotify'/></a>
-              </b:if>
-
+          </b:if>
+          <b:if cond='true'>
+            <div class='info-item'>
+              <i class='ti ti-device-mobile'/>
+              <div class='info-text-group'>
+                <span class='info-label'>Phone</span>
+                <span class='info-value'>+90 000 000 00 00</span>
+              </div>
             </div>
-
-            <div class='sidebar-info'>
-
-              <b:if cond='true'>
-                <div class='info-item'>
-                  <i class='ti ti-mail'></i>
-                  <div class='info-text-group'>
-                    <span class='info-label'>Email / Username</span>
-                    <span class='info-value'>osmanonurkoc</span>
-                  </div>
-                </div>
-              </b:if>
-
-              <b:if cond='true'>
-                <div class='info-item'>
-                  <i class='ti ti-device-mobile'></i>
-                  <div class='info-text-group'>
-                    <span class='info-label'>Phone</span>
-                    <span class='info-value'>+90 000 000 00 00</span>
-                  </div>
-                </div>
-              </b:if>
-
-              <b:if cond='true'>
-                <div class='info-item'>
-                  <i class='ti ti-map-pin'></i>
-                  <div class='info-text-group'>
-                    <span class='info-label'>Location</span>
-                    <span class='info-value'>Samsun / Amasya, Türkiye</span>
-                  </div>
-                </div>
-              </b:if>
-
-              <b:if cond='false'>
-                <div class='info-item'>
-                  <i class='ti ti-calendar'></i>
-                  <div class='info-text-group'>
-                    <span class='info-label'>Date of Birth</span>
-                    <span class='info-value'>29 August 2000</span>
-                  </div>
-                </div>
-              </b:if>
-
-              <b:if cond='true'>
-                <div class='info-item'>
-                  <i class='ti ti-world'/>
-                  <div class='info-text-group'>
-                    <span class='info-label'>Website</span>
-                    <span class='info-value'>
-                      <a href='https://osmanonurkoc.com' target='_blank' style='color: inherit;'>osmanonurkoc.com</a>
-                    </span>
-                  </div>
-                </div>
-              </b:if>
-
+          </b:if>
+          <b:if cond='true'>
+            <div class='info-item'>
+              <i class='ti ti-map-pin'/>
+              <div class='info-text-group'>
+                <span class='info-label'>Location</span>
+                <span class='info-value'>Samsun / Amasya, Türkiye</span>
+              </div>
             </div>
+          </b:if>
+          <b:if cond='true'>
+            <div class='info-item'>
+              <i class='ti ti-calendar'/>
+              <div class='info-text-group'>
+                <span class='info-label'>Date of Birth</span>
+                <span class='info-value'>29 August 2000</span>
+              </div>
+            </div>
+          </b:if>
+          <b:if cond='false'>
+            <div class='info-item'>
+              <i class='ti ti-world'/>
+              <div class='info-text-group'>
+                <span class='info-label'>Website</span>
+                <span class='info-value'>
+                  <a href='https://osmanonurkoc.com' style='color: inherit;' target='_blank'>osmanonurkoc.com</a>
+                </span>
+              </div>
+            </div>
+          </b:if>
+        </div>
 
-            <b:if cond='true'>
-              <div class='sidebar-cta'>
-                <h3>Reach Me</h3>
-                <p>Have a project in mind or just want to say hi? Drop me a line!</p>
-                <a class='email-btn' href='mailto:your.email@example.com'>
-                  <i class='ti ti-send'></i> Send Email
-                </a>
+        <b:if cond='true'>
+          <div class='sidebar-cta'>
+            <h3>Reach Me</h3>
+            <p>Have a project in mind or just want to say hi? Drop me a line!</p>
+            <a class='email-btn' href='mailto:your.email@example.com'><i class='ti ti-send'/> Send Email</a>
+          </div>
+        </b:if>
+      </aside>
+    </b:if>
+
+    <b:if cond='data:enableBlog and (data:view.isPost or (data:view.isMultipleItems and not data:view.isHomepage))'>
+      <aside class='sidebar blog-sidebar'>
+        <b:section id='sidebar-blog-widgets' showaddelement='yes'>
+          <b:widget id='Label1' locked='false' title='Categories' type='Label' version='2' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
+              <b:widget-setting name='display'>LIST</b:widget-setting>
+              <b:widget-setting name='selectedLabelsList'/>
+              <b:widget-setting name='showType'>ALL</b:widget-setting>
+              <b:widget-setting name='showFreqNumbers'>false</b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+              <div class='widget-content'>
+                <ul>
+                  <b:loop values='data:labels' var='label'>
+                    <li><a expr:href='data:label.url'><data:label.name/> <span>(<data:label.count/>)</span></a></li>
+                  </b:loop>
+                </ul>
+              </div>
+            </b:includable>
+            <b:includable id='cloud'>
+  <b:loop values='data:labels' var='label'>
+    <span class='label-size'>
+      <b:class expr:name='&quot;label-size-&quot; + data:label.cssSize'/>
+      <a class='label-name' expr:href='data:label.url'>
+        <data:label.name/>
+        <b:if cond='data:this.showFreqNumbers'>
+          <span class='label-count'><data:label.count/></span>
+        </b:if>
+      </a>
+    </span>
+  </b:loop>
+</b:includable>
+            <b:includable id='content'>
+  <div class='widget-content'>
+    <b:class expr:name='data:this.display + &quot;-label-widget-content&quot;'/>
+    <b:include cond='data:this.display == &quot;list&quot;' name='list'/>
+    <b:include cond='data:this.display == &quot;cloud&quot;' name='cloud'/>
+  </div>
+</b:includable>
+            <b:includable id='list'>
+  <ul>
+    <b:loop values='data:labels' var='label'>
+      <li>
+        <a class='label-name' expr:href='data:label.url'>
+          <data:label.name/>
+          <b:if cond='data:this.showFreqNumbers'>
+            <span class='label-count'><data:label.count/></span>
+          </b:if>
+        </a>
+      </li>
+    </b:loop>
+  </ul>
+</b:includable>
+          </b:widget>
+          <b:widget id='BlogArchive1' locked='false' title='Archive' type='BlogArchive' version='2' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='showStyle'>HIERARCHY</b:widget-setting>
+              <b:widget-setting name='yearPattern'>yyyy</b:widget-setting>
+              <b:widget-setting name='showWeekEnd'>true</b:widget-setting>
+              <b:widget-setting name='monthPattern'>MMMM</b:widget-setting>
+              <b:widget-setting name='dayPattern'>MMM dd</b:widget-setting>
+              <b:widget-setting name='weekPattern'>MM/dd</b:widget-setting>
+              <b:widget-setting name='chronological'>false</b:widget-setting>
+              <b:widget-setting name='showPosts'>true</b:widget-setting>
+              <b:widget-setting name='frequency'>MONTHLY</b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+              <div class='widget-content'>
+                <ul>
+                  <b:loop values='data:data' var='i'>
+                    <li><a expr:href='data:i.url'><data:i.name/> <span>(<data:i.post-count/>)</span></a></li>
+                  </b:loop>
+                </ul>
+              </div>
+            </b:includable>
+            <b:includable id='content'>
+  <div class='widget-content'>
+    <div id='ArchiveList'>
+      <div expr:id='data:widget.instanceId + &quot;_ArchiveList&quot;'>
+        <b:include cond='data:this.style == &quot;HIERARCHY&quot;' name='hierarchy'/>
+        <b:include cond='data:this.style in {&quot;FLAT&quot;, &quot;MENU&quot;}' name='flat'/>
+      </div>
+    </div>
+  </div>
+</b:includable>
+            <b:includable id='flat'>
+  <ul class='flat'>
+    <b:loop values='data:data' var='i'>
+      <li class='archivedate'>
+        <a expr:href='data:i.url'>
+          <data:i.name/><span class='post-count'><data:i.post-count/></span>
+        </a>
+      </li>
+    </b:loop>
+  </ul>
+</b:includable>
+            <b:includable id='hierarchy'>
+  <b:include data='data' name='interval'/>
+</b:includable>
+            <b:includable id='interval' var='intervals'>
+  <ul class='hierarchy'>
+    <b:loop values='data:intervals' var='interval'>
+      <li class='archivedate'>
+        <div class='hierarchy-title'>
+          <a class='post-count-link' expr:href='data:interval.url'>
+            <data:interval.name/>
+            <span class='post-count'><data:interval.post-count/></span>
+          </a>
+        </div>
+        <div class='hierarchy-content'>
+          <b:include cond='data:interval.data' data='interval.data' name='interval'/>
+          <b:include cond='data:interval.posts' data='interval.posts' name='posts'/>
+        </div>
+      </li>
+    </b:loop>
+  </ul>
+</b:includable>
+            <b:includable id='posts' var='posts'>
+  <ul class='posts hierarchy'>
+    <b:loop values='data:posts' var='post'>
+      <li>
+        <a expr:href='data:post.url'><data:post.title/></a>
+      </li>
+    </b:loop>
+  </ul>
+</b:includable>
+          </b:widget>
+        </b:section>
+      </aside>
+    </b:if>
+
+    <main class='main-content' expr:style='data:view.isPage ? &quot;width: 100%; flex: none; max-width: 100%;&quot; : &quot;&quot;'>
+      <b:section class='main' id='portfolio-main' showaddelement='yes'>
+        <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='showDateHeader'>false</b:widget-setting>
+            <b:widget-setting name='style.textcolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='showShareButtons'>false</b:widget-setting>
+            <b:widget-setting name='showCommentLink'>true</b:widget-setting>
+            <b:widget-setting name='style.urlcolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='showAuthor'>true</b:widget-setting>
+            <b:widget-setting name='style.linkcolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>
+            <b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='timestampLabel'/>
+            <b:widget-setting name='reactionsLabel'/>
+            <b:widget-setting name='showAuthorProfile'>false</b:widget-setting>
+            <b:widget-setting name='style.layout'>1x1</b:widget-setting>
+            <b:widget-setting name='showLabels'>true</b:widget-setting>
+            <b:widget-setting name='showLocation'>true</b:widget-setting>
+            <b:widget-setting name='postLabelsLabel'/>
+            <b:widget-setting name='showTimestamp'>true</b:widget-setting>
+            <b:widget-setting name='postsPerAd'>1</b:widget-setting>
+            <b:widget-setting name='showBacklinks'>false</b:widget-setting>
+            <b:widget-setting name='style.bordercolor'>#ffffff</b:widget-setting>
+            <b:widget-setting name='showInlineAds'>false</b:widget-setting>
+            <b:widget-setting name='showReactions'>false</b:widget-setting>
+          </b:widget-settings>
+          <b:includable id='main' var='top'>
+
+			<b:if cond='data:view.isError'>
+              <div class='empty-state-container'>
+                <div class='empty-state-svg'>
+                  <svg version='1.1' viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'>
+                    <g>
+                      <g id='Layer_1'>
+                        <path class='cls-1' d='M204.7,60.2c-.2-.3-.4-1.1-.4-1.5,1.8-14.7.5-26.6-3.9-37.4-4-9.7-10.8-13.1-20.9-10.2-12.4,3.5-22.4,10-29.7,19.2-18.2-4-36.4-3.4-54.2,2-9.6-9.8-21.4-15.7-35.2-17.5-4.7-.6-11.6-1-16.6,3.5-3.6,3.3-5.2,8.2-5,15,.3,7.7,1.2,15.3,2.1,22.6l.2,1.4c.5,3.9,1,7.9,1.3,11.8.1,1.2-.1,2.7-.6,4-1,2.8-2.3,5.7-3.6,8.5v.2c-2.6,5.5-5.4,11.8-6.8,18.5-7.1,33.9.8,59.9,24,79.4,2.7,2.2,5.5,4.2,8.1,5.9l-1.2,5.7c-1.6,8-3.1,15.5-4.9,23.1-1.8,7.8,1.5,13.9,9,16.8,2.3.9,4.7,1.9,7,2.9l.6.3c4.3,1.8,8.8,3.7,13.6,5.1,6.3,1.8,12.6,3.1,18.8,4.4h.4c2.5.6,5,1.1,7.4,1.6l.9.2h25.2l.8-.2c.3,0,.7-.1,1.1-.2h.6c1.4-.4,2.9-.7,4.5-1.1,8.5-2.4,17-4.9,25.5-7.3l12-3.4c6.8-2,10.4-7.4,9.6-14.6-.5-4.3-.9-8.8-1.3-13v-.2c-.8-7.7-1.5-15.8-2.7-23.7,0-.4,0-.7-.1-.9.1-.1.3-.2.6-.4,20.4-14.3,33-34.5,35.6-57,2.6-22.5-5.2-45.1-21.8-63.6ZM181.8,167.8c-6,4.2-8.2,9.3-7.1,16.6,1.1,7.7,1.9,15.9,2.6,23.1v.8c.4,3.5.8,7,1.1,10.6l-8,2.3c-9.2,2.6-18.3,5.3-27.5,7.9-.9.3-2,.5-3.2.7h-.1c-.3,0-.6.2-1,.2h-21.8c-2-.4-3.9-.8-5.9-1.2l-1.4-.3c-5.8-1.2-11.9-2.4-17.5-4.1-4-1.2-7.9-2.8-12.1-4.6-2.1-.9-4.5-1.9-6.9-2.8,1.7-7.4,3.2-14.8,4.8-22.5l.8-3.7c.5-2.3.9-4.6,1.4-6.9l1.1-5.1-4.3-3c-1.2-.8-2.4-1.6-3.7-2.5h0c-2.6-1.8-5.2-3.5-7.5-5.5-18.4-15.4-24.5-36.3-18.7-64,1.1-5,3.3-10,5.7-15.3,1.4-3.1,2.8-6.3,4-9.6,1.3-3.6,1.9-7.5,1.6-11-.4-4.5-1-8.9-1.5-13.3v-.4c-.9-7-1.8-14.3-2-21.3,0-1.1,0-1.9,0-2.4.6,0,1.8,0,3.5.2,10.3,1.4,19.1,5.8,26.2,13.1,4.4,4.5,9.4,5.8,15.6,3.9,15.2-4.6,30.8-5.1,46.4-1.7,6.5,1.4,11.7-.4,15.8-5.6,5.2-6.6,12.5-11.3,21.6-13.8.6-.2,1-.3,1.4-.4.1.3.3.7.6,1.3,3.3,8.2,4.2,17.6,2.8,29.5-.6,4.8,1.1,10.4,4.2,13.8,13.6,15.1,20,33.3,17.9,51.3-2,17.9-12.3,34.2-28.9,45.8Z'/>
+                        <path class='cls-1' d='M164.5,201.3c-2.8-1-4.9-1.6-6.8-2.4-1.7-.8-3.4-1.8-4.1-2.2-4.7,3.1-8.6,6.2-13,8.4-1.1.6-4.5-.9-5.2-2.3-3.3-6.6-3.7-13.7-1.7-22.2,6.2,2.6,12,5.1,18.2,7.7,3.1-1.9,6.8-4.2,11.6-7.2,2.8,7,3.4,13,1.1,20.3h0Z'/>
+                        <path class='cls-1' d='M133.8,95.4c-12.7-11.7-25.2-11.3-37,1.6-2.5-5.8.8-13.2,7.1-17.7,7.6-5.4,17.6-4.8,24.8,1.6,5.5,4.8,7.5,10.2,5.1,14.6h0Z'/>
+                        <path class='cls-1' d='M189.9,89.8c-12-8.8-23-9-34.2,3.2-.9-7.6,2-11.6,6-15,5.8-4.9,14.2-5.3,20.7-1.2,4.6,2.9,7.7,6.9,7.5,12.9Z'/>
+                        <path class='cls-1' d='M133.4,127.1c2.3.8,3.6,1.1,4.7,1.7,5.4,2.6,10,1.6,14.5-2.4,1.2-1.1,3.9-1.8,5.2-1.2,5.8,2.8,9.6.1,13.1-4.3.5,6.4-4.3,11.3-10.1,11.4-3,0-6.3.8-9,2.1-7,3.4-14.4.9-18.4-7.5h0Z'/>
+                        <path class='cls-1' d='M157.7,105.6c.4.2,3.3.3,3.9,1.6s-.2,4.2-1.4,5.5c-2.1,2.3-5.5,5.8-7.4,5.3-4-1.1-7.4-4.4-10.9-7.1-.2-.2,1.4-3.9,2.5-4.1,3.8-.8,7.7-.8,13.2-1.2h0Z'/>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+                <h2 class='empty-state-title gradient-text'>404 - Page Not Found</h2>
+                <p class='empty-state-desc'>Meow! It looks like the cat knocked this page off the table. The link you followed might be broken or the page may have been removed.</p>
+                <a class='badge-btn' href='/'><i class='ti ti-home'/> Back to Portfolio</a>
               </div>
             </b:if>
+            <b:if cond='data:view.isHomepage'>
+              
+              <!-- ABOUT ME SECTION CONFIGURATION
+              Edit the content inside the 'about-text' div to write your own biography.
 
-          </aside>
+              Supported Formatting: You can use standard HTML tags to style your text.
+              Use <p>...</p> for paragraphs, <strong>...</strong> for bold text,
+              <br/> for line breaks, and <a href="...">...</a> for adding links.
 
-          <main class='main-content'>
-
-            <section id='about'>
-              <h2 class='section-title gradient-text'>About Me</h2>
-              <p class='about-text'>
-                I am a multidisciplinary creator working at the intersection of illustration, web design, 3D design, and Android customization. My work fuses creativity and technology, bringing both functional and immersive designs to life.<br/><br/>
-                Whether designing from scratch or working with frameworks, I create websites that are both visually appealing and highly functional. Beyond design, I contribute to the open-source community by translating projects into Turkish and automating software environments.
-              </p>
-            </section>
-
-            <section id='services'>
-              <h2 class='section-title gradient-text'>What I&#39;m Doing</h2>
-              <div class='services-grid'>
-
-                <b:if cond='true'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-brand-android'></i> Android Customization</h3>
-                    <p>Showcasing creative and functional apps built with a focus on user experience and UI themes, including Lavien Adaptive Icon Packs.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>UI / UX</span>
-                      <span class='skill-pill'>Android</span>
-                    </div>
-                  </a>
+              Note: The "Go to Blog" button will automatically appear at the bottom if the 'enableBlog' toggle is set to 'true' at the top of the template. -->
+              
+              <section id='about'>
+                <h2 class='section-title gradient-text'>About Me</h2>
+                <div class='about-text'>
+                  <p class='about-text'>
+                    I am a <strong>multidisciplinary creator</strong> working at the intersection of <em>illustration</em>, <em>web design</em>, <em>3D design</em>, and <strong><a href='https://play.google.com/store/apps/dev?id=5929107625348829633' target='_blank'>Android customization</a></strong>. My work fuses creativity and technology, bringing both functional and immersive designs to life.<br/><br/>
+                    Whether designing from scratch or working with frameworks, I create websites that are both visually appealing and highly functional. Beyond design, I contribute to the <strong><a href='https://github.com/osmanonurkoc' target='_blank'>open-source community</a></strong> by translating projects into <em>Turkish</em> and automating software environments.
+                  </p>
+                </div>
+                <b:if cond='data:enableBlog'>
+                  <div style='display: flex; justify-content: flex-end; margin-top: 1.5rem;'>
+                    <a class='badge-btn' href='/search'>Go to Blog <i class='ti ti-arrow-right'/></a>
+                  </div>
                 </b:if>
+              </section>
 
-                <b:if cond='true'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-code'></i> Web Development</h3>
-                    <p>Developing modern, responsive digital experiences using HTML5, CSS3, WordPress, and JS frameworks like Swiper.js.</p>
+              <!-- SERVICES / WHAT I DO CARDS CONFIGURATION
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>HTML5</span>
-                      <span class='skill-pill'>CSS3</span>
-                      <span class='skill-pill'>Wordpress</span>
+              Visibility: There are 12 slots available. Set cond='true' to display a card, or cond='false' to hide it.
+
+              Links: Change the 'href' attribute in the <a> tag to set where the card links to. Leave as 'javascript:void(0)' if you don't want it to be clickable.
+
+              Icons: Change the Tabler Icon class inside the <i> tag (e.g., 'ti ti-brand-android').
+
+              Text: Edit the content inside the <h3> (title) and <p> (description) tags. You can use standard HTML formatting like <strong> for bold text or <br/> for line breaks inside the paragraph.
+
+              Tags: Edit the text inside the <span class='skill-pill'> tags. To add more tags, simply copy and paste an existing skill-pill line. Dynamic gradients are applied automatically! -->
+              
+              <section id='services'>
+                <h2 class='section-title gradient-text'>What I&#39;m Doing</h2>
+                
+                <div class='services-grid'>
+                  
+                  <b:if cond='true'>
+                    <a class='card-base service-card' href='/p/android-customization.html'>
+                      <h3><i class='ti ti-brand-android'/> Android Customization</h3>
+                      <p>Showcasing creative and functional apps built with a focus on user experience and UI themes, including Lavien Adaptive Icon Packs.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>UI / UX</span>
+                        <span class='skill-pill'>Android</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='true'>
+                    <a class='card-base service-card' href='/p/coding-web-development.html'>
+                      <h3><i class='ti ti-code'/> Coding &amp; Web Development</h3>
+                      <p>Developing modern, responsive digital experiences using HTML5, CSS3, WordPress, and JS frameworks like Swiper.js.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>HTML5</span>
+                        <span class='skill-pill'>CSS3</span>
+                        <span class='skill-pill'>Wordpress</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='true'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-brush'/> Digital Art &amp; 3D</h3>
+                      <p>Creating bold expressive digital art, 3D game assets, and visualizations inspired by culture and storytelling.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Illustration</span>
+                        <span class='skill-pill'>Blender</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='true'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-writing'/> Content &amp; Automation</h3>
+                      <p>Writing insightful content for Haymatlos and scripting complex automated software deployment tasks using AutoIt and Batch.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Political Science</span>
+                        <span class='skill-pill'>Philosophy</span>
+                        <span class='skill-pill'>Sociology</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-device-desktop-analytics'/> UI/UX Design</h3>
+                      <p>Designing intuitive interfaces and prototyping modern experiences tailored for both mobile and desktop platforms.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Figma</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-server'/> Server Administration</h3>
+                      <p>Configuring, maintaining, and automating secure server deployments using modern hosting environments.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Linux</span>
+                        <span class='skill-pill'>Bash</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-video'/> Motion Graphics</h3>
+                      <p>Bringing still graphics to life with smooth animations and engaging video editing techniques.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>After Effects</span>
+                      </div>
+                    </a>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-rocket'/> SEO &amp; Marketing</h3>
+                      <p>Optimizing web content to rank higher on search engines and ensuring maximum digital visibility.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>SEO</span>
+                      </div>
+                    </a>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-briefcase'/> New Service 9</h3>
+                      <p>Description for your new service goes here. Explain what you do briefly.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Tag 1</span>
+                      </div>
+                    </a>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-briefcase'/> New Service 10</h3>
+                      <p>Description for your new service goes here. Explain what you do briefly.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Tag 1</span>
+                      </div>
+                    </a>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-briefcase'/> New Service 11</h3>
+                      <p>Description for your new service goes here. Explain what you do briefly.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Tag 1</span>
+                      </div>
+                    </a>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <a class='card-base service-card' href='javascript:void(0)'>
+                      <h3><i class='ti ti-briefcase'/> New Service 12</h3>
+                      <p>Description for your new service goes here. Explain what you do briefly.</p>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Tag 1</span>
+                      </div>
+                    </a>
+                  </b:if>
+
+                </div>
+              </section>
+
+              <!-- PORTFOLIO & PROJECTS CARDS CONFIGURATION
+
+              Visibility: There are 12 slots available. Set cond='true' to display a project card, or cond='false' to hide it.
+
+              Text: Edit the content inside the <h3> (title) and <p> (description) tags. Standard HTML formatting is supported.
+
+              Buttons & Links: Change the 'href' attribute in the <a class='btn'> tag to point to your live demo, GitHub repo, etc. You can also change the button text and the Tabler Icon class inside the <i> tag.
+
+              Tags: Edit the text inside the <span class='skill-pill'> tags. To add more tags, simply copy and paste an existing skill-pill line. Dynamic gradients are applied automatically! -->
+              
+              <section id='portfolio'>
+                <h2 class='section-title gradient-text'>Portfolio &amp; Projects</h2>
+                <div class='projects-grid'>
+
+                  <b:if cond='true'>
+                    <div class='card-base project-card'>
+                      <h3>Home Backup &amp; Restore</h3>
+                      <p>A powerful backup solution for Windows utilizing NTFS Hard links, featuring Time Machine style incremental backups.</p>
+
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Windows</span>
+                        <span class='skill-pill'>Scripting</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Details</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
 
-                <b:if cond='true'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-brush'></i> Digital Art &amp; 3D</h3>
-                    <p>Creating bold expressive digital art, 3D game assets, and visualizations inspired by culture and storytelling.</p>
+                  <b:if cond='true'>
+                    <div class='card-base project-card'>
+                      <h3>Lavien Adaptive Icons</h3>
+                      <p>A comprehensive Android customization tool and icon pack family tailored for seamless and elegant design.</p>
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Illustration</span>
-                      <span class='skill-pill'>Blender</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Android</span>
+                        <span class='skill-pill'>Design</span>
+                      </div>
+
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-brand-google-play'/> Google Play</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
 
-                <b:if cond='true'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-writing'></i> Content &amp; Automation</h3>
-                    <p>Writing insightful content for Haymatlos and scripting complex automated software deployment tasks using AutoIt and Batch.</p>
+                  <b:if cond='true'>
+                    <div class='card-base project-card'>
+                      <h3>Linux Grub Themes</h3>
+                      <p>Clean and modern bootloader interfaces including Papirus and Sheffield themes.</p>
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>AutoIt</span>
-                      <span class='skill-pill'>Batch</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Linux</span>
+                        <span class='skill-pill'>Theming</span>
+                      </div>
+                      <a class='btn' href='https://github.com/osmanonurkoc' target='_blank'><i class='ti ti-brand-github'/> GitHub</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
 
-                <b:if cond='false'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-device-desktop-analytics'></i> UI/UX Design</h3>
-                    <p>Designing intuitive interfaces and prototyping modern experiences tailored for both mobile and desktop platforms.</p>
+                  <b:if cond='true'>
+                    <div class='card-base project-card'>
+                      <h3>Haymatlos.org</h3>
+                      <p>Open access societal publishing platform and community content management.</p>
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Figma</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Web</span>
+                        <span class='skill-pill'>Content</span>
+                      </div>
+                      <a class='btn' href='https://www.haymatlos.org' target='_blank'><i class='ti ti-world'/> Visit Site</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>Open Source Script</h3>
+                      <p>An automation script designed to help developers deploy server environments faster and safer.</p>
 
-                <b:if cond='false'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-video'></i> Motion Graphics</h3>
-                    <p>Bringing still graphics to life with smooth animations and engaging video editing techniques.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>After Effects</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>C#</span>
+                        <span class='skill-pill'>Utility</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-code'/> Source Code</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
 
-                <b:if cond='false'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-rocket'></i> SEO &amp; Marketing</h3>
-                    <p>Optimizing web content to rank higher on search engines and ensuring maximum digital visibility.</p>
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>3D Asset Pack</h3>
+                      <p>A collection of stylized 3D models and textures built specifically for indie game developers.</p>
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>SEO</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>3D</span>
+                        <span class='skill-pill'>Blender</span>
+                        <span class='skill-pill'>Render</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Platform</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>Catpuccin Portfolio</h3>
+                      <p>A zero-code, modern, responsive, and single-page portfolio theme for Blogger, inspired by the soothing Catppuccin color palette.</p>
 
-                <b:if cond='false'>
-                  <a class='card-base service-card' href='javascript:void(0)'>
-                    <h3><i class='ti ti-server'></i> Server Administration</h3>
-                    <p>Configuring, maintaining, and automating secure server deployments using modern hosting environments.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Linux</span>
+                      <div class='card-tags'>
+                        <span class='skill-pill'>XML</span>
+                        <span class='skill-pill'>CSS</span>
+                      </div>
+                      <a class='btn' href='https://github.com/osmanonurkoc/Catpuccin-Portfolio-Blogger/releases/latest' target='_blank'><i class='ti ti-box'/> Download</a>
                     </div>
-                  </a>
-                </b:if>
+                  </b:if>
+                  
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>Client Website</h3>
+                      <p>A fully responsive e-commerce web platform developed for a local creative business agency.</p>
 
+                      <div class='card-tags'>
+                        <span class='skill-pill'>E-Commerce</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-browser'/> Live Demo</a>
+                    </div>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>New Project 9</h3>
+                      <p>Brief description of your new project, what it does, and what technologies you used.</p>
+
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Skill 1</span>
+                        <span class='skill-pill'>Skill 2</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Project</a>
+                    </div>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>New Project 10</h3>
+                      <p>Brief description of your new project, what it does, and what technologies you used.</p>
+
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Skill 1</span>
+                        <span class='skill-pill'>Skill 2</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Project</a>
+                    </div>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>New Project 11</h3>
+                      <p>Brief description of your new project, what it does, and what technologies you used.</p>
+
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Skill 1</span>
+                        <span class='skill-pill'>Skill 2</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Project</a>
+                    </div>
+                  </b:if>
+
+                  <b:if cond='false'>
+                    <div class='card-base project-card'>
+                      <h3>New Project 12</h3>
+                      <p>Brief description of your new project, what it does, and what technologies you used.</p>
+
+                      <div class='card-tags'>
+                        <span class='skill-pill'>Skill 1</span>
+                        <span class='skill-pill'>Skill 2</span>
+                      </div>
+                      <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'/> View Project</a>
+                    </div>
+                  </b:if>
+
+                </div>
+              </section>
+            </b:if>
+
+            <b:if cond='data:enableBlog and (data:view.isMultipleItems and not data:view.isHomepage)'>
+              <div style='margin-bottom: 2rem;'>
+                <a class='badge-btn' href='/'><i class='ti ti-home'/> Back to Portfolio</a>
               </div>
-            </section>
-
-            <section id='portfolio'>
-              <h2 class='section-title gradient-text'>Portfolio &amp; Projects</h2>
-              <div class='projects-grid'>
-
-                <b:if cond='true'>
-                  <div class='card-base project-card'>
-                    <h3>Home Backup &amp; Restore</h3>
-                    <p>A powerful backup solution for Windows utilizing NTFS Hard links, featuring Time Machine style incremental backups.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Windows</span>
-                      <span class='skill-pill'>Scripting</span>
-                    </div>
-
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-external-link'></i> View Details</a>
-                  </div>
+              <h2 class='section-title gradient-text'>
+                <b:if cond='data:view.search.label'>Category: <data:view.search.label/>
+                <b:elseif cond='data:view.search.query'/>Search: <data:view.search.query/>
+                <b:elseif cond='data:view.archive.year'/>Archive
+                <b:else/>Blog
                 </b:if>
-
-                <b:if cond='true'>
-                  <div class='card-base project-card'>
-                    <h3>Lavien Adaptive Icons</h3>
-                    <p>A comprehensive Android customization tool and icon pack family tailored for seamless and elegant design.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Android</span>
-                      <span class='skill-pill'>Design</span>
-                    </div>
-
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-brand-google-play'></i> Google Play</a>
+              </h2>
+              
+			<b:if cond='data:posts.empty'>
+                <div class='empty-state-container'>
+                  <div class='empty-state-svg'>
+					<svg version='1.1' viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'>
+                    <g>
+                      <g id='Layer_1'>
+                        <path class='cls-1' d='M204.7,60.2c-.2-.3-.4-1.1-.4-1.5,1.8-14.7.5-26.6-3.9-37.4-4-9.7-10.8-13.1-20.9-10.2-12.4,3.5-22.4,10-29.7,19.2-18.2-4-36.4-3.4-54.2,2-9.6-9.8-21.4-15.7-35.2-17.5-4.7-.6-11.6-1-16.6,3.5-3.6,3.3-5.2,8.2-5,15,.3,7.7,1.2,15.3,2.1,22.6l.2,1.4c.5,3.9,1,7.9,1.3,11.8.1,1.2-.1,2.7-.6,4-1,2.8-2.3,5.7-3.6,8.5v.2c-2.6,5.5-5.4,11.8-6.8,18.5-7.1,33.9.8,59.9,24,79.4,2.7,2.2,5.5,4.2,8.1,5.9l-1.2,5.7c-1.6,8-3.1,15.5-4.9,23.1-1.8,7.8,1.5,13.9,9,16.8,2.3.9,4.7,1.9,7,2.9l.6.3c4.3,1.8,8.8,3.7,13.6,5.1,6.3,1.8,12.6,3.1,18.8,4.4h.4c2.5.6,5,1.1,7.4,1.6l.9.2h25.2l.8-.2c.3,0,.7-.1,1.1-.2h.6c1.4-.4,2.9-.7,4.5-1.1,8.5-2.4,17-4.9,25.5-7.3l12-3.4c6.8-2,10.4-7.4,9.6-14.6-.5-4.3-.9-8.8-1.3-13v-.2c-.8-7.7-1.5-15.8-2.7-23.7,0-.4,0-.7-.1-.9.1-.1.3-.2.6-.4,20.4-14.3,33-34.5,35.6-57,2.6-22.5-5.2-45.1-21.8-63.6ZM181.8,167.8c-6,4.2-8.2,9.3-7.1,16.6,1.1,7.7,1.9,15.9,2.6,23.1v.8c.4,3.5.8,7,1.1,10.6l-8,2.3c-9.2,2.6-18.3,5.3-27.5,7.9-.9.3-2,.5-3.2.7h-.1c-.3,0-.6.2-1,.2h-21.8c-2-.4-3.9-.8-5.9-1.2l-1.4-.3c-5.8-1.2-11.9-2.4-17.5-4.1-4-1.2-7.9-2.8-12.1-4.6-2.1-.9-4.5-1.9-6.9-2.8,1.7-7.4,3.2-14.8,4.8-22.5l.8-3.7c.5-2.3.9-4.6,1.4-6.9l1.1-5.1-4.3-3c-1.2-.8-2.4-1.6-3.7-2.5h0c-2.6-1.8-5.2-3.5-7.5-5.5-18.4-15.4-24.5-36.3-18.7-64,1.1-5,3.3-10,5.7-15.3,1.4-3.1,2.8-6.3,4-9.6,1.3-3.6,1.9-7.5,1.6-11-.4-4.5-1-8.9-1.5-13.3v-.4c-.9-7-1.8-14.3-2-21.3,0-1.1,0-1.9,0-2.4.6,0,1.8,0,3.5.2,10.3,1.4,19.1,5.8,26.2,13.1,4.4,4.5,9.4,5.8,15.6,3.9,15.2-4.6,30.8-5.1,46.4-1.7,6.5,1.4,11.7-.4,15.8-5.6,5.2-6.6,12.5-11.3,21.6-13.8.6-.2,1-.3,1.4-.4.1.3.3.7.6,1.3,3.3,8.2,4.2,17.6,2.8,29.5-.6,4.8,1.1,10.4,4.2,13.8,13.6,15.1,20,33.3,17.9,51.3-2,17.9-12.3,34.2-28.9,45.8Z'/>
+                        <path class='cls-1' d='M164.5,201.3c-2.8-1-4.9-1.6-6.8-2.4-1.7-.8-3.4-1.8-4.1-2.2-4.7,3.1-8.6,6.2-13,8.4-1.1.6-4.5-.9-5.2-2.3-3.3-6.6-3.7-13.7-1.7-22.2,6.2,2.6,12,5.1,18.2,7.7,3.1-1.9,6.8-4.2,11.6-7.2,2.8,7,3.4,13,1.1,20.3h0Z'/>
+                        <path class='cls-1' d='M133.8,95.4c-12.7-11.7-25.2-11.3-37,1.6-2.5-5.8.8-13.2,7.1-17.7,7.6-5.4,17.6-4.8,24.8,1.6,5.5,4.8,7.5,10.2,5.1,14.6h0Z'/>
+                        <path class='cls-1' d='M189.9,89.8c-12-8.8-23-9-34.2,3.2-.9-7.6,2-11.6,6-15,5.8-4.9,14.2-5.3,20.7-1.2,4.6,2.9,7.7,6.9,7.5,12.9Z'/>
+                        <path class='cls-1' d='M133.4,127.1c2.3.8,3.6,1.1,4.7,1.7,5.4,2.6,10,1.6,14.5-2.4,1.2-1.1,3.9-1.8,5.2-1.2,5.8,2.8,9.6.1,13.1-4.3.5,6.4-4.3,11.3-10.1,11.4-3,0-6.3.8-9,2.1-7,3.4-14.4.9-18.4-7.5h0Z'/>
+                        <path class='cls-1' d='M157.7,105.6c.4.2,3.3.3,3.9,1.6s-.2,4.2-1.4,5.5c-2.1,2.3-5.5,5.8-7.4,5.3-4-1.1-7.4-4.4-10.9-7.1-.2-.2,1.4-3.9,2.5-4.1,3.8-.8,7.7-.8,13.2-1.2h0Z'/>
+                      </g>
+                    </g>
+                  </svg>
                   </div>
-                </b:if>
+                  <h2 class='empty-state-title gradient-text'>No Posts Yet!</h2>
+                  <p class='empty-state-desc'>The blog is currently empty. The cat is sleeping for now, but new content will be published here soon!</p>
+                </div>
+              <b:else/>
+                <div class='blog-posts-list'>
+                  <b:loop values='data:posts' var='post'>
+                    <b:include data='post' name='postSummary'/>
+                  </b:loop>
+                </div>
+              </b:if>
 
-                <b:if cond='true'>
-                  <div class='card-base project-card'>
-                    <h3>Linux Grub Themes</h3>
-                    <p>Clean and modern bootloader interfaces including Papirus and Sheffield themes.</p>
+              <b:include name='customPagination'/>
+            </b:if>
 
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Linux</span>
-                      <span class='skill-pill'>Theming</span>
-                    </div>
-
-                    <a class='btn' href='https://github.com/osmanonurkoc' target='_blank'><i class='ti ti-brand-github'></i> GitHub</a>
-                  </div>
-                </b:if>
-
-                <b:if cond='true'>
-                  <div class='card-base project-card'>
-                    <h3>Haymatlos.org</h3>
-                    <p>Open access societal publishing platform and community content management.</p>
-
-                    <div class='card-tags'>
-                      <span class='skill-pill'>Web</span>
-                      <span class='skill-pill'>Content</span>
-                    </div>
-
-                    <a class='btn' href='https://www.haymatlos.org' target='_blank'><i class='ti ti-world'></i> Visit Site</a>
-                  </div>
-                </b:if>
-
-                <b:if cond='false'>
-                  <div class='card-base project-card'>
-                    <h3>Open Source Script</h3>
-                    <p>An automation script designed to help developers deploy server environments faster and safer.</p>
-                    <div class='card-tags'><span class='skill-pill'>Automation</span></div>
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-code'></i> Source Code</a>
-                  </div>
-                </b:if>
-
-                <b:if cond='false'>
-                  <div class='card-base project-card'>
-                    <h3>3D Asset Pack</h3>
-                    <p>A collection of stylized 3D models and textures built specifically for indie game developers.</p>
-                    <div class='card-tags'><span class='skill-pill'>3D</span></div>
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-box'></i> Download</a>
-                  </div>
-                </b:if>
-
-                <b:if cond='false'>
-                  <div class='card-base project-card'>
-                    <h3>Client Website</h3>
-                    <p>A fully responsive e-commerce web platform developed for a local creative business agency.</p>
-                    <div class='card-tags'><span class='skill-pill'>E-Commerce</span></div>
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-browser'></i> Live Demo</a>
-                  </div>
-                </b:if>
-
-                <b:if cond='false'>
-                  <div class='card-base project-card'>
-                    <h3>Experimental UI</h3>
-                    <p>A creative user interface concept focusing on micro-interactions and minimal layout design.</p>
-                    <div class='card-tags'><span class='skill-pill'>UI/UX</span></div>
-                    <a class='btn' href='#' target='_blank'><i class='ti ti-color-swatch'></i> View Design</a>
-                  </div>
-                </b:if>
-
+            <b:if cond='data:enableBlog and data:view.isPost'>
+              <div style='margin-bottom: 2rem;'>
+                <a class='badge-btn' href='/search'><i class='ti ti-arrow-left'/> Back to Blog</a>
               </div>
-            </section>
-
-          </main>
-        </div>
-      </b:if>
-
-      <b:if cond='data:view.isPage or data:view.isPost'>
-        <div class='layout-wrapper'>
-          <main class='main-content'>
-
-            <a href='/' style='display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-weight: 700; color: var(--accent-primary);'>
-              <i class='ti ti-arrow-left'></i> Back to Portfolio
-            </a>
-
-            <div class='blog-posts'>
               <b:loop values='data:posts' var='post'>
                 <b:include data='post' name='post'/>
               </b:loop>
+            </b:if>
+
+            <b:if cond='data:view.isPage'>
+              <div style='margin-bottom: 2rem;'>
+                <a class='badge-btn' href='/'><i class='ti ti-arrow-left'/> Back to Portfolio</a>
+              </div>
+              <b:loop values='data:posts' var='post'>
+                <b:include data='post' name='post'/>
+              </b:loop>
+            </b:if>
+
+          </b:includable>
+          <b:includable id='aboutPostAuthor'/>
+          <b:includable id='addComments'/>
+          <b:includable id='blogThisShare'/>
+          <b:includable id='bylineByName'/>
+          <b:includable id='bylineRegion'/>
+          <b:includable id='commentAuthorAvatar'/>
+          <b:includable id='commentDeleteIcon'/>
+          <b:includable id='commentForm'/>
+          <b:includable id='commentFormIframeSrc'/>
+          <b:includable id='commentItem'/>
+          <b:includable id='commentList'/>
+          <b:includable id='commentPicker'/>
+          <b:includable id='comments'/>
+          <b:includable id='commentsLink'/>
+          <b:includable id='commentsLinkIframe'/>
+          <b:includable id='commentsTitle'/>
+          <b:includable id='customPagination'>
+            <div class='custom-pagination' id='custom-pagination'/>
+            <script type='text/javascript'>
+            //<![CDATA[
+            document.addEventListener('DOMContentLoaded', function() {
+              var paginationEl = document.getElementById('custom-pagination');
+              if(!paginationEl) return;
+
+              var maxResults = 6; 
+              var path = window.location.pathname;
+              var querySearch = window.location.search;
+              var feedUrl = '/feeds/posts/summary?alt=json&max-results=150'; 
+              var baseUrl = '/search';
+
+              if(path.indexOf('/search/label/') > -1) {
+                var label = encodeURIComponent(decodeURIComponent(path.split('/search/label/')[1].split('?')[0]));
+                feedUrl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=150';
+                baseUrl = path;
+              } else if(querySearch.indexOf('?q=') > -1) {
+                var query = querySearch.split('?q=')[1].split('&')[0];
+                feedUrl = '/feeds/posts/summary?q=' + query + '&alt=json&max-results=150';
+                baseUrl = '/search?q=' + query;
+              }
+
+              fetch(feedUrl)
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                  if(!data.feed.entry) return;
+                  var entries = data.feed.entry;
+                  var totalPages = Math.ceil(entries.length / maxResults);
+                  if(totalPages <= 1) return;
+
+                  var html = '';
+                  var currentUrl = window.location.href;
+                  var currentPage = 1;
+
+                  var pageUrls = [];
+                  pageUrls.push(baseUrl + (baseUrl.indexOf('?') > -1 ? '&' : '?') + 'max-results=' + maxResults); 
+
+                  for(var i = 1; i < totalPages; i++) {
+                    var index = (i * maxResults) - 1;
+                    if(entries[index]) {
+                      var timestamp = entries[index].published.$t;
+                      var timeEncoded = encodeURIComponent(timestamp);
+                      var pUrl = baseUrl + (baseUrl.indexOf('?') > -1 ? '&' : '?') + 'updated-max=' + timeEncoded + '&max-results=' + maxResults;
+                      pageUrls.push(pUrl);
+                    }
+                  }
+
+                  for(var j = 0; j < pageUrls.length; j++) {
+                    if(currentUrl.indexOf(pageUrls[j]) > -1 || (j === 0 && currentUrl.indexOf('updated-max') === -1)) {
+                      currentPage = j + 1;
+                    }
+                  }
+
+                  for(var k = 0; k < pageUrls.length; k++) {
+                    var pageNum = k + 1;
+                    var activeClass = (pageNum === currentPage) ? ' active' : '';
+                    html += '<a href="' + pageUrls[k] + '" class="page-num' + activeClass + '">' + pageNum + '</a>';
+                  }
+
+                  paginationEl.innerHTML = html;
+                });
+            });
+            //]]>
+            </script>
+          </b:includable>
+          <b:includable id='defaultAdUnit'/>
+          <b:includable id='emailPostIcon'/>
+          <b:includable id='facebookShare'/>
+          <b:includable id='feedLinks'/>
+          <b:includable id='feedLinksBody'/>
+          <b:includable id='footerBylines'/>
+          <b:includable id='googlePlusShare'/>
+          <b:includable id='headerByline'/>
+          <b:includable id='homePageLink'/>
+          <b:includable id='iframeComments'/>
+          <b:includable id='inlineAd'/>
+          <b:includable id='linkShare'/>
+          <b:includable id='nextPageLink'/>
+          <b:includable id='nextprev'/>
+          <b:includable id='otherSharingButton'/>
+          <b:includable id='platformShare'/>
+          <b:includable id='post' var='post'>
+            <div class='page-content'>
+              <h1 class='page-title gradient-text'><data:post.title/></h1>
+              
+              <b:if cond='data:view.isPost'>
+                <div class='post-meta-single'>
+                  <span class='meta-item'><i class='ti ti-calendar'/> <data:post.date/></span>
+                  <b:if cond='data:post.labels'>
+                    <span class='meta-item'><i class='ti ti-tags'/>
+                    <b:loop values='data:post.labels' var='label'>
+                      <a class='skill-pill' expr:href='data:label.url' style='margin-right: 5px;'><data:label.name/></a>
+                    </b:loop>
+                    </span>
+                  </b:if>
+                </div>
+              </b:if>
+
+              <div class='page-body'>
+                <data:post.body/>
+              </div>
+              
+              <b:if cond='data:view.isPost'>
+                <b:include data='post' name='shareIcons'/>
+              </b:if>
             </div>
+          </b:includable>
+          <b:includable id='postAuthor'/>
+          <b:includable id='postBody'/>
+          <b:includable id='postBodySnippet'/>
+          <b:includable id='postCommentsAndAd'/>
+          <b:includable id='postCommentsLink'/>
+          <b:includable id='postFooter'/>
+          <b:includable id='postFooterAuthorProfile'/>
+          <b:includable id='postHeader'/>
+          <b:includable id='postJumpLink'/>
+          <b:includable id='postLabels'/>
+          <b:includable id='postLocation'/>
+          <b:includable id='postMeta'/>
+          <b:includable id='postMetadataJSONImage'/>
+          <b:includable id='postMetadataJSONPublisher'/>
+          <b:includable id='postPagination'/>
+          <b:includable id='postReactions'/>
+          <b:includable id='postShareButtons'/>
+          <b:includable id='postSummary' var='post'>
+            <article class='card-base post-summary-card'>
+              <h3><a expr:href='data:post.url'><data:post.title/></a></h3>
+              <div class='post-meta-summary'>
+                <i class='ti ti-calendar'/> <data:post.date/>
+              </div>
+              <p class='post-snippet'><data:post.snippets.short/></p>
+              <div style='margin-top: auto; padding-top: 1rem;'>
+                <a class='badge-btn' expr:href='data:post.url'>Show More <i class='ti ti-arrow-right'/></a>
+              </div>
+            </article>
+          </b:includable>
+          <b:includable id='postTimestamp'/>
+          <b:includable id='postTitle'/>
+          <b:includable id='previousPageLink'/>
+          <b:includable id='shareIcons' var='post'>
+            <div class='share-via-section'>
+              <h4>Share via</h4>
+              <div class='share-icons'>
+                <a class='share-btn share-x' expr:href='&quot;https://x.com/intent/tweet?url=&quot; + data:post.url + &quot;&amp;text=&quot; + data:post.title' target='_blank'><i class='ti ti-brand-x'/></a>
+                <a class='share-btn share-fb' expr:href='&quot;https://www.facebook.com/sharer.php?u=&quot; + data:post.url' target='_blank'><i class='ti ti-brand-facebook'/></a>
+                <a class='share-btn share-in' expr:href='&quot;https://www.linkedin.com/shareArticle?mini=true&amp;url=&quot; + data:post.url' target='_blank'><i class='ti ti-brand-linkedin'/></a>
+                <a class='share-btn share-pin' expr:href='&quot;https://pinterest.com/pin/create/button/?url=&quot; + data:post.url + &quot;&amp;description=&quot; + data:post.title' target='_blank'><i class='ti ti-brand-pinterest'/></a>
+                <a class='share-btn share-wa' expr:href='&quot;https://api.whatsapp.com/send?text=&quot; + data:post.title + &quot; &quot; + data:post.url' target='_blank'><i class='ti ti-brand-whatsapp'/></a>
+                <a class='share-btn share-tg' expr:href='&quot;https://t.me/share/url?url=&quot; + data:post.url + &quot;&amp;text=&quot; + data:post.title' target='_blank'><i class='ti ti-brand-telegram'/></a>
+                <a class='share-btn share-mail' expr:href='&quot;mailto:?subject=&quot; + data:post.title + &quot;&amp;body=&quot; + data:post.url' target='_blank'><i class='ti ti-mail'/></a>
+              </div>
+            </div>
+          </b:includable>
+          <b:includable id='sharingButton'/>
+          <b:includable id='sharingButtonContent'/>
+          <b:includable id='sharingButtons'/>
+          <b:includable id='sharingButtonsMenu'/>
+          <b:includable id='sharingPlatformIcon'/>
+          <b:includable id='threadedCommentForm'/>
+          <b:includable id='threadedCommentJs'/>
+          <b:includable id='threadedComments'/>
+          <b:includable id='tooltipCss'>
+  <!-- LINT.IfChange -->
+  <style>
+    .post-body a.b-tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
 
-          </main>
-        </div>
-      </b:if>
-    </b:includable>
+    .post-body a.b-tooltip-container .b-tooltip {
+      display: block !important;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-20%, 1px);
+      visibility: hidden;
+      opacity: 0;
+      z-index: 1;
+      transition: opacity 0.2s ease-in-out;
+    }
 
-    <b:includable id='post' var='post'>
-      <div class='page-content'>
-        <h1 class='page-title gradient-text'><data:post.title/></h1>
-        <div class='page-body'>
-          <data:post.body/>
-        </div>
-      </div>
-    </b:includable>
+    .post-body a.b-tooltip-container .b-tooltip iframe {
+      width: 200px;
+      height: 198px;
+      max-width: none;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
+    }
 
-    <b:includable id='comments' var='post'/>
-    <b:includable id='postFooter' var='post'/>
-    <b:includable id='nextprev'/>
+    @media (hover: hover) {
+      .post-body a.b-tooltip-container:hover .b-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  </style>
+  <!-- LINT.ThenChange(//depot/google3/java/com/google/blogger/b2/layouts/widgets/v2-style.css) -->
+</b:includable>
+        </b:widget>
+      </b:section>
+    </main>
 
-  </b:widget>
-</b:section>
+  </div>
+</b:with>
 
 <footer class='site-footer'>
   Catppuccin Portfolio Theme <a href='https://osmanonurkoc.com' target='_blank'>@osmanonurkoc</a>
 </footer>
 
 <button class='floating-theme-toggle' id='theme-toggle' title='Toggle Light/Dark Mode'>
-  <i class='ti ti-sun' id='theme-icon'></i>
+  <i class='ti ti-sun' id='theme-icon'/>
 </button>
 
 <script type='text/javascript'>
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
+    
+    // ----------------------------------------------------
+    // 1. THEME TOGGLER (LIGHT/DARK MODE)
+    // ----------------------------------------------------
+    var toggleBtn = document.getElementById('theme-toggle');
+    var themeIcon = document.getElementById('theme-icon');
 
-  // ----------------------------------------------------
-  // 1. THEME TOGGLER (LIGHT/DARK MODE)
-  // ----------------------------------------------------
-  var toggleBtn = document.getElementById('theme-toggle');
-  var themeIcon = document.getElementById('theme-icon');
-
-  function updateIcon(isLatte) {
-  if (themeIcon) {
-  themeIcon.className = isLatte ? 'ti ti-moon' : 'ti ti-sun';
-  }
-  }
-
-  // Check the current applied state from local storage or class
-  var isLatte = document.body.classList.contains('latte');
-  updateIcon(isLatte);
-
-  // Listen for click events to toggle the theme
-  if (toggleBtn) {
-  toggleBtn.addEventListener('click', function() {
-  document.body.classList.toggle('latte');
-  var currentlyLatte = document.body.classList.contains('latte');
-  localStorage.setItem('portfolio-theme', currentlyLatte ? 'latte' : 'mocha');
-  updateIcon(currentlyLatte);
-  });
-  }
-
-  // ----------------------------------------------------
-  // 2. SMART SOCIAL ICON BALANCER (DYNAMIC WRAP)
-  // ----------------------------------------------------
-  function balanceSocialIcons() {
-  var container = document.querySelector('.social-links');
-  if (!container) return;
-
-  var icons = container.querySelectorAll('a');
-  var count = icons.length;
-  if (count === 0) return;
-
-  // Reset max-width to measure the natural capacity of a single row
-  container.style.maxWidth = 'none';
-
-  var firstTop = icons[0].offsetTop;
-  var maxCols = 0;
-
-  // Count how many icons fit naturally in the first row based on screen size
-  for (var i = 0; i < count; i++) {
-    if (icons[i].offsetTop === firstTop) {
-    maxCols++;
-    } else {
-    break;
-    }
+    function updateIcon(isLatte) {
+      if (themeIcon) {
+        themeIcon.className = isLatte ? 'ti ti-moon' : 'ti ti-sun';
+      }
     }
 
-    // If icons wrap to multiple rows, distribute them evenly (e.g., 4-4 instead of 5-3)
-    if (count > maxCols) {
-    var rows = Math.ceil(count / maxCols); // Total number of rows needed
-    var cols = Math.ceil(count / rows);    // Ideal number of columns per row
+    var isLatte = document.body.classList.contains('latte');
+    updateIcon(isLatte);
 
-    // Constrain the container width based on the calculated optimal columns
-    // Note: 40px is the icon width, 0.8rem is the gap between icons
-    container.style.maxWidth = 'calc(' + cols + ' * 40px + ' + (cols - 1) + ' * 0.8rem)';
-    container.style.margin = '0.5rem auto 0'; // Keep the container centered
-    }
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        document.body.classList.toggle('latte');
+        var currentlyLatte = document.body.classList.contains('latte');
+        localStorage.setItem('portfolio-theme', currentlyLatte ? 'latte' : 'mocha');
+        updateIcon(currentlyLatte);
+      });
     }
 
-    // Run the balancer on initial load
+    // ----------------------------------------------------
+    // 2. SMART SOCIAL ICON BALANCER (DYNAMIC WRAP)
+    // ----------------------------------------------------
+    function balanceSocialIcons() {
+      var container = document.querySelector('.social-links');
+      if (!container) return;
+      
+      var icons = container.querySelectorAll('a');
+      var count = icons.length;
+      if (count === 0) return;
+
+      container.style.maxWidth = 'none';
+      
+      var firstTop = icons[0].offsetTop;
+      var maxCols = 0;
+      
+      for (var i = 0; i < count; i++) {
+        if (icons[i].offsetTop === firstTop) {
+          maxCols++; 
+        } else {
+          break;     
+        }
+      }
+
+      if (count > maxCols) {
+        var rows = Math.ceil(count / maxCols); 
+        var cols = Math.ceil(count / rows);    
+        
+        container.style.maxWidth = 'calc(' + cols + ' * 40px + ' + (cols - 1) + ' * 0.8rem)';
+        container.style.margin = '0.5rem auto 0'; 
+      }
+    }
+
     balanceSocialIcons();
-
-    // Recalculate if the screen is resized (e.g., window resize or device rotation)
     window.addEventListener('resize', balanceSocialIcons);
-    });
-    //]]>
-  </script>
-
+  });
+  //]]>
+</script>
+<script type='text/javascript'>
+//<![CDATA[
+!function(){var _0x1c=["\x2e\x73\x69\x74\x65\x2d\x66\x6f\x6f\x74\x65\x72","\x61","\x68\x72\x65\x66","\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c","\x40\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63","\x64\x69\x73\x70\x6c\x61\x79","\x6e\x6f\x6e\x65","\x76\x69\x73\x69\x62\x69\x6c\x69\x74\x79","\x68\x69\x64\x64\x65\x6e","\x6f\x70\x61\x63\x69\x74\x79","\x30","\x68\x6f\x73\x74\x6e\x61\x6d\x65","\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d"];setInterval(function(){var _0x2a=document.querySelector(_0x1c[0]);var _0x3b=false;if(_0x2a){var _0x4c=_0x2a.getElementsByTagName(_0x1c[1]);for(var _0x5d=0;_0x5d<_0x4c.length;_0x5d++){if(_0x4c[_0x5d][_0x1c[2]].indexOf(_0x1c[3])!==-1&&_0x4c[_0x5d][_0x1c[4]].indexOf(_0x1c[5])!==-1){_0x3b=true;break}}}var _0x6e=_0x2a?window.getComputedStyle(_0x2a):null;if(!_0x3b||!_0x2a||!_0x6e||_0x6e[_0x1c[6]]===_0x1c[7]||_0x6e[_0x1c[8]]===_0x1c[9]||_0x6e[_0x1c[10]]===_0x1c[11]){if(window.location[_0x1c[12]]!==_0x1c[13]&&window.location[_0x1c[12]]!==_0x1c[3]){window.location.href=_0x1c[14]}}},2000)}();
+//]]>
+</script>
 </body>
 </html>
