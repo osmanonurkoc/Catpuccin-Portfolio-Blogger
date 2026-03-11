@@ -1,7 +1,7 @@
 
 # Catppuccin Portfolio Theme for Blogger
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Website-success?style=for-the-badge&color=8839ef)](https://catpuccin.blogspot.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Website-success?style=for-the-badge&color=8839ef)](https://osmanonurkoc.com)
 
 A zero-code, modern, responsive, and single-page portfolio theme for Blogger, inspired by the soothing Catppuccin color palette. 
 
