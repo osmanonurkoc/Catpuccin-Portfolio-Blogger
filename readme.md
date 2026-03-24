@@ -94,7 +94,7 @@ To **SHOW** an element on your screen, change its value to `true`. To **HIDE** a
 
 The theme offers two modes for the profile area: "Icon Mode" and "Photo Mode". You can find these at the top of the HTML inside the `<div class='profile-img'>` tag.
 
--   **To use an Icon:** Set Icon Mode to `cond='true'` and Photo Mode to `cond='false'`.
+-   **To use an Icon:** Set Icon Mode to `cond='true'` and Photo Mode to `cond='false'`. You can explore available icons at [Tabler Icons](https://tabler.io/icons)
     
 -   **To use your own Photo:** Set Icon Mode to `cond='false'` and Photo Mode to `cond='true'`. Replace the `YOUR_IMAGE_URL_HERE` placeholder with your direct image link. Clicking the photo will automatically redirect visitors to your homepage.
     
