@@ -13,6 +13,7 @@ This theme allows you to customize your entire site without needing to know HTML
 * **Catppuccin Palette:** Fully integrates official Latte (Vibrant) and Mocha (Pastel) color palettes.
 * **Magic Variables:** Change the global accent color (buttons, highlights, shadows, text gradients) instantly by changing a single variable name.
 * **Wide Mode & Lazy Grid:** Easily adjust the maximum width of your website and let the CSS `auto-fit` grid handle the responsive layout automatically.
+* **Smart Lightbox:** Standard images inside your posts automatically feature a sleek, zoomable lightbox modal with a blurred Catppuccin crust overlay.
 * **Boolean Toggle System:** Turn social media buttons, personal info, or project cards ON or OFF simply by changing a `false` to `true` in the HTML. No structural coding required!
 
 ---
@@ -43,7 +44,7 @@ Find the `/* 1. THEME CONFIGURATION (MAGIC VARIABLES) */` section at the very to
   /* Light Mode Accents (Latte) - Vibrant and Saturated */
   --light-accent-primary: var(--latte-mauve);
   --light-accent-secondary: var(--latte-blue);
-} 
+}
 ```
 _Tip: Replace `mauve` and `blue` with other official Catppuccin colors like `peach`, `green`, `red`, `yellow`, `teal`, or `sapphire` to instantly change the entire look of your theme._
 
@@ -56,7 +57,9 @@ Find the `/* 3. LAYOUT & GRID CONFIGURATION */` section in the CSS.
     -   Standard View: `1200px`
         
     -   Wide Mode: `1400px`
-        
+    
+    -   Ultra Wide: `1600px`
+    
     -   Fluid / Full Screen: `95%`
         
 -   **Card Columns:** The theme uses a lazy responsive grid (`auto-fit`). By increasing the `300px` or `260px` minimum values inside `--services-columns` and `--projects-columns`, you can fit fewer cards per row. By decreasing it (e.g., `200px`), you can fit more cards side-by-side.
@@ -128,28 +131,68 @@ When you need to add a new project, you don't need to copy/paste any code. Just 
 
 ### Skill Pills (Tags)
 
-You can add "Skill Pills" (small tag bubbles) inside any Service or Project card to highlight specific tools, skills, or technologies. 
+You can add "Skill Pills" (small tag bubbles) inside any Service or Project card to highlight specific tools, skills, or technologies.
 
 Thanks to the zero-code design, you **do not** need to assign manual color classes to each pill. The theme automatically applies a repeating sequence of 6 beautiful Catppuccin gradients based on the pill's order. These gradients dynamically adapt to look perfect in both Dark (Mocha) and Light (Latte) modes.
 
 To add or remove a skill, simply insert a `<span class='skill-pill'>` inside the `<div class='card-tags'>` container of any card:
 
-```html
+```
 <div class='card-tags'>
   <span class='skill-pill'>UI / UX</span>
   <span class='skill-pill'>Android</span>
   <span class='skill-pill'>Figma</span>
 </div>
+
 ```
+
+### 🖼️ Dynamic Slideshows (Zero-Code)
+
+Create beautiful, touch-friendly image carousels without writing any HTML! The theme uses a smart parser that converts standard Blogger editor elements into a fully functional slideshow with captions.
+
+**How to use:** Wrap your images inside `[slideshow]` tags in Blogger's standard **Compose mode**.
+
+-   **Titles:** Simply apply **Underline** (`U`) to any text under an image.
+    
+-   **Descriptions:** Apply **Strikethrough** (`S`) to any text under the title.
+    
+
+**Dynamic Sizing:** You can control the exact width of the slideshow by adding a number from 1 to 4 to the tag:
+
+-   `[slideshow=1]` ➔ 60% Width (Small)
+    
+-   `[slideshow=2]` ➔ 75% Width (Medium)
+    
+-   `[slideshow=3]` ➔ 90% Width (Large)
+    
+-   `[slideshow=4]` or just `[slideshow]` ➔ 100% Width (Extra Large)
+    
+
+**Example in Compose View:**
+```
+[slideshow=3]
+
+(Insert Image 1 using Blogger's image tool)
+Underline this text for Title
+Strikethrough this text for Description
+
+(Insert Image 2)
+Underline this text for the second slide's Title
+
+[/slideshow]
+
+```
+
+_Note: Any standard image you add outside of a slideshow will automatically get a sleek, zoomable Lightbox feature. No extra steps needed!_
 
 ### 💻 Code Blocks (Syntax Box)
 
 As a developer, sharing code snippets should look beautiful. This theme includes a custom, zero-code syntax box parser. You **do not** need to switch to HTML view to add code blocks!
 
-Simply wrap your code with `[code]` and `[/code]` tags directly in Blogger's standard Compose mode. 
+Simply wrap your code with `[code]` and `[/code]` tags directly in Blogger's standard Compose mode.
 
 **Example:**
-```text
+```
 Here is my awesome script:
 
 [code]
@@ -157,8 +200,11 @@ function sayHello() {
   console.log("Hello, World!");
 }
 [/code]
+
 ```
-The theme will automatically parse these tags and render a sleek, Mac-window style code block that perfectly adapts to both Dark (Mocha) and Light (Latte) modes, complete with horizontal scrolling for long lines!
+
+The theme will automatically parse these tags and render a sleek, Mac-window style code block that perfectly adapts to both Dark (Mocha) and Light (Latte) modes, complete with horizontal scrolling and a one-click copy button!
+
 
 ## 📄 License
 
