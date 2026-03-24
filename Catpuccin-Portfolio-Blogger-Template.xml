@@ -1881,59 +1881,156 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
 
-    // ==========================================================
-    // 1. CREATE CODE BOXES
-    // ==========================================================
     var postBodies = document.querySelectorAll('.page-body');
 
+    // ==========================================================
+    // PHASE 1: HTML PARSERS (DOM MANIPULATION)
+    // First, we do all the HTML replacements in a single pass.
+    // ==========================================================
     postBodies.forEach(function(body) {
       var htmlContent = body.innerHTML;
+
+      // 1. PARSE CODEBOX
       var codeRegex = /\[code\]([\s\S]*?)\[\/code\]/gi;
+      htmlContent = htmlContent.replace(codeRegex, function(match, codeContent) {
+        var cleanCode = codeContent
+          .replace(/<br\s*[\/]?>/gi, '\n')
+          .replace(/<div>/gi, '\n')
+          .replace(/<\/div>/gi, '')
+          .replace(/&nbsp;/g, ' ');
 
-      if(codeRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(codeRegex, function(match, codeContent) {
-          var cleanCode = codeContent
-            .replace(/<br\s*[\/]?>/gi, '\n')
-            .replace(/<div>/gi, '\n')
-            .replace(/<\/div>/gi, '')
-            .replace(/&nbsp;/g, ' ');
+        return '<div class="cat-codebox">' +
+          '<div class="cat-code-header">' +
+            '<span class="mac-dots"></span>' +
+            '<span class="code-title">Code Snippet</span>' +
+            '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
+          '</div>' +
+          '<pre><code>' + cleanCode.trim() + '</code></pre>' +
+          '</div>';
+      });
 
-          // Inject the copy-code-btn into the header
-          return '<div class="cat-codebox">' +
-            '<div class="cat-code-header">' +
-              '<span class="mac-dots"></span>' +
-              '<span class="code-title">Code Snippet</span>' +
-              '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
-            '</div>' +
-            '<pre><code>' + cleanCode.trim() + '</code></pre>' +
-            '</div>';
+      // 2. PARSE SLIDESHOW
+      var slideshowRegex = /\[slideshow(?:=(\d))?\]([\s\S]*?)\[\/slideshow\]/gi;
+      htmlContent = htmlContent.replace(slideshowRegex, function(match, sizeParam, slideshowContent) {
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = slideshowContent;
+        var slidesHtml = '';
+        var slideCount = 0;
+        var currentSlide = null;
+        var slidesData = [];
+        var elements = tempDiv.querySelectorAll('img, u, strike');
+
+        elements.forEach(function(el) {
+          var tag = el.tagName.toLowerCase();
+          if (tag === 'img') {
+            if (currentSlide) slidesData.push(currentSlide);
+            var highResSrc = el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
+            currentSlide = { src: highResSrc, title: '', text: '' };
+          } else if (tag === 'u' && currentSlide) {
+            currentSlide.title = el.innerHTML;
+          } else if (tag === 'strike' && currentSlide) {
+            currentSlide.text = el.innerHTML;
+          }
         });
-      }
+        
+        if (currentSlide) slidesData.push(currentSlide);
+        if (slidesData.length === 0) return match;
+
+        slidesData.forEach(function(slide) {
+          slideCount++;
+          var captionHtml = '';
+          if (slide.title || slide.text) {
+            captionHtml = '<div class="slide-caption">';
+            if (slide.title) captionHtml += '<h3>' + slide.title + '</h3>';
+            if (slide.text) captionHtml += '<p>' + slide.text + '</p>';
+            captionHtml += '</div>';
+          }
+          slidesHtml += '<div class="cat-slide fade-anim">' +
+            '<img src="' + slide.src + '" alt="Slide ' + slideCount + '"/>' +
+            captionHtml +
+          '</div>';
+        });
+
+        var dotsHtml = '<div class="slide-dots-wrapper">';
+        for (var i = 1; i <= slideCount; i++) {
+          dotsHtml += '<span class="slide-dot" data-index="' + i + '"></span>';
+        }
+        dotsHtml += '</div>';
+
+        var widthPercentage = "100";
+        if (sizeParam === "1") widthPercentage = "60";
+        else if (sizeParam === "2") widthPercentage = "75";
+        else if (sizeParam === "3") widthPercentage = "90";
+        else if (sizeParam === "4") widthPercentage = "100";
+
+        return '<div class="cat-slideshow-container" style="width: ' + widthPercentage + '%;" data-current="1" data-total="' + slideCount + '">' +
+          slidesHtml +
+          '<button class="slide-nav-btn prev"><i class="ti ti-arrow-left"></i></button>' +
+          '<button class="slide-nav-btn next"><i class="ti ti-arrow-right"></i></button>' +
+          dotsHtml +
+        '</div>';
+      });
+
+      // 3. PARSE COMPARE
+      var compareRegex = /\[compare\]([\s\S]*?)\[\/compare\]/gi;
+      htmlContent = htmlContent.replace(compareRegex, function(match, compareContent) {
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = compareContent;
+        var imgs = tempDiv.querySelectorAll('img');
+
+        if (imgs.length !== 2) {
+          console.warn('Catppuccin Compare Error: You must provide exactly two images inside [compare] tags.');
+          return match;
+        }
+
+        var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
+        var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
+
+        var captionEl = tempDiv.querySelector('i, em');
+        var captionHtml = '';
+        if (captionEl && captionEl.innerText.trim() !== '') {
+          var cleanText = captionEl.innerText.trim();
+          captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
+        }
+
+        return '<div class="cat-compare-wrapper">' +
+          '<div class="cat-compare-container cat-compare-slider">' +
+            '<img src="' + imgSrcAfter + '" class="cat-compare-after" alt="After" />' +
+            '<img src="' + imgSrcBefore + '" class="cat-compare-before" alt="Before" />' +
+            '<div class="cat-compare-handle">' +
+              '<div class="cat-compare-knob">' +
+                '<i class="ti ti-chevron-left"></i>' +
+                '<i class="ti ti-chevron-right"></i>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          captionHtml +
+        '</div>';
+      });
+
+      // APPLY ALL CHANGES TO DOM AT ONCE
+      body.innerHTML = htmlContent;
     });
 
-    // COPY BUTTON FUNCTIONALITY (Event Delegation)
+
+    // ==========================================================
+    // PHASE 2: EVENT BINDING (CONTROLLERS)
+    // Now that the DOM is final, we bind all functionality.
+    // ==========================================================
+
+    // 1. CODEBOX COPY FUNCTIONALITY
     document.addEventListener('click', function(e) {
       var btn = e.target.closest('.copy-code-btn');
-      if (!btn) return; // Ignore if the clicked element is not the copy button
-
-      // Find the code text inside the box
+      if (!btn) return;
       var codeBox = btn.closest('.cat-codebox');
       if (!codeBox) return;
       var codeBlock = codeBox.querySelector('code');
       var textToCopy = codeBlock.innerText;
 
-      // Copy to clipboard
       navigator.clipboard.writeText(textToCopy).then(function() {
         var icon = btn.querySelector('i');
-
-        // Success effect: Change icon to checkmark and color to green
         icon.className = 'ti ti-check';
-        btn.style.color = 'var(--mocha-green)';
-        if (document.body.classList.contains('latte')) {
-          btn.style.color = 'var(--latte-green)';
-        }
-
-        // Revert back to copy icon after 2 seconds
+        btn.style.color = document.body.classList.contains('latte') ? 'var(--latte-green)' : 'var(--mocha-green)';
         setTimeout(function() {
           icon.className = 'ti ti-copy';
           btn.style.color = '';
@@ -1942,112 +2039,14 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         console.error('Copy failed', err);
       });
     });
-  });
-  //]]>
-</script>
 
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. SMART SLIDESHOW PARSER (DYNAMIC TAG SIZING)
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      // Matches [slideshow], [slideshow=1], [slideshow=2] etc.
-      var slideshowRegex = /\[slideshow(?:=(\d))?\]([\s\S]*?)\[\/slideshow\]/gi;
-
-      if (slideshowRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(slideshowRegex, function(match, sizeParam, slideshowContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = slideshowContent;
-
-          var slidesHtml = '';
-          var slideCount = 0;
-          var currentSlide = null;
-          var slidesData = [];
-
-          var elements = tempDiv.querySelectorAll('img, u, strike');
-
-          elements.forEach(function(el) {
-            var tag = el.tagName.toLowerCase();
-
-            if (tag === 'img') {
-              if (currentSlide) slidesData.push(currentSlide);
-
-              // Force high-res image fetching
-              var highResSrc = el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-              currentSlide = { src: highResSrc, title: '', text: '' };
-
-            } else if (tag === 'u' && currentSlide) {
-              currentSlide.title = el.innerHTML;
-
-            } else if (tag === 'strike' && currentSlide) {
-              currentSlide.text = el.innerHTML;
-            }
-          });
-
-          if (currentSlide) slidesData.push(currentSlide);
-          if (slidesData.length === 0) return '';
-
-          slidesData.forEach(function(slide) {
-            slideCount++;
-            var captionHtml = '';
-
-            if (slide.title || slide.text) {
-              captionHtml = '<div class="slide-caption">';
-              if (slide.title) captionHtml += '<h3>' + slide.title + '</h3>';
-              if (slide.text) captionHtml += '<p>' + slide.text + '</p>';
-              captionHtml += '</div>';
-            }
-
-            slidesHtml += '<div class="cat-slide fade-anim">' +
-              '<img src="' + slide.src + '" alt="Slide ' + slideCount + '"/>' +
-              captionHtml +
-            '</div>';
-          });
-
-          var dotsHtml = '<div class="slide-dots-wrapper">';
-          for (var i = 1; i <= slideCount; i++) {
-            dotsHtml += '<span class="slide-dot" data-index="' + i + '"></span>';
-          }
-          dotsHtml += '</div>';
-
-          // Determine width percentage based on the tag parameter
-          var widthPercentage = "100"; // Default (Extra Large / Original)
-
-          if (sizeParam === "1") widthPercentage = "60";
-          else if (sizeParam === "2") widthPercentage = "75";
-          else if (sizeParam === "3") widthPercentage = "90";
-          else if (sizeParam === "4") widthPercentage = "100";
-
-          // Apply the calculated percentage to the style
-          return '<div class="cat-slideshow-container" style="width: ' + widthPercentage + '%;" data-current="1" data-total="' + slideCount + '">' +
-            slidesHtml +
-            '<button class="slide-nav-btn prev"><i class="ti ti-arrow-left"></i></button>' +
-            '<button class="slide-nav-btn next"><i class="ti ti-arrow-right"></i></button>' +
-            dotsHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 2. SLIDESHOW NAVIGATION LOGIC
-    // ==========================================================
+    // 2. SLIDESHOW CONTROLLER
     var allSlideshows = document.querySelectorAll('.cat-slideshow-container');
-
     allSlideshows.forEach(function(slider) {
       showSlide(slider, 1);
-
+      
       var prevBtn = slider.querySelector('.prev');
       var nextBtn = slider.querySelector('.next');
-
       if(prevBtn) prevBtn.addEventListener('click', function() { changeSlide(slider, -1); });
       if(nextBtn) nextBtn.addEventListener('click', function() { changeSlide(slider, 1); });
 
@@ -2064,28 +2063,59 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       var current = parseInt(slider.getAttribute('data-current'));
       var total = parseInt(slider.getAttribute('data-total'));
       var nextIndex = current + direction;
-
       if (nextIndex > total) nextIndex = 1;
       if (nextIndex < 1) nextIndex = total;
-
       showSlide(slider, nextIndex);
     }
 
     function showSlide(slider, index) {
       var slides = slider.querySelectorAll('.cat-slide');
       var dots = slider.querySelectorAll('.slide-dot');
-
       slides.forEach(function(s) { s.style.display = 'none'; });
       dots.forEach(function(d) { d.classList.remove('active'); });
-
-      slides[index - 1].style.display = 'block';
-      dots[index - 1].classList.add('active');
+      if(slides[index - 1]) slides[index - 1].style.display = 'block';
+      if(dots[index - 1]) dots[index - 1].classList.add('active');
       slider.setAttribute('data-current', index);
     }
 
-    // ==========================================================
-    // 3. ADVANCED LIGHTBOX (ALL IMAGES + ZOOM & PAN)
-    // ==========================================================
+    // 3. IMAGE COMPARE CONTROLLER
+    var compareSliders = document.querySelectorAll('.cat-compare-slider');
+    compareSliders.forEach(function(slider) {
+      var handle = slider.querySelector('.cat-compare-handle');
+      var beforeImg = slider.querySelector('.cat-compare-before');
+      var isDragging = false;
+
+      function setComparisonClip(x) {
+        var rect = slider.getBoundingClientRect();
+        var width = rect.width;
+        var offsetX = x - rect.left;
+        var percentage = (offsetX / width) * 100;
+        percentage = Math.min(Math.max(0, percentage), 100);
+        
+        handle.style.left = percentage + '%';
+        var cropRight = 100 - percentage;
+        beforeImg.style.clipPath = 'inset(0 ' + cropRight + '% 0 0)';
+        beforeImg.style.webkitClipPath = 'inset(0 ' + cropRight + '% 0 0)';
+      }
+
+      handle.addEventListener('mousedown', function(e) { e.preventDefault(); isDragging = true; });
+      window.addEventListener('mouseup', function() { isDragging = false; });
+      window.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        setComparisonClip(e.clientX);
+      });
+
+      handle.addEventListener('touchstart', function(e) { isDragging = true; });
+      window.addEventListener('touchend', function() { isDragging = false; });
+      window.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        if (e.cancelable) e.preventDefault();
+        setComparisonClip(e.touches[0].clientX);
+      }, { passive: false });
+    });
+
+    // 4. ADVANCED LIGHTBOX
     var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
       '<span class="lightbox-close-btn">&times;</span>' +
       '<div class="lightbox-content-wrapper">' +
@@ -2098,25 +2128,21 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     var lightboxImg = document.getElementById('cat-lightbox-img');
     var closeBtn = document.querySelector('.lightbox-close-btn');
 
-    // Select ALL images EXCEPT Compare images to prevent dragging conflicts
+    // Exclude compare images from Lightbox
     var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img)');
-
     allImages.forEach(function(img) {
       var parentAnchor = img.closest('a');
-      if (parentAnchor) {
-        parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
-      }
+      if (parentAnchor) parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
 
       img.addEventListener('click', function(e) {
         e.preventDefault();
         var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
         lightboxImg.src = highResSrc;
         lightbox.style.display = 'block';
-        resetZoomState(); // Reset zoom when a new image is opened
+        resetZoomState();
       });
     });
 
-    // Close Lightbox Function
     function closeLightbox() {
       lightbox.style.display = 'none';
       lightboxImg.src = '';
@@ -2126,51 +2152,34 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
     if (lightbox) {
       lightbox.addEventListener('click', function(e) {
-        // Close only if clicked outside the image
-        if (e.target !== lightboxImg) {
-          closeLightbox();
-        }
+        if (e.target !== lightboxImg) closeLightbox();
       });
     }
 
-    // ==========================================================
-    // 4. ZOOM & DRAG CONTROLLER
-    // ==========================================================
+    // ZOOM & DRAG LOGIC
     var currentScale = 1;
     var isPanning = false;
-    var currentX = 0;
-    var currentY = 0;
-    var startX = 0;
-    var startY = 0;
+    var currentX = 0, currentY = 0, startX = 0, startY = 0;
 
     function updateImageTransform() {
       lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
     }
 
     function resetZoomState() {
-      currentScale = 1;
-      currentX = 0;
-      currentY = 0;
-      isPanning = false;
+      currentScale = 1; currentX = 0; currentY = 0; isPanning = false;
       updateImageTransform();
     }
 
-    // Mouse Wheel to Zoom In/Out
     lightboxImg.addEventListener('wheel', function(e) {
       e.preventDefault();
       var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1; // -1 for zoom out, 1 for zoom in
-
+      var scrollDirection = Math.sign(e.deltaY) * -1;
       var newScale = currentScale + (scrollDirection * zoomSensitivity);
-
-      // Constrain zoom level between 0.5x and 4x
       newScale = Math.min(Math.max(0.5, newScale), 4);
       currentScale = newScale;
-
       updateImageTransform();
     });
 
-    // Mouse Drag to Pan (Move) the Image
     lightboxImg.addEventListener('mousedown', function(e) {
       e.preventDefault();
       isPanning = true;
@@ -2186,1474 +2195,12 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       updateImageTransform();
     });
 
-    lightboxImg.addEventListener('mouseup', function() {
-      isPanning = false;
-    });
-
-    lightboxImg.addEventListener('mouseleave', function() {
-      isPanning = false;
-    });
+    lightboxImg.addEventListener('mouseup', function() { isPanning = false; });
+    lightboxImg.addEventListener('mouseleave', function() { isPanning = false; });
 
   });
   //]]>
 </script>
 
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // 1. DEFINE POST BODIES
-    var postBodies = document.querySelectorAll('.page-body');
-
-    // ==========================================================
-    // 2. SMART IMAGE COMPARE PARSER (SIMPLIFIED CAPTION)
-    // ==========================================================
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      var compareRegex = /\[compare\]([\s\S]*?)\[\/compare\]/gi;
-
-      if (compareRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(compareRegex, function(match, compareContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = compareContent;
-
-          var imgs = tempDiv.querySelectorAll('img');
-
-          if (imgs.length !== 2) {
-            console.warn('Catppuccin Compare Error: You must provide exactly two images inside [compare] tags.');
-            return match;
-          }
-
-          var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-          var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-
-          // Sadece İtalik (<i> veya <em>) etiketini bul
-          var captionEl = tempDiv.querySelector('i, em');
-          var captionHtml = '';
-
-          // Eğer italik bir yazı varsa, temizle ve sonuna polaroid ikonunu ekle
-          if (captionEl && captionEl.innerText.trim() !== '') {
-            var cleanText = captionEl.innerText.trim();
-            captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
-          }
-
-          return '<div class="cat-compare-wrapper">' +
-            '<div class="cat-compare-container cat-compare-slider">' +
-              '<img src="' + imgSrcAfter + '" class="cat-compare-after" alt="After" />' +
-              '<img src="' + imgSrcBefore + '" class="cat-compare-before" alt="Before" />' +
-              '<div class="cat-compare-handle">' +
-                '<div class="cat-compare-knob">' +
-                  '<i class="ti ti-chevron-left"></i>' +
-                  '<i class="ti ti-chevron-right"></i>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-            captionHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 3. IMAGE COMPARE CONTROLLER (CROP LOGIC)
-    // ==========================================================
-    var compareSliders = document.querySelectorAll('.cat-compare-slider');
-
-    compareSliders.forEach(function(slider) {
-      var handle = slider.querySelector('.cat-compare-handle');
-      var beforeImg = slider.querySelector('.cat-compare-before');
-      var isDragging = false;
-
-      function setComparisonClip(x) {
-        var rect = slider.getBoundingClientRect();
-        var width = rect.width;
-        var offsetX = x - rect.left;
-        var percentage = (offsetX / width) * 100;
-
-        // Limit between 0 and 100
-        percentage = Math.min(Math.max(0, percentage), 100);
-
-        // Move the handle
-        handle.style.left = percentage + '%';
-
-        // Calculate how much to crop from the right side
-        // If handle is at 30% from left, we crop 70% from the right
-        var cropRight = 100 - percentage;
-
-        beforeImg.style.clipPath = 'inset(0 ' + cropRight + '% 0 0)';
-        beforeImg.style.webkitClipPath = 'inset(0 ' + cropRight + '% 0 0)';
-      }
-
-      // --- MOUSE EVENTS ---
-      handle.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        isDragging = true;
-      });
-
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        setComparisonClip(e.clientX);
-      });
-
-      // --- TOUCH EVENTS ---
-      handle.addEventListener('touchstart', function(e) {
-        isDragging = true;
-      });
-
-      window.addEventListener('touchend', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        if (e.cancelable) e.preventDefault();
-        setComparisonClip(e.touches[0].clientX);
-      }, { passive: false });
-    });
-
-  });
-  //]]>
-</script>
-
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. CREATE CODE BOXES
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-      var codeRegex = /\[code\]([\s\S]*?)\[\/code\]/gi;
-
-      if(codeRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(codeRegex, function(match, codeContent) {
-          var cleanCode = codeContent
-            .replace(/<br\s*[\/]?>/gi, '\n')
-            .replace(/<div>/gi, '\n')
-            .replace(/<\/div>/gi, '')
-            .replace(/&nbsp;/g, ' ');
-
-          // Inject the copy-code-btn into the header
-          return '<div class="cat-codebox">' +
-            '<div class="cat-code-header">' +
-              '<span class="mac-dots"></span>' +
-              '<span class="code-title">Code Snippet</span>' +
-              '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
-            '</div>' +
-            '<pre><code>' + cleanCode.trim() + '</code></pre>' +
-            '</div>';
-        });
-      }
-    });
-
-    // COPY BUTTON FUNCTIONALITY (Event Delegation)
-    document.addEventListener('click', function(e) {
-      var btn = e.target.closest('.copy-code-btn');
-      if (!btn) return; // Ignore if the clicked element is not the copy button
-
-      // Find the code text inside the box
-      var codeBox = btn.closest('.cat-codebox');
-      if (!codeBox) return;
-      var codeBlock = codeBox.querySelector('code');
-      var textToCopy = codeBlock.innerText;
-
-      // Copy to clipboard
-      navigator.clipboard.writeText(textToCopy).then(function() {
-        var icon = btn.querySelector('i');
-
-        // Success effect: Change icon to checkmark and color to green
-        icon.className = 'ti ti-check';
-        btn.style.color = 'var(--mocha-green)';
-        if (document.body.classList.contains('latte')) {
-          btn.style.color = 'var(--latte-green)';
-        }
-
-        // Revert back to copy icon after 2 seconds
-        setTimeout(function() {
-          icon.className = 'ti ti-copy';
-          btn.style.color = '';
-        }, 2000);
-      }).catch(function(err) {
-        console.error('Copy failed', err);
-      });
-    });
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. SMART SLIDESHOW PARSER (DYNAMIC TAG SIZING)
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      // Matches [slideshow], [slideshow=1], [slideshow=2] etc.
-      var slideshowRegex = /\[slideshow(?:=(\d))?\]([\s\S]*?)\[\/slideshow\]/gi;
-
-      if (slideshowRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(slideshowRegex, function(match, sizeParam, slideshowContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = slideshowContent;
-
-          var slidesHtml = '';
-          var slideCount = 0;
-          var currentSlide = null;
-          var slidesData = [];
-
-          var elements = tempDiv.querySelectorAll('img, u, strike');
-
-          elements.forEach(function(el) {
-            var tag = el.tagName.toLowerCase();
-
-            if (tag === 'img') {
-              if (currentSlide) slidesData.push(currentSlide);
-
-              // Force high-res image fetching
-              var highResSrc = el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-              currentSlide = { src: highResSrc, title: '', text: '' };
-
-            } else if (tag === 'u' && currentSlide) {
-              currentSlide.title = el.innerHTML;
-
-            } else if (tag === 'strike' && currentSlide) {
-              currentSlide.text = el.innerHTML;
-            }
-          });
-
-          if (currentSlide) slidesData.push(currentSlide);
-          if (slidesData.length === 0) return '';
-
-          slidesData.forEach(function(slide) {
-            slideCount++;
-            var captionHtml = '';
-
-            if (slide.title || slide.text) {
-              captionHtml = '<div class="slide-caption">';
-              if (slide.title) captionHtml += '<h3>' + slide.title + '</h3>';
-              if (slide.text) captionHtml += '<p>' + slide.text + '</p>';
-              captionHtml += '</div>';
-            }
-
-            slidesHtml += '<div class="cat-slide fade-anim">' +
-              '<img src="' + slide.src + '" alt="Slide ' + slideCount + '"/>' +
-              captionHtml +
-            '</div>';
-          });
-
-          var dotsHtml = '<div class="slide-dots-wrapper">';
-          for (var i = 1; i <= slideCount; i++) {
-            dotsHtml += '<span class="slide-dot" data-index="' + i + '"></span>';
-          }
-          dotsHtml += '</div>';
-
-          // Determine width percentage based on the tag parameter
-          var widthPercentage = "100"; // Default (Extra Large / Original)
-
-          if (sizeParam === "1") widthPercentage = "60";
-          else if (sizeParam === "2") widthPercentage = "75";
-          else if (sizeParam === "3") widthPercentage = "90";
-          else if (sizeParam === "4") widthPercentage = "100";
-
-          // Apply the calculated percentage to the style
-          return '<div class="cat-slideshow-container" style="width: ' + widthPercentage + '%;" data-current="1" data-total="' + slideCount + '">' +
-            slidesHtml +
-            '<button class="slide-nav-btn prev"><i class="ti ti-arrow-left"></i></button>' +
-            '<button class="slide-nav-btn next"><i class="ti ti-arrow-right"></i></button>' +
-            dotsHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 2. SLIDESHOW NAVIGATION LOGIC
-    // ==========================================================
-    var allSlideshows = document.querySelectorAll('.cat-slideshow-container');
-
-    allSlideshows.forEach(function(slider) {
-      showSlide(slider, 1);
-
-      var prevBtn = slider.querySelector('.prev');
-      var nextBtn = slider.querySelector('.next');
-
-      if(prevBtn) prevBtn.addEventListener('click', function() { changeSlide(slider, -1); });
-      if(nextBtn) nextBtn.addEventListener('click', function() { changeSlide(slider, 1); });
-
-      var dots = slider.querySelectorAll('.slide-dot');
-      dots.forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          var index = parseInt(this.getAttribute('data-index'));
-          showSlide(slider, index);
-        });
-      });
-    });
-
-    function changeSlide(slider, direction) {
-      var current = parseInt(slider.getAttribute('data-current'));
-      var total = parseInt(slider.getAttribute('data-total'));
-      var nextIndex = current + direction;
-
-      if (nextIndex > total) nextIndex = 1;
-      if (nextIndex < 1) nextIndex = total;
-
-      showSlide(slider, nextIndex);
-    }
-
-    function showSlide(slider, index) {
-      var slides = slider.querySelectorAll('.cat-slide');
-      var dots = slider.querySelectorAll('.slide-dot');
-
-      slides.forEach(function(s) { s.style.display = 'none'; });
-      dots.forEach(function(d) { d.classList.remove('active'); });
-
-      slides[index - 1].style.display = 'block';
-      dots[index - 1].classList.add('active');
-      slider.setAttribute('data-current', index);
-    }
-
-    // ==========================================================
-    // 3. ADVANCED LIGHTBOX (ALL IMAGES + ZOOM & PAN)
-    // ==========================================================
-    var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
-      '<span class="lightbox-close-btn">&times;</span>' +
-      '<div class="lightbox-content-wrapper">' +
-        '<img id="cat-lightbox-img" class="cat-lightbox-img" src="" alt="Expanded Image"/>' +
-      '</div>' +
-    '</div>';
-    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-
-    var lightbox = document.getElementById('cat-lightbox');
-    var lightboxImg = document.getElementById('cat-lightbox-img');
-    var closeBtn = document.querySelector('.lightbox-close-btn');
-
-    // Select ALL images EXCEPT Compare images to prevent dragging conflicts
-    var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img)');
-
-    allImages.forEach(function(img) {
-      var parentAnchor = img.closest('a');
-      if (parentAnchor) {
-        parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
-      }
-
-      img.addEventListener('click', function(e) {
-        e.preventDefault();
-        var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-        lightboxImg.src = highResSrc;
-        lightbox.style.display = 'block';
-        resetZoomState(); // Reset zoom when a new image is opened
-      });
-    });
-
-    // Close Lightbox Function
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-      resetZoomState();
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', function(e) {
-        // Close only if clicked outside the image
-        if (e.target !== lightboxImg) {
-          closeLightbox();
-        }
-      });
-    }
-
-    // ==========================================================
-    // 4. ZOOM & DRAG CONTROLLER
-    // ==========================================================
-    var currentScale = 1;
-    var isPanning = false;
-    var currentX = 0;
-    var currentY = 0;
-    var startX = 0;
-    var startY = 0;
-
-    function updateImageTransform() {
-      lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
-    }
-
-    function resetZoomState() {
-      currentScale = 1;
-      currentX = 0;
-      currentY = 0;
-      isPanning = false;
-      updateImageTransform();
-    }
-
-    // Mouse Wheel to Zoom In/Out
-    lightboxImg.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1; // -1 for zoom out, 1 for zoom in
-
-      var newScale = currentScale + (scrollDirection * zoomSensitivity);
-
-      // Constrain zoom level between 0.5x and 4x
-      newScale = Math.min(Math.max(0.5, newScale), 4);
-      currentScale = newScale;
-
-      updateImageTransform();
-    });
-
-    // Mouse Drag to Pan (Move) the Image
-    lightboxImg.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-    });
-
-    lightboxImg.addEventListener('mousemove', function(e) {
-      if (!isPanning) return;
-      e.preventDefault();
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      updateImageTransform();
-    });
-
-    lightboxImg.addEventListener('mouseup', function() {
-      isPanning = false;
-    });
-
-    lightboxImg.addEventListener('mouseleave', function() {
-      isPanning = false;
-    });
-
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // 1. DEFINE POST BODIES
-    var postBodies = document.querySelectorAll('.page-body');
-
-    // ==========================================================
-    // 2. SMART IMAGE COMPARE PARSER (SIMPLIFIED CAPTION)
-    // ==========================================================
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      var compareRegex = /\[compare\]([\s\S]*?)\[\/compare\]/gi;
-
-      if (compareRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(compareRegex, function(match, compareContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = compareContent;
-
-          var imgs = tempDiv.querySelectorAll('img');
-
-          if (imgs.length !== 2) {
-            console.warn('Catppuccin Compare Error: You must provide exactly two images inside [compare] tags.');
-            return match;
-          }
-
-          var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-          var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-
-          // Sadece İtalik (<i> veya <em>) etiketini bul
-          var captionEl = tempDiv.querySelector('i, em');
-          var captionHtml = '';
-
-          // Eğer italik bir yazı varsa, temizle ve sonuna polaroid ikonunu ekle
-          if (captionEl && captionEl.innerText.trim() !== '') {
-            var cleanText = captionEl.innerText.trim();
-            captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
-          }
-
-          return '<div class="cat-compare-wrapper">' +
-            '<div class="cat-compare-container cat-compare-slider">' +
-              '<img src="' + imgSrcAfter + '" class="cat-compare-after" alt="After" />' +
-              '<img src="' + imgSrcBefore + '" class="cat-compare-before" alt="Before" />' +
-              '<div class="cat-compare-handle">' +
-                '<div class="cat-compare-knob">' +
-                  '<i class="ti ti-chevron-left"></i>' +
-                  '<i class="ti ti-chevron-right"></i>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-            captionHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 3. IMAGE COMPARE CONTROLLER (CROP LOGIC)
-    // ==========================================================
-    var compareSliders = document.querySelectorAll('.cat-compare-slider');
-
-    compareSliders.forEach(function(slider) {
-      var handle = slider.querySelector('.cat-compare-handle');
-      var beforeImg = slider.querySelector('.cat-compare-before');
-      var isDragging = false;
-
-      function setComparisonClip(x) {
-        var rect = slider.getBoundingClientRect();
-        var width = rect.width;
-        var offsetX = x - rect.left;
-        var percentage = (offsetX / width) * 100;
-
-        // Limit between 0 and 100
-        percentage = Math.min(Math.max(0, percentage), 100);
-
-        // Move the handle
-        handle.style.left = percentage + '%';
-
-        // Calculate how much to crop from the right side
-        // If handle is at 30% from left, we crop 70% from the right
-        var cropRight = 100 - percentage;
-
-        beforeImg.style.clipPath = 'inset(0 ' + cropRight + '% 0 0)';
-        beforeImg.style.webkitClipPath = 'inset(0 ' + cropRight + '% 0 0)';
-      }
-
-      // --- MOUSE EVENTS ---
-      handle.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        isDragging = true;
-      });
-
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        setComparisonClip(e.clientX);
-      });
-
-      // --- TOUCH EVENTS ---
-      handle.addEventListener('touchstart', function(e) {
-        isDragging = true;
-      });
-
-      window.addEventListener('touchend', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        if (e.cancelable) e.preventDefault();
-        setComparisonClip(e.touches[0].clientX);
-      }, { passive: false });
-    });
-
-  });
-  //]]>
-</script>
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. CREATE CODE BOXES
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-      var codeRegex = /\[code\]([\s\S]*?)\[\/code\]/gi;
-
-      if(codeRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(codeRegex, function(match, codeContent) {
-          var cleanCode = codeContent
-            .replace(/<br\s*[\/]?>/gi, '\n')
-            .replace(/<div>/gi, '\n')
-            .replace(/<\/div>/gi, '')
-            .replace(/&nbsp;/g, ' ');
-
-          // Inject the copy-code-btn into the header
-          return '<div class="cat-codebox">' +
-            '<div class="cat-code-header">' +
-              '<span class="mac-dots"></span>' +
-              '<span class="code-title">Code Snippet</span>' +
-              '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
-            '</div>' +
-            '<pre><code>' + cleanCode.trim() + '</code></pre>' +
-            '</div>';
-        });
-      }
-    });
-
-    // COPY BUTTON FUNCTIONALITY (Event Delegation)
-    document.addEventListener('click', function(e) {
-      var btn = e.target.closest('.copy-code-btn');
-      if (!btn) return; // Ignore if the clicked element is not the copy button
-
-      // Find the code text inside the box
-      var codeBox = btn.closest('.cat-codebox');
-      if (!codeBox) return;
-      var codeBlock = codeBox.querySelector('code');
-      var textToCopy = codeBlock.innerText;
-
-      // Copy to clipboard
-      navigator.clipboard.writeText(textToCopy).then(function() {
-        var icon = btn.querySelector('i');
-
-        // Success effect: Change icon to checkmark and color to green
-        icon.className = 'ti ti-check';
-        btn.style.color = 'var(--mocha-green)';
-        if (document.body.classList.contains('latte')) {
-          btn.style.color = 'var(--latte-green)';
-        }
-
-        // Revert back to copy icon after 2 seconds
-        setTimeout(function() {
-          icon.className = 'ti ti-copy';
-          btn.style.color = '';
-        }, 2000);
-      }).catch(function(err) {
-        console.error('Copy failed', err);
-      });
-    });
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. SMART SLIDESHOW PARSER (DYNAMIC TAG SIZING)
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      // Matches [slideshow], [slideshow=1], [slideshow=2] etc.
-      var slideshowRegex = /\[slideshow(?:=(\d))?\]([\s\S]*?)\[\/slideshow\]/gi;
-
-      if (slideshowRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(slideshowRegex, function(match, sizeParam, slideshowContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = slideshowContent;
-
-          var slidesHtml = '';
-          var slideCount = 0;
-          var currentSlide = null;
-          var slidesData = [];
-
-          var elements = tempDiv.querySelectorAll('img, u, strike');
-
-          elements.forEach(function(el) {
-            var tag = el.tagName.toLowerCase();
-
-            if (tag === 'img') {
-              if (currentSlide) slidesData.push(currentSlide);
-
-              // Force high-res image fetching
-              var highResSrc = el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-              currentSlide = { src: highResSrc, title: '', text: '' };
-
-            } else if (tag === 'u' && currentSlide) {
-              currentSlide.title = el.innerHTML;
-
-            } else if (tag === 'strike' && currentSlide) {
-              currentSlide.text = el.innerHTML;
-            }
-          });
-
-          if (currentSlide) slidesData.push(currentSlide);
-          if (slidesData.length === 0) return '';
-
-          slidesData.forEach(function(slide) {
-            slideCount++;
-            var captionHtml = '';
-
-            if (slide.title || slide.text) {
-              captionHtml = '<div class="slide-caption">';
-              if (slide.title) captionHtml += '<h3>' + slide.title + '</h3>';
-              if (slide.text) captionHtml += '<p>' + slide.text + '</p>';
-              captionHtml += '</div>';
-            }
-
-            slidesHtml += '<div class="cat-slide fade-anim">' +
-              '<img src="' + slide.src + '" alt="Slide ' + slideCount + '"/>' +
-              captionHtml +
-            '</div>';
-          });
-
-          var dotsHtml = '<div class="slide-dots-wrapper">';
-          for (var i = 1; i <= slideCount; i++) {
-            dotsHtml += '<span class="slide-dot" data-index="' + i + '"></span>';
-          }
-          dotsHtml += '</div>';
-
-          // Determine width percentage based on the tag parameter
-          var widthPercentage = "100"; // Default (Extra Large / Original)
-
-          if (sizeParam === "1") widthPercentage = "60";
-          else if (sizeParam === "2") widthPercentage = "75";
-          else if (sizeParam === "3") widthPercentage = "90";
-          else if (sizeParam === "4") widthPercentage = "100";
-
-          // Apply the calculated percentage to the style
-          return '<div class="cat-slideshow-container" style="width: ' + widthPercentage + '%;" data-current="1" data-total="' + slideCount + '">' +
-            slidesHtml +
-            '<button class="slide-nav-btn prev"><i class="ti ti-arrow-left"></i></button>' +
-            '<button class="slide-nav-btn next"><i class="ti ti-arrow-right"></i></button>' +
-            dotsHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 2. SLIDESHOW NAVIGATION LOGIC
-    // ==========================================================
-    var allSlideshows = document.querySelectorAll('.cat-slideshow-container');
-
-    allSlideshows.forEach(function(slider) {
-      showSlide(slider, 1);
-
-      var prevBtn = slider.querySelector('.prev');
-      var nextBtn = slider.querySelector('.next');
-
-      if(prevBtn) prevBtn.addEventListener('click', function() { changeSlide(slider, -1); });
-      if(nextBtn) nextBtn.addEventListener('click', function() { changeSlide(slider, 1); });
-
-      var dots = slider.querySelectorAll('.slide-dot');
-      dots.forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          var index = parseInt(this.getAttribute('data-index'));
-          showSlide(slider, index);
-        });
-      });
-    });
-
-    function changeSlide(slider, direction) {
-      var current = parseInt(slider.getAttribute('data-current'));
-      var total = parseInt(slider.getAttribute('data-total'));
-      var nextIndex = current + direction;
-
-      if (nextIndex > total) nextIndex = 1;
-      if (nextIndex < 1) nextIndex = total;
-
-      showSlide(slider, nextIndex);
-    }
-
-    function showSlide(slider, index) {
-      var slides = slider.querySelectorAll('.cat-slide');
-      var dots = slider.querySelectorAll('.slide-dot');
-
-      slides.forEach(function(s) { s.style.display = 'none'; });
-      dots.forEach(function(d) { d.classList.remove('active'); });
-
-      slides[index - 1].style.display = 'block';
-      dots[index - 1].classList.add('active');
-      slider.setAttribute('data-current', index);
-    }
-
-    // ==========================================================
-    // 3. ADVANCED LIGHTBOX (ALL IMAGES + ZOOM & PAN)
-    // ==========================================================
-    var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
-      '<span class="lightbox-close-btn">&times;</span>' +
-      '<div class="lightbox-content-wrapper">' +
-        '<img id="cat-lightbox-img" class="cat-lightbox-img" src="" alt="Expanded Image"/>' +
-      '</div>' +
-    '</div>';
-    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-
-    var lightbox = document.getElementById('cat-lightbox');
-    var lightboxImg = document.getElementById('cat-lightbox-img');
-    var closeBtn = document.querySelector('.lightbox-close-btn');
-
-    // Select ALL images EXCEPT Compare images to prevent dragging conflicts
-    var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img)');
-
-    allImages.forEach(function(img) {
-      var parentAnchor = img.closest('a');
-      if (parentAnchor) {
-        parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
-      }
-
-      img.addEventListener('click', function(e) {
-        e.preventDefault();
-        var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-        lightboxImg.src = highResSrc;
-        lightbox.style.display = 'block';
-        resetZoomState(); // Reset zoom when a new image is opened
-      });
-    });
-
-    // Close Lightbox Function
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-      resetZoomState();
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', function(e) {
-        // Close only if clicked outside the image
-        if (e.target !== lightboxImg) {
-          closeLightbox();
-        }
-      });
-    }
-
-    // ==========================================================
-    // 4. ZOOM & DRAG CONTROLLER
-    // ==========================================================
-    var currentScale = 1;
-    var isPanning = false;
-    var currentX = 0;
-    var currentY = 0;
-    var startX = 0;
-    var startY = 0;
-
-    function updateImageTransform() {
-      lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
-    }
-
-    function resetZoomState() {
-      currentScale = 1;
-      currentX = 0;
-      currentY = 0;
-      isPanning = false;
-      updateImageTransform();
-    }
-
-    // Mouse Wheel to Zoom In/Out
-    lightboxImg.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1; // -1 for zoom out, 1 for zoom in
-
-      var newScale = currentScale + (scrollDirection * zoomSensitivity);
-
-      // Constrain zoom level between 0.5x and 4x
-      newScale = Math.min(Math.max(0.5, newScale), 4);
-      currentScale = newScale;
-
-      updateImageTransform();
-    });
-
-    // Mouse Drag to Pan (Move) the Image
-    lightboxImg.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-    });
-
-    lightboxImg.addEventListener('mousemove', function(e) {
-      if (!isPanning) return;
-      e.preventDefault();
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      updateImageTransform();
-    });
-
-    lightboxImg.addEventListener('mouseup', function() {
-      isPanning = false;
-    });
-
-    lightboxImg.addEventListener('mouseleave', function() {
-      isPanning = false;
-    });
-
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // 1. DEFINE POST BODIES
-    var postBodies = document.querySelectorAll('.page-body');
-
-    // ==========================================================
-    // 2. SMART IMAGE COMPARE PARSER (SIMPLIFIED CAPTION)
-    // ==========================================================
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      var compareRegex = /\[compare\]([\s\S]*?)\[\/compare\]/gi;
-
-      if (compareRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(compareRegex, function(match, compareContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = compareContent;
-
-          var imgs = tempDiv.querySelectorAll('img');
-
-          if (imgs.length !== 2) {
-            console.warn('Catppuccin Compare Error: You must provide exactly two images inside [compare] tags.');
-            return match;
-          }
-
-          var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-          var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-
-          // Sadece İtalik (<i> veya <em>) etiketini bul
-          var captionEl = tempDiv.querySelector('i, em');
-          var captionHtml = '';
-
-          // Eğer italik bir yazı varsa, temizle ve sonuna polaroid ikonunu ekle
-          if (captionEl && captionEl.innerText.trim() !== '') {
-            var cleanText = captionEl.innerText.trim();
-            captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
-          }
-
-          return '<div class="cat-compare-wrapper">' +
-            '<div class="cat-compare-container cat-compare-slider">' +
-              '<img src="' + imgSrcAfter + '" class="cat-compare-after" alt="After" />' +
-              '<img src="' + imgSrcBefore + '" class="cat-compare-before" alt="Before" />' +
-              '<div class="cat-compare-handle">' +
-                '<div class="cat-compare-knob">' +
-                  '<i class="ti ti-chevron-left"></i>' +
-                  '<i class="ti ti-chevron-right"></i>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-            captionHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 3. IMAGE COMPARE CONTROLLER (CROP LOGIC)
-    // ==========================================================
-    var compareSliders = document.querySelectorAll('.cat-compare-slider');
-
-    compareSliders.forEach(function(slider) {
-      var handle = slider.querySelector('.cat-compare-handle');
-      var beforeImg = slider.querySelector('.cat-compare-before');
-      var isDragging = false;
-
-      function setComparisonClip(x) {
-        var rect = slider.getBoundingClientRect();
-        var width = rect.width;
-        var offsetX = x - rect.left;
-        var percentage = (offsetX / width) * 100;
-
-        // Limit between 0 and 100
-        percentage = Math.min(Math.max(0, percentage), 100);
-
-        // Move the handle
-        handle.style.left = percentage + '%';
-
-        // Calculate how much to crop from the right side
-        // If handle is at 30% from left, we crop 70% from the right
-        var cropRight = 100 - percentage;
-
-        beforeImg.style.clipPath = 'inset(0 ' + cropRight + '% 0 0)';
-        beforeImg.style.webkitClipPath = 'inset(0 ' + cropRight + '% 0 0)';
-      }
-
-      // --- MOUSE EVENTS ---
-      handle.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        isDragging = true;
-      });
-
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        setComparisonClip(e.clientX);
-      });
-
-      // --- TOUCH EVENTS ---
-      handle.addEventListener('touchstart', function(e) {
-        isDragging = true;
-      });
-
-      window.addEventListener('touchend', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        if (e.cancelable) e.preventDefault();
-        setComparisonClip(e.touches[0].clientX);
-      }, { passive: false });
-    });
-
-  });
-  //]]>
-</script>
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    // ==========================================================
-    // 1. CREATE CODE BOXES
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-      var codeRegex = /\[code\]([\s\S]*?)\[\/code\]/gi;
-
-      if(codeRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(codeRegex, function(match, codeContent) {
-          var cleanCode = codeContent
-            .replace(/<br\s*[\/]?>/gi, '\n')
-            .replace(/<div>/gi, '\n')
-            .replace(/<\/div>/gi, '')
-            .replace(/&nbsp;/g, ' ');
-
-          // Inject the copy-code-btn into the header
-          return '<div class="cat-codebox">' +
-            '<div class="cat-code-header">' +
-              '<span class="mac-dots"></span>' +
-              '<span class="code-title">Code Snippet</span>' +
-              '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
-            '</div>' +
-            '<pre><code>' + cleanCode.trim() + '</code></pre>' +
-            '</div>';
-        });
-      }
-    });
-
-    // COPY BUTTON FUNCTIONALITY (Event Delegation)
-    document.addEventListener('click', function(e) {
-      var btn = e.target.closest('.copy-code-btn');
-      if (!btn) return; // Ignore if the clicked element is not the copy button
-
-      // Find the code text inside the box
-      var codeBox = btn.closest('.cat-codebox');
-      if (!codeBox) return;
-      var codeBlock = codeBox.querySelector('code');
-      var textToCopy = codeBlock.innerText;
-
-      // Copy to clipboard
-      navigator.clipboard.writeText(textToCopy).then(function() {
-        var icon = btn.querySelector('i');
-
-        // Success effect: Change icon to checkmark and color to green
-        icon.className = 'ti ti-check';
-        btn.style.color = 'var(--mocha-green)';
-        if (document.body.classList.contains('latte')) {
-          btn.style.color = 'var(--latte-green)';
-        }
-
-        // Revert back to copy icon after 2 seconds
-        setTimeout(function() {
-          icon.className = 'ti ti-copy';
-          btn.style.color = '';
-        }, 2000);
-      }).catch(function(err) {
-        console.error('Copy failed', err);
-      });
-    });
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // ==========================================================
-    // 1. SMART SLIDESHOW PARSER (DYNAMIC TAG SIZING)
-    // ==========================================================
-    var postBodies = document.querySelectorAll('.page-body');
-
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      // Matches [slideshow], [slideshow=1], [slideshow=2] etc.
-      var slideshowRegex = /\[slideshow(?:=(\d))?\]([\s\S]*?)\[\/slideshow\]/gi;
-
-      if (slideshowRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(slideshowRegex, function(match, sizeParam, slideshowContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = slideshowContent;
-
-          var slidesHtml = '';
-          var slideCount = 0;
-          var currentSlide = null;
-          var slidesData = [];
-
-          var elements = tempDiv.querySelectorAll('img, u, strike');
-
-          elements.forEach(function(el) {
-            var tag = el.tagName.toLowerCase();
-
-            if (tag === 'img') {
-              if (currentSlide) slidesData.push(currentSlide);
-
-              // Force high-res image fetching
-              var highResSrc = el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-              currentSlide = { src: highResSrc, title: '', text: '' };
-
-            } else if (tag === 'u' && currentSlide) {
-              currentSlide.title = el.innerHTML;
-
-            } else if (tag === 'strike' && currentSlide) {
-              currentSlide.text = el.innerHTML;
-            }
-          });
-
-          if (currentSlide) slidesData.push(currentSlide);
-          if (slidesData.length === 0) return '';
-
-          slidesData.forEach(function(slide) {
-            slideCount++;
-            var captionHtml = '';
-
-            if (slide.title || slide.text) {
-              captionHtml = '<div class="slide-caption">';
-              if (slide.title) captionHtml += '<h3>' + slide.title + '</h3>';
-              if (slide.text) captionHtml += '<p>' + slide.text + '</p>';
-              captionHtml += '</div>';
-            }
-
-            slidesHtml += '<div class="cat-slide fade-anim">' +
-              '<img src="' + slide.src + '" alt="Slide ' + slideCount + '"/>' +
-              captionHtml +
-            '</div>';
-          });
-
-          var dotsHtml = '<div class="slide-dots-wrapper">';
-          for (var i = 1; i <= slideCount; i++) {
-            dotsHtml += '<span class="slide-dot" data-index="' + i + '"></span>';
-          }
-          dotsHtml += '</div>';
-
-          // Determine width percentage based on the tag parameter
-          var widthPercentage = "100"; // Default (Extra Large / Original)
-
-          if (sizeParam === "1") widthPercentage = "60";
-          else if (sizeParam === "2") widthPercentage = "75";
-          else if (sizeParam === "3") widthPercentage = "90";
-          else if (sizeParam === "4") widthPercentage = "100";
-
-          // Apply the calculated percentage to the style
-          return '<div class="cat-slideshow-container" style="width: ' + widthPercentage + '%;" data-current="1" data-total="' + slideCount + '">' +
-            slidesHtml +
-            '<button class="slide-nav-btn prev"><i class="ti ti-arrow-left"></i></button>' +
-            '<button class="slide-nav-btn next"><i class="ti ti-arrow-right"></i></button>' +
-            dotsHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 2. SLIDESHOW NAVIGATION LOGIC
-    // ==========================================================
-    var allSlideshows = document.querySelectorAll('.cat-slideshow-container');
-
-    allSlideshows.forEach(function(slider) {
-      showSlide(slider, 1);
-
-      var prevBtn = slider.querySelector('.prev');
-      var nextBtn = slider.querySelector('.next');
-
-      if(prevBtn) prevBtn.addEventListener('click', function() { changeSlide(slider, -1); });
-      if(nextBtn) nextBtn.addEventListener('click', function() { changeSlide(slider, 1); });
-
-      var dots = slider.querySelectorAll('.slide-dot');
-      dots.forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          var index = parseInt(this.getAttribute('data-index'));
-          showSlide(slider, index);
-        });
-      });
-    });
-
-    function changeSlide(slider, direction) {
-      var current = parseInt(slider.getAttribute('data-current'));
-      var total = parseInt(slider.getAttribute('data-total'));
-      var nextIndex = current + direction;
-
-      if (nextIndex > total) nextIndex = 1;
-      if (nextIndex < 1) nextIndex = total;
-
-      showSlide(slider, nextIndex);
-    }
-
-    function showSlide(slider, index) {
-      var slides = slider.querySelectorAll('.cat-slide');
-      var dots = slider.querySelectorAll('.slide-dot');
-
-      slides.forEach(function(s) { s.style.display = 'none'; });
-      dots.forEach(function(d) { d.classList.remove('active'); });
-
-      slides[index - 1].style.display = 'block';
-      dots[index - 1].classList.add('active');
-      slider.setAttribute('data-current', index);
-    }
-
-    // ==========================================================
-    // 3. ADVANCED LIGHTBOX (ALL IMAGES + ZOOM & PAN)
-    // ==========================================================
-    var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
-      '<span class="lightbox-close-btn">&times;</span>' +
-      '<div class="lightbox-content-wrapper">' +
-        '<img id="cat-lightbox-img" class="cat-lightbox-img" src="" alt="Expanded Image"/>' +
-      '</div>' +
-    '</div>';
-    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-
-    var lightbox = document.getElementById('cat-lightbox');
-    var lightboxImg = document.getElementById('cat-lightbox-img');
-    var closeBtn = document.querySelector('.lightbox-close-btn');
-
-    // Select ALL images EXCEPT Compare images to prevent dragging conflicts
-    var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img)');
-
-    allImages.forEach(function(img) {
-      var parentAnchor = img.closest('a');
-      if (parentAnchor) {
-        parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
-      }
-
-      img.addEventListener('click', function(e) {
-        e.preventDefault();
-        var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-        lightboxImg.src = highResSrc;
-        lightbox.style.display = 'block';
-        resetZoomState(); // Reset zoom when a new image is opened
-      });
-    });
-
-    // Close Lightbox Function
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-      resetZoomState();
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', function(e) {
-        // Close only if clicked outside the image
-        if (e.target !== lightboxImg) {
-          closeLightbox();
-        }
-      });
-    }
-
-    // ==========================================================
-    // 4. ZOOM & DRAG CONTROLLER
-    // ==========================================================
-    var currentScale = 1;
-    var isPanning = false;
-    var currentX = 0;
-    var currentY = 0;
-    var startX = 0;
-    var startY = 0;
-
-    function updateImageTransform() {
-      lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
-    }
-
-    function resetZoomState() {
-      currentScale = 1;
-      currentX = 0;
-      currentY = 0;
-      isPanning = false;
-      updateImageTransform();
-    }
-
-    // Mouse Wheel to Zoom In/Out
-    lightboxImg.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1; // -1 for zoom out, 1 for zoom in
-
-      var newScale = currentScale + (scrollDirection * zoomSensitivity);
-
-      // Constrain zoom level between 0.5x and 4x
-      newScale = Math.min(Math.max(0.5, newScale), 4);
-      currentScale = newScale;
-
-      updateImageTransform();
-    });
-
-    // Mouse Drag to Pan (Move) the Image
-    lightboxImg.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-    });
-
-    lightboxImg.addEventListener('mousemove', function(e) {
-      if (!isPanning) return;
-      e.preventDefault();
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      updateImageTransform();
-    });
-
-    lightboxImg.addEventListener('mouseup', function() {
-      isPanning = false;
-    });
-
-    lightboxImg.addEventListener('mouseleave', function() {
-      isPanning = false;
-    });
-
-  });
-  //]]>
-</script>
-
-<script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // 1. DEFINE POST BODIES
-    var postBodies = document.querySelectorAll('.page-body');
-
-    // ==========================================================
-    // 2. SMART IMAGE COMPARE PARSER (SIMPLIFIED CAPTION)
-    // ==========================================================
-    postBodies.forEach(function(body) {
-      var htmlContent = body.innerHTML;
-
-      var compareRegex = /\[compare\]([\s\S]*?)\[\/compare\]/gi;
-
-      if (compareRegex.test(htmlContent)) {
-        body.innerHTML = htmlContent.replace(compareRegex, function(match, compareContent) {
-
-          var tempDiv = document.createElement('div');
-          tempDiv.innerHTML = compareContent;
-
-          var imgs = tempDiv.querySelectorAll('img');
-
-          if (imgs.length !== 2) {
-            console.warn('Catppuccin Compare Error: You must provide exactly two images inside [compare] tags.');
-            return match;
-          }
-
-          var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-          var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-
-          // Find only the Italic (<i> or <em>) tag
-          var captionEl = tempDiv.querySelector('i, em');
-          var captionHtml = '';
-
-          // If there is italic text, clean it up and append the polaroid icon to the end
-          if (captionEl && captionEl.innerText.trim() !== '') {
-            var cleanText = captionEl.innerText.trim();
-            captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
-          }
-
-          return '<div class="cat-compare-wrapper">' +
-            '<div class="cat-compare-container cat-compare-slider">' +
-              '<img src="' + imgSrcAfter + '" class="cat-compare-after" alt="After" />' +
-              '<img src="' + imgSrcBefore + '" class="cat-compare-before" alt="Before" />' +
-              '<div class="cat-compare-handle">' +
-                '<div class="cat-compare-knob">' +
-                  '<i class="ti ti-chevron-left"></i>' +
-                  '<i class="ti ti-chevron-right"></i>' +
-                '</div>' +
-              '</div>' +
-            '</div>' +
-            captionHtml +
-          '</div>';
-        });
-      }
-    });
-
-    // ==========================================================
-    // 3. IMAGE COMPARE CONTROLLER (CROP LOGIC)
-    // ==========================================================
-    var compareSliders = document.querySelectorAll('.cat-compare-slider');
-
-    compareSliders.forEach(function(slider) {
-      var handle = slider.querySelector('.cat-compare-handle');
-      var beforeImg = slider.querySelector('.cat-compare-before');
-      var isDragging = false;
-
-      function setComparisonClip(x) {
-        var rect = slider.getBoundingClientRect();
-        var width = rect.width;
-        var offsetX = x - rect.left;
-        var percentage = (offsetX / width) * 100;
-
-        // Limit between 0 and 100
-        percentage = Math.min(Math.max(0, percentage), 100);
-
-        // Move the handle
-        handle.style.left = percentage + '%';
-
-        // Calculate how much to crop from the right side
-        // If handle is at 30% from left, we crop 70% from the right
-        var cropRight = 100 - percentage;
-
-        beforeImg.style.clipPath = 'inset(0 ' + cropRight + '% 0 0)';
-        beforeImg.style.webkitClipPath = 'inset(0 ' + cropRight + '% 0 0)';
-      }
-
-      // --- MOUSE EVENTS ---
-      handle.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        isDragging = true;
-      });
-
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        setComparisonClip(e.clientX);
-      });
-
-      // --- TOUCH EVENTS ---
-      handle.addEventListener('touchstart', function(e) {
-        isDragging = true;
-      });
-
-      window.addEventListener('touchend', function() {
-        isDragging = false;
-      });
-
-      window.addEventListener('touchmove', function(e) {
-        if (!isDragging) return;
-        if (e.cancelable) e.preventDefault();
-        setComparisonClip(e.touches[0].clientX);
-      }, { passive: false });
-    });
-
-  });
-  //]]>
-</script>
 </body>
 </html>
