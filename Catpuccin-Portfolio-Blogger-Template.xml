@@ -538,6 +538,22 @@
     .cat-codebox code {
     font-family: inherit;
     }
+    .copy-code-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--subtext0);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    }
+    .copy-code-btn:hover {
+    color: var(--accent-primary);
+    transform: scale(1.1);
+    }
   ]]></b:skin>
 </head>
 <body>
@@ -1595,38 +1611,67 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 <script type='text/javascript'>
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
-  // Find page and blog post bodies
+  // 1. CREATE CODE BOXES
   var postBodies = document.querySelectorAll('.page-body');
 
   postBodies.forEach(function(body) {
   var htmlContent = body.innerHTML;
-
-  // Capture the text between [code] and [/code]
   var codeRegex = /\[code\]([\s\S]*?)\[\/code\]/gi;
 
   if(codeRegex.test(htmlContent)) {
   body.innerHTML = htmlContent.replace(codeRegex, function(match, codeContent) {
+  var cleanCode = codeContent
+  .replace(/<br\s*[\/]?>/gi, '\n')
+    .replace(/<div>/gi, '\n')
+      .replace(/<\/div>/gi, '')
+        .replace(/&nbsp;/g, ' ');
 
-  // Clean up Blogger's auto-generated <br> and <div> tags and convert them to line breaks
-      var cleanCode = codeContent
-      .replace(/<br\s*[\/]?>/gi, '\n')
-        .replace(/<div>/gi, '\n')
-          .replace(/<\/div>/gi, '')
-            .replace(/&nbsp;/g, ' ');
+        // Inject the copy-code-btn into the header
+        return '<div class="cat-codebox">' +
+          '<div class="cat-code-header">' +
+            '<span class="mac-dots"></span>' +
+            '<span class="code-title">Code Snippet</span>' +
+            '<button class="copy-code-btn" title="Copy Code"><i class="ti ti-copy"></i></button>' +
+            '</div>' +
+          '<pre><code>' + cleanCode.trim() + '</code></pre>' +
+          '</div>';
+        });
+        }
+        });
 
-  // Place the code inside the new Catppuccin box
-  return '<div class="cat-codebox">' +
-    '<div class="cat-code-header">' +
-      '<span class="mac-dots"></span>' +
-      '<span class="code-title">Code Snippet</span>' +
-      '</div>' +
-    '<pre><code>' + cleanCode.trim() + '</code></pre>' +
-    '</div>';
-  });
-  }
-  });
-  });
-  //]]>
-</script>
+        // 2. COPY BUTTON FUNCTIONALITY (Event Delegation)
+        document.addEventListener('click', function(e) {
+        var btn = e.target.closest('.copy-code-btn');
+        if (!btn) return; // Ignore if the clicked element is not the copy button
+
+        // Find the code text inside the box
+        var codeBox = btn.closest('.cat-codebox');
+        if (!codeBox) return;
+        var codeBlock = codeBox.querySelector('code');
+        var textToCopy = codeBlock.innerText;
+
+        // Copy to clipboard
+        navigator.clipboard.writeText(textToCopy).then(function() {
+        var icon = btn.querySelector('i');
+
+        // Success effect: Change icon to checkmark and color to green
+        icon.className = 'ti ti-check';
+        btn.style.color = 'var(--mocha-green)';
+        if (document.body.classList.contains('latte')) {
+        btn.style.color = 'var(--latte-green)';
+        }
+
+        // Revert back to copy icon after 2 seconds
+        setTimeout(function() {
+        icon.className = 'ti ti-copy';
+        btn.style.color = '';
+        }, 2000);
+        }).catch(function(err) {
+        console.error('Copy failed', err);
+        });
+        });
+        });
+        //]]>
+      </script>
 </body>
 </html>
