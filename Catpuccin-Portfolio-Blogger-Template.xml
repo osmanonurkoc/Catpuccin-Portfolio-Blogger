@@ -674,6 +674,13 @@
     .fade-anim { animation: fadeEffect 0.5s ease-in-out; }
     @keyframes fadeEffect { from {opacity: 0.4} to {opacity: 1} }
 
+    /* Mobile Slideshow Full Width Override */
+    @media (max-width: 768px) {
+    .cat-slideshow-container {
+    width: 100% !important;
+    }
+    }
+
     /* Lightbox Modal */
     .cat-lightbox-modal {
     display: none;
@@ -687,6 +694,8 @@
     backdrop-filter: blur(5px);
     overflow: hidden;
     }
+
+    /* Wrapper handles the opening animation so it doesn't conflict with zoom transform */
     .lightbox-content-wrapper {
     position: relative;
     width: 100%;
@@ -694,14 +703,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: zoomInModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
+
+    /* The image itself handles the scale & pan transforms */
     .cat-lightbox-img {
     max-width: 90%;
     max-height: 90vh;
     border-radius: 12px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: grab;
+    transition: transform 0.1s ease-out; /* Smooth zooming */
+    user-select: none;
+    -webkit-user-drag: none;
     }
+    .cat-lightbox-img:active {
+    cursor: grabbing;
+    }
+
     .lightbox-close-btn {
     position: absolute;
     top: 30px;
@@ -714,10 +733,14 @@
     z-index: 100000;
     }
     .lightbox-close-btn:hover { color: var(--accent-primary); transform: scale(1.1); }
-    @keyframes zoomIn { from {transform: scale(0.9); opacity: 0;} to {transform: scale(1); opacity: 1;} }
 
-    /* Make standard images clickable */
-    .page-body img:not(.cat-slide img) { cursor: zoom-in; }
+    @keyframes zoomInModal {
+    from {transform: scale(0.9); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+    }
+
+    /* Make ALL images in post body clickable (including slideshow) */
+    .page-body img { cursor: zoom-in; }
   ]]></b:skin>
 </head>
 <body>
@@ -1975,7 +1998,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
             }
 
             // ==========================================================
-            // 3. LIGHTBOX FOR STANDARD IMAGES
+            // 3. ADVANCED LIGHTBOX (ALL IMAGES + ZOOM & PAN)
             // ==========================================================
             var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
               '<span class="lightbox-close-btn">&times;</span>' +
@@ -1989,9 +2012,10 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
             var lightboxImg = document.getElementById('cat-lightbox-img');
             var closeBtn = document.querySelector('.lightbox-close-btn');
 
-            var standardImages = document.querySelectorAll('.page-body img:not(.cat-slide img)');
+            // Select ALL images (Including slideshow images)
+            var allImages = document.querySelectorAll('.page-body img');
 
-            standardImages.forEach(function(img) {
+            allImages.forEach(function(img) {
             var parentAnchor = img.closest('a');
             if (parentAnchor) {
             parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
@@ -2002,19 +2026,86 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
             var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
             lightboxImg.src = highResSrc;
             lightbox.style.display = 'block';
+            resetZoomState(); // Reset zoom when a new image is opened
             });
             });
 
+            // Close Lightbox Function
             function closeLightbox() {
             lightbox.style.display = 'none';
             lightboxImg.src = '';
+            resetZoomState();
             }
 
             if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-            if (lightbox) lightbox.addEventListener('click', function(e) {
+            if (lightbox) {
+            lightbox.addEventListener('click', function(e) {
+            // Close only if clicked outside the image
             if (e.target !== lightboxImg) {
             closeLightbox();
             }
+            });
+            }
+
+            // ==========================================================
+            // 4. ZOOM & DRAG CONTROLLER
+            // ==========================================================
+            var currentScale = 1;
+            var isPanning = false;
+            var currentX = 0;
+            var currentY = 0;
+            var startX = 0;
+            var startY = 0;
+
+            function updateImageTransform() {
+            lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
+            }
+
+            function resetZoomState() {
+            currentScale = 1;
+            currentX = 0;
+            currentY = 0;
+            isPanning = false;
+            updateImageTransform();
+            }
+
+            // Mouse Wheel to Zoom In/Out
+            lightboxImg.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var zoomSensitivity = 0.15;
+            var scrollDirection = Math.sign(e.deltaY) * -1; // -1 for zoom out, 1 for zoom in
+
+            var newScale = currentScale + (scrollDirection * zoomSensitivity);
+
+            // Constrain zoom level between 0.5x and 4x
+            newScale = Math.min(Math.max(0.5, newScale), 4);
+            currentScale = newScale;
+
+            updateImageTransform();
+            });
+
+            // Mouse Drag to Pan (Move) the Image
+            lightboxImg.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            isPanning = true;
+            startX = e.clientX - currentX;
+            startY = e.clientY - currentY;
+            });
+
+            lightboxImg.addEventListener('mousemove', function(e) {
+            if (!isPanning) return;
+            e.preventDefault();
+            currentX = e.clientX - startX;
+            currentY = e.clientY - startY;
+            updateImageTransform();
+            });
+
+            lightboxImg.addEventListener('mouseup', function() {
+            isPanning = false;
+            });
+
+            lightboxImg.addEventListener('mouseleave', function() {
+            isPanning = false;
             });
 
             });
