@@ -3563,11 +3563,11 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
           var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
           var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
 
-          // Sadece İtalik (<i> veya <em>) etiketini bul
+          // Find only the Italic (<i> or <em>) tag
           var captionEl = tempDiv.querySelector('i, em');
           var captionHtml = '';
 
-          // Eğer italik bir yazı varsa, temizle ve sonuna polaroid ikonunu ekle
+          // If there is italic text, clean it up and append the polaroid icon to the end
           if (captionEl && captionEl.innerText.trim() !== '') {
             var cleanText = captionEl.innerText.trim();
             captionHtml = '<div class="cat-compare-caption">' + cleanText + ' <i class="ti ti-polaroid"></i></div>';
