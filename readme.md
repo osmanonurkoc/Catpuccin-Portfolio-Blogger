@@ -1,4 +1,3 @@
-
 # Catppuccin Portfolio Theme for Blogger
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Website-success?style=for-the-badge&color=8839ef)](https://osmanonurkoc.com)
@@ -14,6 +13,7 @@ This theme allows you to customize your entire site without needing to know HTML
 * **Magic Variables:** Change the global accent color (buttons, highlights, shadows, text gradients) instantly by changing a single variable name.
 * **Wide Mode & Lazy Grid:** Easily adjust the maximum width of your website and let the CSS `auto-fit` grid handle the responsive layout automatically.
 * **Smart Lightbox:** Standard images inside your posts automatically feature a sleek, zoomable lightbox modal with a blurred Catppuccin crust overlay.
+* **Interactive Image Compare:** Zero-code before/after image sliders to showcase your design iterations or restoration projects.
 * **Boolean Toggle System:** Turn social media buttons, personal info, or project cards ON or OFF simply by changing a `false` to `true` in the HTML. No structural coding required!
 
 ---
@@ -57,9 +57,9 @@ Find the `/* 3. LAYOUT & GRID CONFIGURATION */` section in the CSS.
     -   Standard View: `1200px`
         
     -   Wide Mode: `1400px`
-    
+        
     -   Ultra Wide: `1600px`
-    
+        
     -   Fluid / Full Screen: `95%`
         
 -   **Card Columns:** The theme uses a lazy responsive grid (`auto-fit`). By increasing the `300px` or `260px` minimum values inside `--services-columns` and `--projects-columns`, you can fit fewer cards per row. By decreasing it (e.g., `200px`), you can fit more cards side-by-side.
@@ -136,16 +136,13 @@ You can add "Skill Pills" (small tag bubbles) inside any Service or Project card
 Thanks to the zero-code design, you **do not** need to assign manual color classes to each pill. The theme automatically applies a repeating sequence of 6 beautiful Catppuccin gradients based on the pill's order. These gradients dynamically adapt to look perfect in both Dark (Mocha) and Light (Latte) modes.
 
 To add or remove a skill, simply insert a `<span class='skill-pill'>` inside the `<div class='card-tags'>` container of any card:
-
 ```
 <div class='card-tags'>
   <span class='skill-pill'>UI / UX</span>
   <span class='skill-pill'>Android</span>
   <span class='skill-pill'>Figma</span>
 </div>
-
 ```
-
 ### 🖼️ Dynamic Slideshows (Zero-Code)
 
 Create beautiful, touch-friendly image carousels without writing any HTML! The theme uses a smart parser that converts standard Blogger editor elements into a fully functional slideshow with captions.
@@ -169,6 +166,9 @@ Create beautiful, touch-friendly image carousels without writing any HTML! The t
     
 
 **Example in Compose View:**
+
+Plaintext
+
 ```
 [slideshow=3]
 
@@ -184,6 +184,26 @@ Underline this text for the second slide's Title
 ```
 
 _Note: Any standard image you add outside of a slideshow will automatically get a sleek, zoomable Lightbox feature. No extra steps needed!_
+
+### 🔄 Interactive Image Compare (Before/After)
+
+Perfect for showcasing design iterations, photo editing, or system customizations. The theme includes a custom before/after image slider that requires absolutely no coding.
+
+**How to use:** Wrap exactly two images inside `[compare]` and `[/compare]` tags in Blogger's standard **Compose mode**. The first image will be the "After" (background/right side) and the second will be the "Before" (overlapping/left side) based on the sliding logic.
+
+**Adding a Caption:** To add a beautiful, right-aligned caption under the slider, simply type your text below the images and apply **Italic** (`I`) formatting to it. The theme will automatically append a sleek Polaroid camera icon (`📸`) to the end of your caption!
+
+**Example in Compose View:**
+```
+[compare]
+
+(Insert Image 1)
+(Insert Image 2)
+[Italic] Restoring an old classic photo [/Italic]
+
+[/compare]
+
+```
 
 ### 💻 Code Blocks (Syntax Box)
 
@@ -204,7 +224,6 @@ function sayHello() {
 ```
 
 The theme will automatically parse these tags and render a sleek, Mac-window style code block that perfectly adapts to both Dark (Mocha) and Light (Latte) modes, complete with horizontal scrolling and a one-click copy button!
-
 
 ## 📄 License
 
