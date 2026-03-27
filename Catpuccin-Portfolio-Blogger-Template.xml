@@ -1915,7 +1915,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 //<![CDATA[
 !function(){var _0x1c=["\x2e\x73\x69\x74\x65\x2d\x66\x6f\x6f\x74\x65\x72","\x61","\x68\x72\x65\x66","\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c","\x40\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63","\x64\x69\x73\x70\x6c\x61\x79","\x6e\x6f\x6e\x65","\x76\x69\x73\x69\x62\x69\x6c\x69\x74\x79","\x68\x69\x64\x64\x65\x6e","\x6f\x70\x61\x63\x69\x74\x79","\x30","\x68\x6f\x73\x74\x6e\x61\x6d\x65","\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d"];setInterval(function(){var _0x2a=document.querySelector(_0x1c[0]);var _0x3b=false;if(_0x2a){var _0x4c=_0x2a.getElementsByTagName(_0x1c[1]);for(var _0x5d=0;_0x5d<_0x4c.length;_0x5d++){if(_0x4c[_0x5d][_0x1c[2]].indexOf(_0x1c[3])!==-1&&_0x4c[_0x5d][_0x1c[4]].indexOf(_0x1c[5])!==-1){_0x3b=true;break}}}var _0x6e=_0x2a?window.getComputedStyle(_0x2a):null;if(!_0x3b||!_0x2a||!_0x6e||_0x6e[_0x1c[6]]===_0x1c[7]||_0x6e[_0x1c[8]]===_0x1c[9]||_0x6e[_0x1c[10]]===_0x1c[11]){if(window.location[_0x1c[12]]!==_0x1c[13]&&window.location[_0x1c[12]]!==_0x1c[3]){window.location.href=_0x1c[14]}}},2000)}();
 //]]>
-<script type='text/javascript'>
+</script> <script type='text/javascript'>
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
 
