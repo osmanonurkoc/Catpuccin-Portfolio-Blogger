@@ -824,6 +824,44 @@
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     border: 2px solid rgba(255,255,255,0.3);
     }
+
+    /* --------------------------------------
+    15. CATPPUCCIN CUSTOM LINK WIDGET
+    -------------------------------------- */
+    .cat-custom-link-wrapper {
+      text-align: center;
+      margin: 1rem 0 2rem 0; /* Compact vertical spacing */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .cat-custom-link-svg {
+      width: 90%; /* Dynamically spans 90% of the container */
+      max-width: 900px; /* Sensible upper limit for ultra-wide screens */
+      height: 100px;
+      
+      /* CSS Masking: Applies theme colors directly to external SVGs */
+      background-color: var(--subtext0);
+      -webkit-mask: url('https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true') no-repeat center bottom;
+      -webkit-mask-size: contain;
+      mask: url('https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/footers/gray0_ctp_on_line.svg?sanitize=true') no-repeat center bottom;
+      mask-size: contain;
+    }
+
+    .cat-custom-link-text {
+      margin-top: 0; /* No extra space between SVG and text */
+      z-index: 2;
+    }
+
+    .cat-custom-link-text a {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none; /* No underline */
+    }
   ]]></b:skin>
 </head>
 <body>
@@ -1885,7 +1923,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 
     // ==========================================================
     // PHASE 1: HTML PARSERS (DOM MANIPULATION)
-    // First, we do all the HTML replacements in a single pass.
+    // First, we do all HTML replacements in a single pass to avoid innerHTML overwrite bugs.
     // ==========================================================
     postBodies.forEach(function(body) {
       var htmlContent = body.innerHTML;
@@ -1986,6 +2024,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         var imgSrcBefore = imgs[0].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
         var imgSrcAfter = imgs[1].src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
 
+        // Find italic text to use as caption
         var captionEl = tempDiv.querySelector('i, em');
         var captionHtml = '';
         if (captionEl && captionEl.innerText.trim() !== '') {
@@ -2008,10 +2047,33 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         '</div>';
       });
 
+      // 4. PARSE CUSTOM LINK (WITH SVG)
+      var linkRegex = /\[link\]([\s\S]*?)\[\/link\]/gi;
+      htmlContent = htmlContent.replace(linkRegex, function(match, linkContent) {
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = linkContent;
+        
+        // Check if Blogger's link tool was used, or if it is raw text
+        var aTag = tempDiv.querySelector('a');
+        var finalLinkHtml = '';
+        
+        if (aTag) {
+          finalLinkHtml = aTag.outerHTML;
+        } else {
+          // Auto-wrap raw URL
+          var url = tempDiv.innerText.trim().replace(/\s/g, '');
+          finalLinkHtml = '<a href="' + url + '" target="_blank">' + url + '</a>';
+        }
+
+        return '<div class="cat-custom-link-wrapper">' +
+                 '<div class="cat-custom-link-svg"></div>' +
+                 '<div class="cat-custom-link-text">' + finalLinkHtml + '</div>' +
+               '</div>';
+      });
+
       // APPLY ALL CHANGES TO DOM AT ONCE
       body.innerHTML = htmlContent;
     });
-
 
     // ==========================================================
     // PHASE 2: EVENT BINDING (CONTROLLERS)

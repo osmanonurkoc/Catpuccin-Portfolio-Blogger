@@ -225,6 +225,20 @@ function sayHello() {
 
 The theme will automatically parse these tags and render a sleek, Mac-window style code block that perfectly adapts to both Dark (Mocha) and Light (Latte) modes, complete with horizontal scrolling and a one-click copy button!
 
+### 🐱 Themed Custom Link Widget
+
+Highlight important links with a beautiful, theme-adaptive Catppuccin mascot separator! This zero-code feature automatically generates a sleek separator line featuring a sleeping cat SVG right above your link. The SVG color dynamically adapts to your Light/Dark mode and accent colors with a smooth hover effect.
+
+**How to use:**
+Simply wrap your link inside `[link]` and `[/link]` tags in Blogger's standard **Compose mode**. The parser is smart enough to handle two different methods:
+
+**Method 1: Raw URL**
+Just paste the web address directly. The theme will automatically wrap it in an anchor tag and make it clickable.
+```text
+[link]
+[https://github.com/osmanonurkoc](https://github.com/osmanonurkoc)
+[/link]
+```
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
