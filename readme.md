@@ -205,6 +205,33 @@ Perfect for showcasing design iterations, photo editing, or system customization
 
 ```
 
+### 🧱 Masonry Image Gallery (Zero-Code)
+
+Display your photos, digital art, or screenshots in a beautiful, Pinterest-style Masonry grid! The theme automatically handles the complex grid calculations, provides a smooth "skeleton loading" pulse animation while high-resolution images download, and wraps them in a fully interactive slideshow modal.
+
+**How to use:**
+Simply upload your images using Blogger's standard image tool in **Compose mode** and wrap them inside `[gallery]` and `[/gallery]` tags. 
+
+**Dynamic Columns:** By default, the gallery displays **3 columns** on desktop screens. You can customize this by adding a number to the tag (e.g., `[gallery=4]`). 
+*Note: To ensure perfect responsiveness, the theme will automatically override your choice and force 2 columns on tablets and 1 column on mobile devices.*
+
+**Interactive Modal:**
+Clicking any image in the gallery opens a dedicated, full-screen Catppuccin modal equipped with:
+* ▶️ **Slideshow Autoplay:** Play/Pause controls to automatically cycle through the gallery.
+* 🔍 **Zoom & Pan:** Use your mouse wheel to zoom in (up to 400%) and click-and-drag to pan around the image.
+
+**Example in Compose View:**
+```text
+Here is my latest digital art collection:
+
+[gallery=4]
+(Insert Image 1)
+(Insert Image 2)
+(Insert Image 3)
+(Insert Image 4)
+[/gallery]
+```
+
 ### 💻 Code Blocks (Syntax Box)
 
 As a developer, sharing code snippets should look beautiful. This theme includes a custom, zero-code syntax box parser. You **do not** need to switch to HTML view to add code blocks!
