@@ -902,6 +902,139 @@
     -------------------------------------- */
     /* Dynamically applied to hide the sidebar on homepage without breaking the Blogger Layout Editor */
     .cat-hidden-sidebar { display: none !important; }
+
+    /* --------------------------------------
+    18. CATPPUCCIN MASONRY GALLERY
+    -------------------------------------- */
+    /* Masonry Grid Layout */
+    .cat-gallery-grid {
+      --gal-cols: 3; /* Default column count, dynamically overwritten by JS */
+      column-count: 1;
+      column-gap: 1.5rem;
+      width: 100%;
+      margin: 2rem 0;
+    }
+    @media (min-width: 600px) { .cat-gallery-grid { column-count: 2; } }
+    @media (min-width: 960px) { .cat-gallery-grid { column-count: var(--gal-cols); } }
+
+    .cat-gallery-item {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
+      cursor: zoom-in;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--surface0);
+      min-height: 250px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+    .cat-gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px var(--shadow-color);
+    }
+
+    /* Skeleton Loading Animation */
+    .cat-gallery-item.is-loading {
+      animation: cat-skeleton-pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes cat-skeleton-pulse {
+      0% { background-color: var(--surface0); }
+      50% { background-color: var(--surface1); }
+      100% { background-color: var(--surface0); }
+    }
+
+    /* Images - Hidden until loaded */
+    .cat-gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .cat-gallery-item img.is-loaded {
+      opacity: 1;
+    }
+
+    /* Slideshow Modal */
+    .cat-gallery-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(17, 17, 27, 0.95); /* Deep Crust Overlay */
+      backdrop-filter: blur(5px);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* Wrapper handles centering so image can safely zoom and pan */
+    .cat-gallery-content-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .cat-gallery-content {
+      max-width: 90%;
+      max-height: 75vh;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      object-fit: contain;
+      transition: transform 0.1s ease-out, opacity 0.3s ease-in-out;
+      opacity: 1;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .cat-gallery-content:active {
+      cursor: grabbing;
+    }
+
+    /* Modal Controls */
+    .cat-gallery-controls {
+      position: absolute;
+      bottom: 40px;
+      display: flex;
+      gap: 2rem;
+      background: var(--surface0);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      border: 1px solid var(--surface1);
+      z-index: 100001;
+    }
+    .cat-gallery-controls button {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cat-gallery-controls button:hover {
+      color: var(--accent-primary);
+      transform: scale(1.1);
+    }
+    
+    .cat-gallery-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 3rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.3s;
+      z-index: 100001;
+    }
+    .cat-gallery-close:hover { color: var(--accent-primary); transform: scale(1.1); }
   ]]></b:skin>
 </head>
 <body>
@@ -1866,12 +1999,20 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 </button>
 
 <script type='text/javascript'>
+//<![CDATA[
+!function(){var _0x1c=["\x2e\x73\x69\x74\x65\x2d\x66\x6f\x6f\x74\x65\x72","\x61","\x68\x72\x65\x66","\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c","\x40\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63","\x64\x69\x73\x70\x6c\x61\x79","\x6e\x6f\x6e\x65","\x76\x69\x73\x69\x62\x69\x6c\x69\x74\x79","\x68\x69\x64\x64\x65\x6e","\x6f\x70\x61\x63\x69\x74\x79","\x30","\x68\x6f\x73\x74\x6e\x61\x6d\x65","\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d"];setInterval(function(){var _0x2a=document.querySelector(_0x1c[0]);var _0x3b=false;if(_0x2a){var _0x4c=_0x2a.getElementsByTagName(_0x1c[1]);for(var _0x5d=0;_0x5d<_0x4c.length;_0x5d++){if(_0x4c[_0x5d][_0x1c[2]].indexOf(_0x1c[3])!==-1&&_0x4c[_0x5d][_0x1c[4]].indexOf(_0x1c[5])!==-1){_0x3b=true;break}}}var _0x6e=_0x2a?window.getComputedStyle(_0x2a):null;if(!_0x3b||!_0x2a||!_0x6e||_0x6e[_0x1c[6]]===_0x1c[7]||_0x6e[_0x1c[8]]===_0x1c[9]||_0x6e[_0x1c[10]]===_0x1c[11]){if(window.location[_0x1c[12]]!==_0x1c[13]&&window.location[_0x1c[12]]!==_0x1c[3]){window.location.href=_0x1c[14]}}},2000)}();
+//]]>
+</script>
+
+<script type='text/javascript'>
   //<![CDATA[
   document.addEventListener('DOMContentLoaded', function() {
+
+    // ==========================================================
+    // 0. GLOBAL UI INITIALIZERS (Theme & Layout)
+    // ==========================================================
     
-    // ----------------------------------------------------
-    // 1. THEME TOGGLER (LIGHT/DARK MODE)
-    // ----------------------------------------------------
+    // Theme Toggler
     var toggleBtn = document.getElementById('theme-toggle');
     var themeIcon = document.getElementById('theme-icon');
 
@@ -1893,9 +2034,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       });
     }
 
-    // ----------------------------------------------------
-    // 2. SMART SOCIAL ICON BALANCER (DYNAMIC WRAP)
-    // ----------------------------------------------------
+    // Smart Social Icon Balancer
     function balanceSocialIcons() {
       var container = document.querySelector('.social-links');
       if (!container) return;
@@ -1928,22 +2067,15 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 
     balanceSocialIcons();
     window.addEventListener('resize', balanceSocialIcons);
-  });
-  //]]>
-</script>
-<script type='text/javascript'>
-//<![CDATA[
-!function(){var _0x1c=["\x2e\x73\x69\x74\x65\x2d\x66\x6f\x6f\x74\x65\x72","\x61","\x68\x72\x65\x66","\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c","\x40\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63","\x64\x69\x73\x70\x6c\x61\x79","\x6e\x6f\x6e\x65","\x76\x69\x73\x69\x62\x69\x6c\x69\x74\x79","\x68\x69\x64\x64\x65\x6e","\x6f\x70\x61\x63\x69\x74\x79","\x30","\x68\x6f\x73\x74\x6e\x61\x6d\x65","\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d","\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x6f\x73\x6d\x61\x6e\x6f\x6e\x75\x72\x6b\x6f\x63\x2e\x63\x6f\x6d"];setInterval(function(){var _0x2a=document.querySelector(_0x1c[0]);var _0x3b=false;if(_0x2a){var _0x4c=_0x2a.getElementsByTagName(_0x1c[1]);for(var _0x5d=0;_0x5d<_0x4c.length;_0x5d++){if(_0x4c[_0x5d][_0x1c[2]].indexOf(_0x1c[3])!==-1&&_0x4c[_0x5d][_0x1c[4]].indexOf(_0x1c[5])!==-1){_0x3b=true;break}}}var _0x6e=_0x2a?window.getComputedStyle(_0x2a):null;if(!_0x3b||!_0x2a||!_0x6e||_0x6e[_0x1c[6]]===_0x1c[7]||_0x6e[_0x1c[8]]===_0x1c[9]||_0x6e[_0x1c[10]]===_0x1c[11]){if(window.location[_0x1c[12]]!==_0x1c[13]&&window.location[_0x1c[12]]!==_0x1c[3]){window.location.href=_0x1c[14]}}},2000)}();
-//]]>
-</script> <script type='text/javascript'>
-  //<![CDATA[
-  document.addEventListener('DOMContentLoaded', function() {
 
-    var postBodies = document.querySelectorAll('.page-body');
 
     // ==========================================================
     // PHASE 1: HTML PARSERS (DOM MANIPULATION)
+    // All tag replacements happen in one single pass.
     // ==========================================================
+    var postBodies = document.querySelectorAll('.page-body');
+    var galleryIdCounter = 0; // Global counter for unique gallery IDs
+
     postBodies.forEach(function(body) {
       var htmlContent = body.innerHTML;
 
@@ -2087,11 +2219,40 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                '</div>';
       });
 
+	// 5. PARSE MASONRY GALLERY
+      var galleryRegex = /\[gallery(?:=(\d))?\]([\s\S]*?)\[\/gallery\]/gi;
+      
+      htmlContent = htmlContent.replace(galleryRegex, function(match, colParam, galleryContent) {
+        galleryIdCounter++;
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = galleryContent;
+        var imgs = tempDiv.querySelectorAll('img');
+        
+        if (imgs.length === 0) return match;
+
+        var cols = colParam ? parseInt(colParam) : 3; // Default to 3 if not specified
+
+        var galleryHtml = '<div class="cat-gallery-grid" id="cat-gallery-' + galleryIdCounter + '" style="--gal-cols: ' + cols + ';">';
+        
+        imgs.forEach(function(img, index) {
+          var highResSrc = img.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
+          galleryHtml += '<div class="cat-gallery-item is-loading" data-gallery="cat-gallery-' + galleryIdCounter + '" data-index="' + index + '" data-src="' + highResSrc + '">' +
+                           '<img src="' + highResSrc + '" alt="Gallery Image" loading="lazy" onload="this.classList.add(\'is-loaded\'); this.parentElement.classList.remove(\'is-loading\'); this.parentElement.style.minHeight=\'auto\';" />' +
+                         '</div>';
+        });
+        
+        galleryHtml += '</div>';
+        return galleryHtml;
+      });
+
+      // APPLY ALL CHANGES TO DOM AT ONCE
       body.innerHTML = htmlContent;
     });
 
+
     // ==========================================================
     // PHASE 2: EVENT BINDING (CONTROLLERS)
+    // Now that the DOM is final, we bind all functionality.
     // ==========================================================
 
     // 1. CODEBOX COPY FUNCTIONALITY
@@ -2191,7 +2352,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       }, { passive: false });
     });
 
-    // 4. ADVANCED LIGHTBOX
+    // 4. ADVANCED LIGHTBOX (Standard Images)
     var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
       '<span class="lightbox-close-btn">&times;</span>' +
       '<div class="lightbox-content-wrapper">' +
@@ -2204,7 +2365,8 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     var lightboxImg = document.getElementById('cat-lightbox-img');
     var closeBtn = document.querySelector('.lightbox-close-btn');
 
-    var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img)');
+    // Exclude compare AND gallery images from the standard Lightbox
+    var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img):not(.cat-gallery-item img)');
     allImages.forEach(function(img) {
       var parentAnchor = img.closest('a');
       if (parentAnchor) parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
@@ -2231,7 +2393,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       });
     }
 
-    // ZOOM & DRAG LOGIC
+    // ZOOM & DRAG LOGIC (For Standard Lightbox)
     var currentScale = 1;
     var isPanning = false;
     var currentX = 0, currentY = 0, startX = 0, startY = 0;
@@ -2275,7 +2437,6 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 
     // ==========================================================
     // 5. ARCHIVE ACCORDION LOGIC
-    // FIX 2: Moved inside the DOMContentLoaded listener
     // ==========================================================
     var archiveToggles = document.querySelectorAll('.cat-accordion-toggle');
     
@@ -2298,7 +2459,6 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 
     // ==========================================================
     // 6. MOBILE BLOG SIDEBAR TOGGLE
-    // FIX 2: Moved inside the DOMContentLoaded listener
     // ==========================================================
     var mobileSidebarBtn = document.getElementById('mobile-sidebar-btn');
     var sidebarWrapper = document.getElementById('sidebar-widget-wrapper');
@@ -2316,7 +2476,155 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       });
     }
 
-  }); // The DOMContentLoaded listener officially closes here!
+// ==========================================================
+    // 7. MASONRY GALLERY CONTROLLER & SLIDESHOW
+    // ==========================================================
+    var galleryModalHTML = '<div id="cat-gallery-modal" class="cat-gallery-modal">' +
+      '<span class="cat-gallery-close">&times;</span>' +
+      '<div class="cat-gallery-content-wrapper">' +
+        '<img id="cat-gallery-image" class="cat-gallery-content" src="" alt="Gallery Expanded"/>' +
+      '</div>' +
+      '<div class="cat-gallery-controls">' +
+        '<button id="cat-gallery-prev" title="Previous"><i class="ti ti-chevron-left"></i></button>' +
+        '<button id="cat-gallery-play" title="Play/Pause"><i class="ti ti-player-play"></i></button>' +
+        '<button id="cat-gallery-next" title="Next"><i class="ti ti-chevron-right"></i></button>' +
+      '</div>' +
+    '</div>';
+    
+    if (!document.getElementById('cat-gallery-modal')) {
+        document.body.insertAdjacentHTML('beforeend', galleryModalHTML);
+    }
+
+    var galModal = document.getElementById('cat-gallery-modal');
+    var galImg = document.getElementById('cat-gallery-image');
+    var galClose = document.querySelector('.cat-gallery-close');
+    var galPrev = document.getElementById('cat-gallery-prev');
+    var galNext = document.getElementById('cat-gallery-next');
+    var galPlay = document.getElementById('cat-gallery-play');
+    
+    var currentGalleryImages = [];
+    var currentGalIndex = 0;
+    var galInterval;
+    var isGalPlaying = false;
+
+    // Zoom & Drag State
+    var galScale = 1;
+    var galIsPanning = false;
+    var galCurX = 0, galCurY = 0, galStartX = 0, galStartY = 0;
+
+    function updateGalTransform() {
+      galImg.style.transform = 'translate(' + galCurX + 'px, ' + galCurY + 'px) scale(' + galScale + ')';
+    }
+
+    function resetGalZoom() {
+      galScale = 1; galCurX = 0; galCurY = 0; galIsPanning = false;
+      updateGalTransform();
+    }
+
+    var galleryItems = document.querySelectorAll('.cat-gallery-item');
+    galleryItems.forEach(function(item) {
+      item.addEventListener('click', function() {
+        var galleryId = this.getAttribute('data-gallery');
+        currentGalIndex = parseInt(this.getAttribute('data-index'));
+        
+        var siblings = document.querySelectorAll('#' + galleryId + ' .cat-gallery-item');
+        currentGalleryImages = [];
+        siblings.forEach(function(sib) {
+            currentGalleryImages.push(sib.getAttribute('data-src'));
+        });
+        
+        openGalleryModal();
+      });
+    });
+
+    function openGalleryModal() {
+      galModal.style.display = 'flex';
+      updateGallerySlide();
+    }
+
+    function closeGalleryModal() {
+      galModal.style.display = 'none';
+      if (isGalPlaying) toggleGalPlay();
+      resetGalZoom();
+    }
+
+    function updateGallerySlide() {
+      galImg.style.opacity = 0;
+      resetGalZoom(); // Reset zoom when switching slides
+      setTimeout(function() {
+        galImg.src = currentGalleryImages[currentGalIndex];
+        galImg.onload = function() {
+          galImg.style.opacity = 1;
+        };
+      }, 200); 
+    }
+
+    function nextGalSlide() {
+      currentGalIndex = (currentGalIndex + 1) % currentGalleryImages.length;
+      updateGallerySlide();
+    }
+
+    function prevGalSlide() {
+      currentGalIndex = (currentGalIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+      updateGallerySlide();
+    }
+
+    function toggleGalPlay() {
+      if (isGalPlaying) {
+        clearInterval(galInterval);
+        galPlay.innerHTML = '<i class="ti ti-player-play"></i>';
+        isGalPlaying = false;
+      } else {
+        nextGalSlide(); 
+        galInterval = setInterval(nextGalSlide, 3000); 
+        galPlay.innerHTML = '<i class="ti ti-player-pause"></i>';
+        isGalPlaying = true;
+      }
+    }
+
+    if(galClose) galClose.addEventListener('click', closeGalleryModal);
+    if(galPrev) galPrev.addEventListener('click', prevGalSlide);
+    if(galNext) galNext.addEventListener('click', nextGalSlide);
+    if(galPlay) galPlay.addEventListener('click', toggleGalPlay);
+    
+    if(galModal) {
+      galModal.addEventListener('click', function(e) {
+        // Close modal if clicked outside the image/controls
+        if (e.target === galModal || e.target.classList.contains('cat-gallery-content-wrapper')) {
+          closeGalleryModal();
+        }
+      });
+    }
+
+    // --- ZOOM AND DRAG LOGIC ---
+    galImg.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      var zoomSensitivity = 0.15;
+      var scrollDirection = Math.sign(e.deltaY) * -1;
+      var newScale = galScale + (scrollDirection * zoomSensitivity);
+      newScale = Math.min(Math.max(0.5, newScale), 4);
+      galScale = newScale;
+      updateGalTransform();
+    });
+
+    galImg.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      galIsPanning = true;
+      galStartX = e.clientX - galCurX;
+      galStartY = e.clientY - galCurY;
+    });
+
+    galImg.addEventListener('mousemove', function(e) {
+      if (!galIsPanning) return;
+      e.preventDefault();
+      galCurX = e.clientX - galStartX;
+      galCurY = e.clientY - galStartY;
+      updateGalTransform();
+    });
+
+    galImg.addEventListener('mouseup', function() { galIsPanning = false; });
+    galImg.addEventListener('mouseleave', function() { galIsPanning = false; });
+  });
   //]]>
 </script>
 </body>
