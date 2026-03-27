@@ -167,7 +167,6 @@ Create beautiful, touch-friendly image carousels without writing any HTML! The t
 
 **Example in Compose View:**
 
-Plaintext
 
 ```
 [slideshow=3]
