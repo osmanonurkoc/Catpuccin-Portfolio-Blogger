@@ -236,7 +236,7 @@ Simply wrap your link inside `[link]` and `[/link]` tags in Blogger's standard *
 Just paste the web address directly. The theme will automatically wrap it in an anchor tag and make it clickable.
 ```text
 [link]
-[https://github.com/osmanonurkoc](https://github.com/osmanonurkoc)
+Check out the <a href="https://github.com/osmanonurkoc/WSL2Scripts" rel="nofollow" target="_blank">GitHub repo</a>!
 [/link]
 ```
 ## 📄 License
