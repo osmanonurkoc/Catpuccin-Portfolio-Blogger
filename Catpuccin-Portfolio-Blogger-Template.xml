@@ -399,7 +399,36 @@
     body.latte .share-btn.share-tg:hover { background: linear-gradient(135deg, var(--latte-sky), var(--latte-blue)); color: #ffffff; }
     body.latte .share-btn.share-mail:hover { background: linear-gradient(135deg, var(--latte-peach), var(--latte-yellow)); color: #ffffff; }
 
-/* --------------------------------------
+
+    /* --------------------------------------
+    9. STATIC PAGES STYLES
+    -------------------------------------- */
+    .page-title { font-size: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); text-align: center; }
+    .page-body { color: var(--text); line-height: 1.8; font-size: 1.1rem; }
+    .page-body img { max-width: 100%; height: auto !important; border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); display: block; margin: 0 auto 0.5rem auto; }
+
+    /* Blog Post List (Ul/Ol) Indentation Adjustments */
+    .page-body ul,
+    .page-body ol {
+    padding-left: 2.5rem; /* Adds an inward tab space */
+    margin-bottom: 1.5rem; /* Adds bottom margin to the end of the list */
+    }
+
+    .page-body li {
+    margin-bottom: 0.5rem; /* Adds slight spacing between list items for better readability */
+    line-height: 1.7;
+    }
+
+    /* To prevent excessive shifting if there are nested lists */
+    .page-body ul ul,
+    .page-body ol ol,
+    .page-body ul ol,
+    .page-body ol ul {
+    margin-bottom: 0;
+    padding-left: 1.5rem;
+    }
+
+    /* --------------------------------------
     9.5. EMPTY STATES & 404 ERROR PAGE
     -------------------------------------- */
     .empty-state-container {
@@ -443,14 +472,6 @@
       margin-bottom: 2rem;
       line-height: 1.6;
     }
-
-    /* --------------------------------------
-    9. STATIC PAGES STYLES
-    -------------------------------------- */
-    .page-title { font-size: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px dashed var(--card-border); text-align: center; }
-    .page-body { color: var(--text); line-height: 1.8; font-size: 1.1rem; }
-    .page-body img { max-width: 100%; height: auto !important; border-radius: 12px; box-shadow: 0 5px 15px var(--shadow-color); display: block; margin: 0 auto 0.5rem auto; }
-
 
     /* --------------------------------------
     10. FLOATING THEME SWITCHER & FOOTER
