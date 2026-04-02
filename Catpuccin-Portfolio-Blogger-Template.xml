@@ -12,7 +12,7 @@
     Blogger Template Style
     Name:        Catpuccin Portfolio
     License:     MIT License
-    Version:     1.3.2
+    Version:     1.3.3
     Author:      Osman Onur Koç
     Author Url:  https://www.osmanonurkoc.com/
     -----------------------------------------------
@@ -1076,6 +1076,60 @@
     padding: 1.5rem;
     }
     }
+
+    /* --------------------------------------
+    20. BLOG SEARCH WIDGET
+    -------------------------------------- */
+    .cat-search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem; /* Creates space between the search bar and the Categories widget below it */
+    }
+
+    .cat-search-input {
+    width: 100%;
+    padding: 0.9rem 3rem 0.9rem 1.2rem;
+    background-color: var(--surface0);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+    }
+
+    .cat-search-input::placeholder {
+    color: var(--subtext0);
+    }
+
+    .cat-search-input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+    }
+
+    .cat-search-btn {
+    position: absolute;
+    right: 6px;
+    background: transparent;
+    border: none;
+    color: var(--subtext0);
+    font-size: 1.3rem;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    }
+
+    .cat-search-btn:hover {
+    color: var(--accent-primary);
+    background: var(--surface1);
+    }
   ]]></b:skin>
 </head>
 <body>
@@ -1238,6 +1292,18 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         
         <div class='sidebar-widget-wrapper' id='sidebar-widget-wrapper'>
           <b:section id='sidebar-blog-widgets' showaddelement='yes'>
+            <b:widget id='BlogSearch1' locked='true' title='Search Blog' type='BlogSearch' version='2' visible='true'>
+              <b:includable id='main'>
+                <div class='widget-content'>
+                  <form action='/search' class='cat-search-form' method='get'>
+                    <input class='cat-search-input' expr:value='data:view.search.query.escaped' name='q' placeholder='Search articles...' required='required' type='text'/>
+                    <button aria-label='Search' class='cat-search-btn' type='submit'>
+                      <i class='ti ti-search'/>
+                    </button>
+                  </form>
+                </div>
+              </b:includable>
+            </b:widget>
             <b:widget id='Label1' locked='false' title='Categories' type='Label' version='2' visible='true'>
               <b:widget-settings>
                 <b:widget-setting name='sorting'>ALPHA</b:widget-setting>
@@ -1338,7 +1404,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 
     <main class='main-content' expr:style='data:view.isPage ? &quot;width: 100%; flex: none; max-width: 100%;&quot; : &quot;&quot;'>
       <b:section class='main' id='portfolio-main' showaddelement='yes'>
-        <b:widget id='Blog1' locked='false' title='Blog Posts' type='Blog' version='2' visible='true'>
+        <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog' version='2' visible='true'>
           <b:widget-settings>
             <b:widget-setting name='showDateHeader'>false</b:widget-setting>
             <b:widget-setting name='commentLabel'>Comments</b:widget-setting>
