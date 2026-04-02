@@ -265,6 +265,28 @@ Just paste the web address directly. The theme will automatically wrap it in an 
 Check out the repo: https://github.com/osmanonurkoc/WSL2Scripts
 [/link]
 ```
+
+### 💬 Disqus Comments Integration
+
+The theme includes built-in support for Disqus comments. Because Disqus is embedded via an iframe, it is designed to be smart enough to detect the theme's background colors. It will automatically switch to its native **Dark Variant** to perfectly complement the Catppuccin Mocha aesthetic!
+
+The comments are configured to **only** appear at the bottom of dedicated Blog Post pages (they will remain completely hidden on your static pages and homepage).
+
+**How to set it up:**
+1. Go to [Disqus](https://disqus.com/) and create a free account.
+2. Click on "Get Started" and choose "I want to install Disqus on my site".
+3. Create a new site profile. You will be asked to create a **Shortname** (e.g., `osmanonurkoc`). Copy this exact shortname.
+4. Open the `Catpuccin-Portfolio-Blogger-Template.xml` file in your editor (or the Blogger HTML editor).
+5. Press `CTRL + F` and search for `YOUR_DISQUS_SHORTNAME`.
+6. Replace `YOUR_DISQUS_SHORTNAME` with the shortname you created in Step 3.
+7. Save the theme. 
+
+*Example Code:*
+```javascript
+/* INSERT YOUR DISQUS SHORTNAME BELOW: */
+s.src = 'https://osmanonurkoc.disqus.com/embed.js';
+```
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
