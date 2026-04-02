@@ -287,6 +287,24 @@ The comments are configured to **only** appear at the bottom of dedicated Blog P
 s.src = 'https://osmanonurkoc.disqus.com/embed.js';
 ```
 
+### 📑 Client-Side Pagination Configuration
+
+This theme utilizes a lightning-fast, zero-delay Client-Side Pagination Engine. Because the blog is built into a modular single-page layout (running on the `/search` path instead of the root directory), Blogger's native pagination limitations are bypassed entirely.
+
+**Step 1: Blogger Dashboard Setup (Required)**
+To ensure the pagination engine has enough posts to sort through instantly without loading delays, you must increase the native post limit in Blogger.
+1. Go to your Blogger Dashboard ➔ **Settings**.
+2. Scroll down to the **Posts** section.
+3. Change **"Max posts shown on main page"** to a high number, such as `50` or `100`. *(Don't worry, the script will automatically hide them and only show your defined limit per page).*
+
+**Step 2: Theme Code Configuration**
+You can easily control exactly how many posts appear on a single page directly from the theme's code.
+1. Open the theme HTML editor (`Catpuccin-Portfolio-Blogger-Template.xml`).
+2. Search (`CTRL + F`) for `CLIENT-SIDE PAGINATION ENGINE`.
+3. Find the line: `var postsPerPage = 6;`
+4. Change the number `6` to whatever limit you prefer (e.g., `4`, `8`, `10`).
+5. Save the theme. The pagination buttons will automatically generate based on this number!
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).

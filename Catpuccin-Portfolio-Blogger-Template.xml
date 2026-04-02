@@ -1816,70 +1816,78 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
           <b:includable id='customPagination'>
             <div class='custom-pagination' id='custom-pagination'/>
             <script type='text/javascript'>
-            //<![CDATA[
-            document.addEventListener('DOMContentLoaded', function() {
+              //<![CDATA[
+              /* =========================================
+              CLIENT-SIDE PAGINATION ENGINE
+              ========================================= */
+              document.addEventListener('DOMContentLoaded', function() {
+
+              var postsPerPage = 6; // Set your limit here
+
+              var postContainer = document.querySelector('.blog-posts-list');
               var paginationEl = document.getElementById('custom-pagination');
-              if(!paginationEl) return;
 
-              var maxResults = 6; 
-              var path = window.location.pathname;
-              var querySearch = window.location.search;
-              var feedUrl = '/feeds/posts/summary?alt=json&max-results=150'; 
-              var baseUrl = '/search';
+              if (!postContainer || !paginationEl) return;
 
-              if(path.indexOf('/search/label/') > -1) {
-                var label = encodeURIComponent(decodeURIComponent(path.split('/search/label/')[1].split('?')[0]));
-                feedUrl = '/feeds/posts/summary/-/' + label + '?alt=json&max-results=150';
-                baseUrl = path;
-              } else if(querySearch.indexOf('?q=') > -1) {
-                var query = querySearch.split('?q=')[1].split('&')[0];
-                feedUrl = '/feeds/posts/summary?q=' + query + '&alt=json&max-results=150';
-                baseUrl = '/search?q=' + query;
-              }
+              // Convert NodeList to Array to easily slice and dice
+              var allPosts = Array.from(postContainer.children);
+              var totalPosts = allPosts.length;
+              var totalPages = Math.ceil(totalPosts / postsPerPage);
 
-              fetch(feedUrl)
-                .then(function(response) { return response.json(); })
-                .then(function(data) {
-                  if(!data.feed.entry) return;
-                  var entries = data.feed.entry;
-                  var totalPages = Math.ceil(entries.length / maxResults);
-                  if(totalPages <= 1) return;
+              // Hide pagination if everything fits on one page
+              if (totalPages <= 1) {
+                paginationEl.style.display = 'none';
+                return;
+                }
 
+                // Added isInitialLoad parameter to prevent jumping on first visit
+                function showPage(page, isInitialLoad) {
+                var startIndex = (page - 1) * postsPerPage;
+                var endIndex = page * postsPerPage;
+
+                // Toggle visibility based on the current page
+                allPosts.forEach(function(post, index) {
+                if (index >= startIndex && index < endIndex) {
+                  post.style.display = 'flex'; // Restore visibility
+                  post.style.animation = 'fadeEffect 0.4s ease-in-out'; // Apply theme fade
+                  } else {
+                  post.style.display = 'none'; // Hide out-of-bounds posts
+                  }
+                  });
+
+                  renderButtons(page);
+
+                  // Smooth scroll back to the very top of the page, ONLY if it's not the first load
+                  if (!isInitialLoad) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  }
+
+                  function renderButtons(currentPage) {
                   var html = '';
-                  var currentUrl = window.location.href;
-                  var currentPage = 1;
-
-                  var pageUrls = [];
-                  pageUrls.push(baseUrl + (baseUrl.indexOf('?') > -1 ? '&' : '?') + 'max-results=' + maxResults); 
-
-                  for(var i = 1; i < totalPages; i++) {
-                    var index = (i * maxResults) - 1;
-                    if(entries[index]) {
-                      var timestamp = entries[index].published.$t;
-                      var timeEncoded = encodeURIComponent(timestamp);
-                      var pUrl = baseUrl + (baseUrl.indexOf('?') > -1 ? '&' : '?') + 'updated-max=' + timeEncoded + '&max-results=' + maxResults;
-                      pageUrls.push(pUrl);
+                  for (var i = 1; i <= totalPages; i++) {
+                    var activeClass = (i === currentPage) ? ' active' : '';
+                    html += '<a href="#" class="page-num' + activeClass + '" data-page="' + i + '" style="border: none; cursor: pointer;">' + i + '</a>';
                     }
-                  }
+                    paginationEl.innerHTML = html;
 
-                  for(var j = 0; j < pageUrls.length; j++) {
-                    if(currentUrl.indexOf(pageUrls[j]) > -1 || (j === 0 && currentUrl.indexOf('updated-max') === -1)) {
-                      currentPage = j + 1;
+                    // Bind click events to the newly generated buttons
+                    var buttons = paginationEl.querySelectorAll('.page-num');
+                    buttons.forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var targetPage = parseInt(this.getAttribute('data-page'));
+                    showPage(targetPage, false); // isInitialLoad = false when button is clicked
+                    });
+                    });
                     }
-                  }
 
-                  for(var k = 0; k < pageUrls.length; k++) {
-                    var pageNum = k + 1;
-                    var activeClass = (pageNum === currentPage) ? ' active' : '';
-                    html += '<a href="' + pageUrls[k] + '" class="page-num' + activeClass + '">' + pageNum + '</a>';
-                  }
-
-                  paginationEl.innerHTML = html;
-                });
-            });
-            //]]>
-            </script>
-          </b:includable>
+                    // Initialize the first page on load (isInitialLoad = true)
+                    showPage(1, true);
+                    });
+                    //]]>
+                  </script>
+                </b:includable>
           <b:includable id='defaultAdUnit'/>
           <b:includable id='emailPostIcon'/>
           <b:includable id='facebookShare'/>
