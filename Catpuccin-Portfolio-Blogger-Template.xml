@@ -12,7 +12,7 @@
     Blogger Template Style
     Name:        Catpuccin Portfolio
     License:     MIT License
-    Version:     1.3.3
+    Version:     1.3.4
     Author:      Osman Onur Koç
     Author Url:  https://www.osmanonurkoc.com/
     -----------------------------------------------
@@ -506,6 +506,26 @@
     .main-content { padding: 1.5rem; width: 100%; }
     .floating-theme-toggle { bottom: 1.5rem; right: 1.5rem; width: 50px; height: 50px; font-size: 1.4rem; }
     .section-title { font-size: 1.8rem; }
+    }
+
+    /* Mobile Devices: Balanced padding ONLY for blog/inner pages. */
+    @media (max-width: 768px) {
+    .cat-inner-page .layout-wrapper { padding: 1.2rem 1rem; gap: 1.2rem; }
+    .cat-inner-page .main-content { padding: 1.8rem; }
+    .cat-inner-page .sidebar,
+    .cat-inner-page .blog-sidebar { padding: 1.8rem; }
+    .cat-inner-page .card-base { padding: 1.8rem; }
+    .cat-inner-page .post-summary-card { padding: 1.8rem; }
+    .cat-inner-page .cat-disqus-container { padding: 1.8rem; }
+
+    /* Optimize post typography for mobile screens */
+    .cat-inner-page .page-title { font-size: 2rem; margin-bottom: 1.2rem; padding-bottom: 0.8rem; }
+    .cat-inner-page .page-body { font-size: 1.05rem; }
+    .cat-inner-page .post-meta-single { margin-bottom: 1.5rem; gap: 0.8rem; }
+
+    /* Give lists slightly less indentation on mobile */
+    .cat-inner-page .page-body ul,
+    .cat-inner-page .page-body ol { padding-left: 2rem; }
     }
 
     /* --------------------------------------
@@ -1133,6 +1153,8 @@
   ]]></b:skin>
 </head>
 <body>
+
+<b:class cond='not data:view.isHomepage' name='cat-inner-page'/>
 
 <script type='text/javascript'>
   //<![CDATA[
