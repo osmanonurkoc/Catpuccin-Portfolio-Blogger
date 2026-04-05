@@ -1150,6 +1150,32 @@
     color: var(--accent-primary);
     background: var(--surface1);
     }
+
+    /* --------------------------------------
+    21. VIDEO & IFRAME EMBEDS
+    -------------------------------------- */
+    /* Targets YouTube and Vimeo embeds within blog posts */
+    .page-body iframe[src*="youtube.com"],
+    .page-body iframe[src*="youtu.be"],
+    .page-body iframe[src*="vimeo.com"] {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9; /* Ensures perfect video proportions on mobile */
+    border-radius: 12px;
+    border: 1px solid var(--card-border) !important; /* Overrides the ugly default white border */
+    box-shadow: 0 10px 25px -5px var(--shadow-color);
+    display: block;
+    margin: 2rem auto;
+    background-color: var(--crust); /* Prevents white flashes while the iframe loads */
+    transition: all 0.3s ease;
+    }
+
+    .page-body iframe[src*="youtube.com"]:hover,
+    .page-body iframe[src*="vimeo.com"]:hover {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 15px 35px -10px var(--hover-shadow);
+    transform: translateY(-2px);
+    }
   ]]></b:skin>
 </head>
 <body>
