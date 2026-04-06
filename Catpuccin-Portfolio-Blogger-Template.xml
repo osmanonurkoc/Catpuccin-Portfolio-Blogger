@@ -754,7 +754,8 @@
     border-radius: 12px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     cursor: grab;
-    transition: transform 0.1s ease-out; /* Smooth zooming */
+    /* Added opacity transition for smooth slide switching */
+    transition: transform 0.1s ease-out, opacity 0.2s ease-in-out;
     user-select: none;
     -webkit-user-drag: none;
     }
@@ -774,6 +775,41 @@
     z-index: 100000;
     }
     .lightbox-close-btn:hover { color: var(--accent-primary); transform: scale(1.1); }
+
+    /* NEW: Lightbox Navigation Buttons */
+    .lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--surface0);
+    color: var(--text);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 100000;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .lightbox-nav-btn:hover {
+    background: var(--accent-primary);
+    color: var(--app-bg);
+    border-color: var(--accent-primary);
+    transform: translateY(-50%) scale(1.1);
+    }
+    .lightbox-nav-btn.prev { left: 30px; }
+    .lightbox-nav-btn.next { right: 30px; }
+
+    @media (max-width: 768px) {
+    .lightbox-nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+    .lightbox-nav-btn.prev { left: 10px; }
+    .lightbox-nav-btn.next { right: 10px; }
+    }
 
     @keyframes zoomInModal {
     from {transform: scale(0.9); opacity: 0;}
@@ -2536,88 +2572,164 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       }, { passive: false });
     });
 
-    // 4. ADVANCED LIGHTBOX (Standard Images)
+    // ==========================================================
+    // 4. ADVANCED LIGHTBOX (Now with Slideshow Grouping & Navigation)
+    // ==========================================================
     var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
       '<span class="lightbox-close-btn">&times;</span>' +
+      '<button id="cat-lightbox-prev" class="lightbox-nav-btn prev" title="Previous"><i class="ti ti-chevron-left"></i></button>' +
+      '<button id="cat-lightbox-next" class="lightbox-nav-btn next" title="Next"><i class="ti ti-chevron-right"></i></button>' +
       '<div class="lightbox-content-wrapper">' +
         '<img id="cat-lightbox-img" class="cat-lightbox-img" src="" alt="Expanded Image"/>' +
-      '</div>' +
-    '</div>';
+        '</div>' +
+      '</div>';
     document.body.insertAdjacentHTML('beforeend', lightboxHTML);
 
     var lightbox = document.getElementById('cat-lightbox');
     var lightboxImg = document.getElementById('cat-lightbox-img');
     var closeBtn = document.querySelector('.lightbox-close-btn');
+    var lbPrev = document.getElementById('cat-lightbox-prev');
+    var lbNext = document.getElementById('cat-lightbox-next');
 
-    // Exclude compare AND gallery images from the standard Lightbox
+    var currentLbImages = [];
+    var currentLbIndex = 0;
+
+    // Exclude compare AND gallery images from the standard Lightbox logic
     var allImages = document.querySelectorAll('.page-body img:not(.cat-compare-container img):not(.cat-gallery-item img)');
-    allImages.forEach(function(img) {
-      var parentAnchor = img.closest('a');
-      if (parentAnchor) parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
 
-      img.addEventListener('click', function(e) {
-        e.preventDefault();
-        var highResSrc = this.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
-        lightboxImg.src = highResSrc;
+    allImages.forEach(function(img) {
+    var parentAnchor = img.closest('a');
+    if (parentAnchor) parentAnchor.addEventListener('click', function(e) { e.preventDefault(); });
+
+    img.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Smart Grouping Logic
+    var slideshowContainer = this.closest('.cat-slideshow-container');
+    var groupImages;
+
+    if (slideshowContainer) {
+    // If clicked image is in a slideshow, group only the images from THAT slideshow
+    groupImages = Array.from(slideshowContainer.querySelectorAll('img'));
+    } else {
+    // If it's a standalone image, group all standalone images in the post together
+    groupImages = Array.from(document.querySelectorAll('.page-body img:not(.cat-compare-container img):not(.cat-gallery-item img):not(.cat-slideshow-container img)'));
+    }
+
+    // Map high-res URLs
+    currentLbImages = groupImages.map(function(el) {
+    return el.src.replace(/\/s\d+(-[a-z]+)?\//, '/s1600/');
+    });
+
+    currentLbIndex = groupImages.indexOf(this);
+
+    // Hide navigation arrows if there is only 1 image in the group
+    if (currentLbImages.length > 1) {
+        lbPrev.style.display = 'flex';
+        lbNext.style.display = 'flex';
+        } else {
+        lbPrev.style.display = 'none';
+        lbNext.style.display = 'none';
+        }
+
+        lightboxImg.src = currentLbImages[currentLbIndex];
         lightbox.style.display = 'block';
         resetZoomState();
-      });
-    });
+        });
+        });
 
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      lightboxImg.src = '';
-      resetZoomState();
-    }
+        function updateLightboxSlide() {
+        lightboxImg.style.opacity = 0;
+        resetZoomState();
+        setTimeout(function() {
+        lightboxImg.src = currentLbImages[currentLbIndex];
+        lightboxImg.onload = function() {
+        lightboxImg.style.opacity = 1;
+        };
+        }, 200);
+        }
 
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', function(e) {
-        if (e.target !== lightboxImg) closeLightbox();
-      });
-    }
+        function nextLbSlide(e) {
+        if(e) { e.preventDefault(); e.stopPropagation(); }
+        currentLbIndex = (currentLbIndex + 1) % currentLbImages.length;
+        updateLightboxSlide();
+        }
 
-    // ZOOM & DRAG LOGIC (For Standard Lightbox)
-    var currentScale = 1;
-    var isPanning = false;
-    var currentX = 0, currentY = 0, startX = 0, startY = 0;
+        function prevLbSlide(e) {
+        if(e) { e.preventDefault(); e.stopPropagation(); }
+        currentLbIndex = (currentLbIndex - 1 + currentLbImages.length) % currentLbImages.length;
+        updateLightboxSlide();
+        }
 
-    function updateImageTransform() {
-      lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
-    }
+        if (lbPrev) lbPrev.addEventListener('click', prevLbSlide);
+        if (lbNext) lbNext.addEventListener('click', nextLbSlide);
 
-    function resetZoomState() {
-      currentScale = 1; currentX = 0; currentY = 0; isPanning = false;
-      updateImageTransform();
-    }
+        function closeLightbox() {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+        resetZoomState();
+        }
 
-    lightboxImg.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1;
-      var newScale = currentScale + (scrollDirection * zoomSensitivity);
-      newScale = Math.min(Math.max(0.5, newScale), 4);
-      currentScale = newScale;
-      updateImageTransform();
-    });
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+        if (lightbox) {
+        lightbox.addEventListener('click', function(e) {
+        // Close if user clicks outside the image and outside the buttons
+        if (e.target !== lightboxImg && e.target !== lbPrev && e.target !== lbNext && !lbPrev.contains(e.target) && !lbNext.contains(e.target)) {
+        closeLightbox();
+        }
+        });
+        }
 
-    lightboxImg.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      isPanning = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-    });
+        // Keyboard Navigation (Arrow Keys & ESC)
+        document.addEventListener('keydown', function(e) {
+        if (lightbox && lightbox.style.display === 'block') {
+        if (e.key === 'ArrowRight' && currentLbImages.length > 1) nextLbSlide();
+        if (e.key === 'ArrowLeft' && currentLbImages.length > 1) prevLbSlide();
+        if (e.key === 'Escape') closeLightbox();
+        }
+        });
 
-    lightboxImg.addEventListener('mousemove', function(e) {
-      if (!isPanning) return;
-      e.preventDefault();
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      updateImageTransform();
-    });
+        // ZOOM & DRAG LOGIC (For Standard Lightbox)
+        var currentScale = 1;
+        var isPanning = false;
+        var currentX = 0, currentY = 0, startX = 0, startY = 0;
 
-    lightboxImg.addEventListener('mouseup', function() { isPanning = false; });
-    lightboxImg.addEventListener('mouseleave', function() { isPanning = false; });
+        function updateImageTransform() {
+        lightboxImg.style.transform = 'translate(' + currentX + 'px, ' + currentY + 'px) scale(' + currentScale + ')';
+        }
+
+        function resetZoomState() {
+        currentScale = 1; currentX = 0; currentY = 0; isPanning = false;
+        updateImageTransform();
+        }
+
+        lightboxImg.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        var zoomSensitivity = 0.15;
+        var scrollDirection = Math.sign(e.deltaY) * -1;
+        var newScale = currentScale + (scrollDirection * zoomSensitivity);
+        newScale = Math.min(Math.max(0.5, newScale), 4);
+        currentScale = newScale;
+        updateImageTransform();
+        });
+
+        lightboxImg.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        isPanning = true;
+        startX = e.clientX - currentX;
+        startY = e.clientY - currentY;
+        });
+
+        lightboxImg.addEventListener('mousemove', function(e) {
+        if (!isPanning) return;
+        e.preventDefault();
+        currentX = e.clientX - startX;
+        currentY = e.clientY - startY;
+        updateImageTransform();
+        });
+
+        lightboxImg.addEventListener('mouseup', function() { isPanning = false; });
+        lightboxImg.addEventListener('mouseleave', function() { isPanning = false; });
 
     // ==========================================================
     // 5. ARCHIVE ACCORDION LOGIC
