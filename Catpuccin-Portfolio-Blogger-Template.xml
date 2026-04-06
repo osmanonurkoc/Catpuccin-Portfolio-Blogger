@@ -776,35 +776,6 @@
     }
     .lightbox-close-btn:hover { color: var(--accent-primary); transform: scale(1.1); }
 
-    /* NEW: Lightbox Navigation Buttons */
-    .lightbox-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--surface0);
-    color: var(--text);
-    border: 1px solid var(--card-border);
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 100000;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    }
-    .lightbox-nav-btn:hover {
-    background: var(--accent-primary);
-    color: var(--app-bg);
-    border-color: var(--accent-primary);
-    transform: translateY(-50%) scale(1.1);
-    }
-    .lightbox-nav-btn.prev { left: 30px; }
-    .lightbox-nav-btn.next { right: 30px; }
-
     @media (max-width: 768px) {
     .lightbox-nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
     .lightbox-nav-btn.prev { left: 10px; }
@@ -1071,35 +1042,6 @@
     .cat-gallery-content:active {
       cursor: grabbing;
     }
-
-    /* Modal Controls */
-    .cat-gallery-controls {
-      position: absolute;
-      bottom: 40px;
-      display: flex;
-      gap: 2rem;
-      background: var(--surface0);
-      padding: 1rem 2.5rem;
-      border-radius: 50px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-      border: 1px solid var(--surface1);
-      z-index: 100001;
-    }
-    .cat-gallery-controls button {
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: color 0.2s ease, transform 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .cat-gallery-controls button:hover {
-      color: var(--accent-primary);
-      transform: scale(1.1);
-    }
     
     .cat-gallery-close {
       position: absolute;
@@ -1211,6 +1153,45 @@
     border-color: var(--accent-primary) !important;
     box-shadow: 0 15px 35px -10px var(--hover-shadow);
     transform: translateY(-2px);
+    }
+
+    /* --------------------------------------
+    22. UNIFIED MODAL NAVIGATION (Lightbox & Gallery)
+    -------------------------------------- */
+    .modal-nav-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--app-bg);
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+    border: none;
+    opacity: 0.8;
+    z-index: 100000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .modal-nav-btn.prev { left: 30px; }
+    .modal-nav-btn.next { right: 30px; }
+
+    .modal-nav-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 25px var(--hover-shadow);
+    }
+
+    @media (max-width: 768px) {
+    .modal-nav-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+    .modal-nav-btn.prev { left: 10px; }
+    .modal-nav-btn.next { right: 10px; }
     }
   ]]></b:skin>
 </head>
@@ -2577,8 +2558,8 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     // ==========================================================
     var lightboxHTML = '<div id="cat-lightbox" class="cat-lightbox-modal">' +
       '<span class="lightbox-close-btn">&times;</span>' +
-      '<button id="cat-lightbox-prev" class="lightbox-nav-btn prev" title="Previous"><i class="ti ti-chevron-left"></i></button>' +
-      '<button id="cat-lightbox-next" class="lightbox-nav-btn next" title="Next"><i class="ti ti-chevron-right"></i></button>' +
+      '<button id="cat-lightbox-prev" class="modal-nav-btn prev" title="Previous"><i class="ti ti-arrow-left"></i></button>' +
+      '<button id="cat-lightbox-next" class="modal-nav-btn next" title="Next"><i class="ti ti-arrow-right"></i></button>' +
       '<div class="lightbox-content-wrapper">' +
         '<img id="cat-lightbox-img" class="cat-lightbox-img" src="" alt="Expanded Image"/>' +
         '</div>' +
@@ -2772,23 +2753,22 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       });
     }
 
-// ==========================================================
-    // 7. MASONRY GALLERY CONTROLLER & SLIDESHOW
+    // ==========================================================
+    // 7. MASONRY GALLERY CONTROLLER (Navigation, Keyboard & Zoom)
     // ==========================================================
     var galleryModalHTML = '<div id="cat-gallery-modal" class="cat-gallery-modal">' +
       '<span class="cat-gallery-close">&times;</span>' +
       '<div class="cat-gallery-content-wrapper">' +
         '<img id="cat-gallery-image" class="cat-gallery-content" src="" alt="Gallery Expanded"/>' +
-      '</div>' +
+        '</div>' +
       '<div class="cat-gallery-controls">' +
         '<button id="cat-gallery-prev" title="Previous"><i class="ti ti-chevron-left"></i></button>' +
-        '<button id="cat-gallery-play" title="Play/Pause"><i class="ti ti-player-play"></i></button>' +
         '<button id="cat-gallery-next" title="Next"><i class="ti ti-chevron-right"></i></button>' +
-      '</div>' +
-    '</div>';
-    
+        '</div>' +
+      '</div>';
+
     if (!document.getElementById('cat-gallery-modal')) {
-        document.body.insertAdjacentHTML('beforeend', galleryModalHTML);
+    document.body.insertAdjacentHTML('beforeend', galleryModalHTML);
     }
 
     var galModal = document.getElementById('cat-gallery-modal');
@@ -2796,12 +2776,10 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     var galClose = document.querySelector('.cat-gallery-close');
     var galPrev = document.getElementById('cat-gallery-prev');
     var galNext = document.getElementById('cat-gallery-next');
-    var galPlay = document.getElementById('cat-gallery-play');
-    
+    var galControlsBox = document.querySelector('.cat-gallery-controls');
+
     var currentGalleryImages = [];
     var currentGalIndex = 0;
-    var galInterval;
-    var isGalPlaying = false;
 
     // Zoom & Drag State
     var galScale = 1;
@@ -2809,117 +2787,120 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     var galCurX = 0, galCurY = 0, galStartX = 0, galStartY = 0;
 
     function updateGalTransform() {
-      galImg.style.transform = 'translate(' + galCurX + 'px, ' + galCurY + 'px) scale(' + galScale + ')';
+    galImg.style.transform = 'translate(' + galCurX + 'px, ' + galCurY + 'px) scale(' + galScale + ')';
     }
 
     function resetGalZoom() {
-      galScale = 1; galCurX = 0; galCurY = 0; galIsPanning = false;
-      updateGalTransform();
+    galScale = 1; galCurX = 0; galCurY = 0; galIsPanning = false;
+    updateGalTransform();
     }
 
     var galleryItems = document.querySelectorAll('.cat-gallery-item');
     galleryItems.forEach(function(item) {
-      item.addEventListener('click', function() {
-        var galleryId = this.getAttribute('data-gallery');
-        currentGalIndex = parseInt(this.getAttribute('data-index'));
-        
-        var siblings = document.querySelectorAll('#' + galleryId + ' .cat-gallery-item');
-        currentGalleryImages = [];
-        siblings.forEach(function(sib) {
-            currentGalleryImages.push(sib.getAttribute('data-src'));
-        });
-        
-        openGalleryModal();
-      });
+    item.addEventListener('click', function() {
+    var galleryId = this.getAttribute('data-gallery');
+    currentGalIndex = parseInt(this.getAttribute('data-index'));
+
+    var siblings = document.querySelectorAll('#' + galleryId + ' .cat-gallery-item');
+    currentGalleryImages = [];
+    siblings.forEach(function(sib) {
+    currentGalleryImages.push(sib.getAttribute('data-src'));
     });
 
-    function openGalleryModal() {
-      galModal.style.display = 'flex';
-      updateGallerySlide();
-    }
+    // Hide navigation pill if there's only 1 image
+    if (currentGalleryImages.length > 1) {
+        galControlsBox.style.display = 'flex';
+        } else {
+        galControlsBox.style.display = 'none';
+        }
 
-    function closeGalleryModal() {
-      galModal.style.display = 'none';
-      if (isGalPlaying) toggleGalPlay();
-      resetGalZoom();
-    }
+        openGalleryModal();
+        });
+        });
 
-    function updateGallerySlide() {
-      galImg.style.opacity = 0;
-      resetGalZoom(); // Reset zoom when switching slides
-      setTimeout(function() {
+        function openGalleryModal() {
+        galModal.style.display = 'flex';
+        updateGallerySlide();
+        }
+
+        function closeGalleryModal() {
+        galModal.style.display = 'none';
+        resetGalZoom();
+        }
+
+        function updateGallerySlide() {
+        galImg.style.opacity = 0;
+        resetGalZoom(); // Reset zoom when switching slides
+        setTimeout(function() {
         galImg.src = currentGalleryImages[currentGalIndex];
         galImg.onload = function() {
-          galImg.style.opacity = 1;
+        galImg.style.opacity = 1;
         };
-      }, 200); 
-    }
+        }, 200);
+        }
 
-    function nextGalSlide() {
-      currentGalIndex = (currentGalIndex + 1) % currentGalleryImages.length;
-      updateGallerySlide();
-    }
+        function nextGalSlide(e) {
+        if(e) { e.preventDefault(); e.stopPropagation(); }
+        currentGalIndex = (currentGalIndex + 1) % currentGalleryImages.length;
+        updateGallerySlide();
+        }
 
-    function prevGalSlide() {
-      currentGalIndex = (currentGalIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-      updateGallerySlide();
-    }
+        function prevGalSlide(e) {
+        if(e) { e.preventDefault(); e.stopPropagation(); }
+        currentGalIndex = (currentGalIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        updateGallerySlide();
+        }
 
-    function toggleGalPlay() {
-      if (isGalPlaying) {
-        clearInterval(galInterval);
-        galPlay.innerHTML = '<i class="ti ti-player-play"></i>';
-        isGalPlaying = false;
-      } else {
-        nextGalSlide(); 
-        galInterval = setInterval(nextGalSlide, 3000); 
-        galPlay.innerHTML = '<i class="ti ti-player-pause"></i>';
-        isGalPlaying = true;
-      }
-    }
+        if(galClose) galClose.addEventListener('click', closeGalleryModal);
+        if(galPrev) galPrev.addEventListener('click', prevGalSlide);
+        if(galNext) galNext.addEventListener('click', nextGalSlide);
 
-    if(galClose) galClose.addEventListener('click', closeGalleryModal);
-    if(galPrev) galPrev.addEventListener('click', prevGalSlide);
-    if(galNext) galNext.addEventListener('click', nextGalSlide);
-    if(galPlay) galPlay.addEventListener('click', toggleGalPlay);
-    
-    if(galModal) {
-      galModal.addEventListener('click', function(e) {
+        if(galModal) {
+        galModal.addEventListener('click', function(e) {
         // Close modal if clicked outside the image/controls
         if (e.target === galModal || e.target.classList.contains('cat-gallery-content-wrapper')) {
-          closeGalleryModal();
+        closeGalleryModal();
         }
-      });
-    }
+        });
+        }
 
-    // --- ZOOM AND DRAG LOGIC ---
-    galImg.addEventListener('wheel', function(e) {
-      e.preventDefault();
-      var zoomSensitivity = 0.15;
-      var scrollDirection = Math.sign(e.deltaY) * -1;
-      var newScale = galScale + (scrollDirection * zoomSensitivity);
-      newScale = Math.min(Math.max(0.5, newScale), 4);
-      galScale = newScale;
-      updateGalTransform();
-    });
+        // Keyboard Navigation (Arrow Keys & ESC)
+        document.addEventListener('keydown', function(e) {
+        if (galModal && galModal.style.display === 'flex') {
+        if (e.key === 'ArrowRight' && currentGalleryImages.length > 1) nextGalSlide();
+        if (e.key === 'ArrowLeft' && currentGalleryImages.length > 1) prevGalSlide();
+        if (e.key === 'Escape') closeGalleryModal();
+        }
+        });
 
-    galImg.addEventListener('mousedown', function(e) {
-      e.preventDefault();
-      galIsPanning = true;
-      galStartX = e.clientX - galCurX;
-      galStartY = e.clientY - galCurY;
-    });
+        // --- ZOOM AND DRAG LOGIC ---
+        galImg.addEventListener('wheel', function(e) {
+        e.preventDefault();
+        var zoomSensitivity = 0.15;
+        var scrollDirection = Math.sign(e.deltaY) * -1;
+        var newScale = galScale + (scrollDirection * zoomSensitivity);
+        newScale = Math.min(Math.max(0.5, newScale), 4);
+        galScale = newScale;
+        updateGalTransform();
+        });
 
-    galImg.addEventListener('mousemove', function(e) {
-      if (!galIsPanning) return;
-      e.preventDefault();
-      galCurX = e.clientX - galStartX;
-      galCurY = e.clientY - galStartY;
-      updateGalTransform();
-    });
+        galImg.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        galIsPanning = true;
+        galStartX = e.clientX - galCurX;
+        galStartY = e.clientY - galCurY;
+        });
 
-    galImg.addEventListener('mouseup', function() { galIsPanning = false; });
-    galImg.addEventListener('mouseleave', function() { galIsPanning = false; });
+        galImg.addEventListener('mousemove', function(e) {
+        if (!galIsPanning) return;
+        e.preventDefault();
+        galCurX = e.clientX - galStartX;
+        galCurY = e.clientY - galStartY;
+        updateGalTransform();
+        });
+
+        galImg.addEventListener('mouseup', function() { galIsPanning = false; });
+        galImg.addEventListener('mouseleave', function() { galIsPanning = false; });
   });
   //]]>
 </script>
