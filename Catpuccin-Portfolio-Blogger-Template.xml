@@ -1193,6 +1193,11 @@
     .modal-nav-btn.prev { left: 10px; }
     .modal-nav-btn.next { right: 10px; }
     }
+
+    @media (max-width: 768px) {
+    /* Hide all navigation arrows on mobile for a cleaner look */
+    .modal-nav-btn { display: none !important; }
+    .slide-nav-btn { display: none !important; }
   ]]></b:skin>
 </head>
 <body>
@@ -2488,6 +2493,15 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
       if(prevBtn) prevBtn.addEventListener('click', function() { changeSlide(slider, -1); });
       if(nextBtn) nextBtn.addEventListener('click', function() { changeSlide(slider, 1); });
 
+      // Swipe support for Slideshow
+      var touchStartX = 0;
+      slider.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+      slider.addEventListener('touchend', function(e) {
+      var touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) changeSlide(slider, 1);  // Swipe Left -> Next
+        if (touchEndX - touchStartX > 50) changeSlide(slider, -1); // Swipe Right -> Prev
+        }, {passive: true});
+
       var dots = slider.querySelectorAll('.slide-dot');
       dots.forEach(function(dot) {
         dot.addEventListener('click', function() {
@@ -2660,6 +2674,16 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         }
         });
         }
+
+        // Swipe support for Standard Lightbox
+        var lbTouchStartX = 0;
+        lightbox.addEventListener('touchstart', function(e) { lbTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        lightbox.addEventListener('touchend', function(e) {
+        if (currentScale !== 1) return; // Disable swipe if zoomed in
+        var lbTouchEndX = e.changedTouches[0].screenX;
+        if (lbTouchStartX - lbTouchEndX > 50) nextLbSlide();
+        if (lbTouchEndX - lbTouchStartX > 50) prevLbSlide();
+        }, {passive: true});
 
         // Keyboard Navigation (Arrow Keys & ESC)
         document.addEventListener('keydown', function(e) {
@@ -2872,6 +2896,16 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
         if (e.key === 'Escape') closeGalleryModal();
         }
         });
+
+        // Swipe support for Gallery Lightbox
+        var galTouchStartX = 0;
+        galModal.addEventListener('touchstart', function(e) { galTouchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        galModal.addEventListener('touchend', function(e) {
+        if (galScale !== 1) return; // Disable swipe if zoomed in
+        var galTouchEndX = e.changedTouches[0].screenX;
+        if (galTouchStartX - galTouchEndX > 50) nextGalSlide();
+        if (galTouchEndX - galTouchStartX > 50) prevGalSlide();
+        }, {passive: true});
 
         // --- ZOOM AND DRAG LOGIC ---
         galImg.addEventListener('wheel', function(e) {
