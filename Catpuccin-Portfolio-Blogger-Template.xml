@@ -297,7 +297,7 @@
     /* --------------------------------------
     7. MAIN CONTENT AREA (CARDS & GRIDS)
     -------------------------------------- */
-    .main-content { flex: 1; position: relative; }
+    .main-content { flex: 1; position: relative; min-width: 0; }
     section { margin-bottom: 4rem; }
     section:last-child { margin-bottom: 0; }
 
@@ -532,6 +532,7 @@
     12. CATPPUCCIN CODE BOX
     -------------------------------------- */
     .cat-codebox {
+    max-width: 100%;
     background-color: var(--mantle);
     border: 1px solid var(--card-border);
     border-radius: 12px;
