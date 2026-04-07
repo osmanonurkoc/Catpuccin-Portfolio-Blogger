@@ -1209,6 +1209,37 @@
     will-change: transform;
     }
   ]]></b:skin>
+<style type='text/css'>
+  /* WebKit (Chrome, Edge, Safari) */
+  .cat-codebox pre::-webkit-scrollbar {
+  height: 10px !important;
+  }
+
+  .cat-codebox pre::-webkit-scrollbar-track {
+  background-color: var(--mantle) !important;
+  border-radius: 0 0 12px 12px !important;
+  }
+
+  .cat-codebox pre::-webkit-scrollbar-thumb {
+  background-color: var(--surface2) !important;
+  border-radius: 10px !important;
+  border: 2px solid var(--mantle) !important;
+  }
+
+  .cat-codebox pre::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-primary) !important;
+  }
+
+  .cat-codebox pre::-webkit-scrollbar-corner {
+  background-color: transparent !important;
+  }
+
+  /* Firefox */
+  .cat-codebox pre {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--surface2) var(--mantle) !important;
+  }
+</style>
 </head>
 <body>
 
