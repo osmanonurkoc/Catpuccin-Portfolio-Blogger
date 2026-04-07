@@ -1959,76 +1959,118 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
           <b:includable id='commentsLinkIframe'/>
           <b:includable id='commentsTitle'/>
           <b:includable id='customPagination'>
+            <div id='native-pagination-data' style='display:none;'>
+              <b:if cond='data:olderPageUrl'>
+                <a expr:href='data:olderPageUrl' id='hidden-older-url'></a>
+              </b:if>
+            </div>
+
             <div class='custom-pagination' id='custom-pagination'/>
+
             <script type='text/javascript'>
               //<![CDATA[
               /* =========================================
-              CLIENT-SIDE PAGINATION ENGINE
+              ADVANCED AJAX PAGINATION ENGINE
+              Bypasses Blogger's server-side post limits by fetching
+              older pages in the background seamlessly.
               ========================================= */
               document.addEventListener('DOMContentLoaded', function() {
-
-              var postsPerPage = 6; // Set your limit here
-
-              var postContainer = document.querySelector('.blog-posts-list');
+              var postsPerPage = 6;
+              var container = document.querySelector('.blog-posts-list');
               var paginationEl = document.getElementById('custom-pagination');
 
-              if (!postContainer || !paginationEl) return;
+              if (!container || !paginationEl) return;
 
-              // Convert NodeList to Array to easily slice and dice
-              var allPosts = Array.from(postContainer.children);
-              var totalPosts = allPosts.length;
-              var totalPages = Math.ceil(totalPosts / postsPerPage);
+              var allPosts = Array.from(container.children);
+              var totalPages = Math.ceil(allPosts.length / postsPerPage);
+              var currentPage = 1;
 
-              // Hide pagination if everything fits on one page
-              if (totalPages <= 1) {
-                paginationEl.style.display = 'none';
-                return;
+              function showPage(page, isInitialLoad) {
+              currentPage = page;
+              var startIndex = (page - 1) * postsPerPage;
+              var endIndex = page * postsPerPage;
+
+              allPosts.forEach(function(post, index) {
+              if (index >= startIndex && index < endIndex) {
+                post.style.display = 'flex';
+                post.style.animation = 'fadeEffect 0.4s ease-in-out';
+                } else {
+                post.style.display = 'none';
+                }
+                });
+
+                renderButtons(page);
+
+                if (!isInitialLoad) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
                 }
 
-                // Added isInitialLoad parameter to prevent jumping on first visit
-                function showPage(page, isInitialLoad) {
-                var startIndex = (page - 1) * postsPerPage;
-                var endIndex = page * postsPerPage;
-
-                // Toggle visibility based on the current page
-                allPosts.forEach(function(post, index) {
-                if (index >= startIndex && index < endIndex) {
-                  post.style.display = 'flex'; // Restore visibility
-                  post.style.animation = 'fadeEffect 0.4s ease-in-out'; // Apply theme fade
-                  } else {
-                  post.style.display = 'none'; // Hide out-of-bounds posts
+                function renderButtons(page) {
+                if (totalPages <= 1) {
+                  paginationEl.style.display = 'none';
+                  return;
                   }
-                  });
+                  paginationEl.style.display = 'flex';
 
-                  renderButtons(page);
-
-                  // Smooth scroll back to the very top of the page, ONLY if it's not the first load
-                  if (!isInitialLoad) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }
-                  }
-
-                  function renderButtons(currentPage) {
                   var html = '';
                   for (var i = 1; i <= totalPages; i++) {
-                    var activeClass = (i === currentPage) ? ' active' : '';
+                    var activeClass = (i === page) ? ' active' : '';
                     html += '<a href="#" class="page-num' + activeClass + '" data-page="' + i + '" style="border: none; cursor: pointer;">' + i + '</a>';
                     }
                     paginationEl.innerHTML = html;
 
-                    // Bind click events to the newly generated buttons
                     var buttons = paginationEl.querySelectorAll('.page-num');
                     buttons.forEach(function(btn) {
                     btn.addEventListener('click', function(e) {
                     e.preventDefault();
                     var targetPage = parseInt(this.getAttribute('data-page'));
-                    showPage(targetPage, false); // isInitialLoad = false when button is clicked
+                    showPage(targetPage, false);
                     });
                     });
                     }
 
-                    // Initialize the first page on load (isInitialLoad = true)
+                    // 1. Render initial posts immediately
                     showPage(1, true);
+
+                    // 2. Fetch hidden/older posts in the background
+                    async function fetchHiddenPosts() {
+                    var nextUrlEl = document.getElementById('hidden-older-url');
+                    var nextUrl = nextUrlEl ? nextUrlEl.href : null;
+
+                    while (nextUrl) {
+                    try {
+                    var response = await fetch(nextUrl);
+                    var text = await response.text();
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(text, 'text/html');
+
+                    var fetchedPosts = doc.querySelectorAll('.blog-posts-list .post-summary-card');
+                    if (fetchedPosts.length === 0) break;
+
+                    fetchedPosts.forEach(function(post) {
+                    post.style.display = 'none';
+                    container.appendChild(post);
+                    allPosts.push(post);
+                    });
+
+                    totalPages = Math.ceil(allPosts.length / postsPerPage);
+                    renderButtons(currentPage);
+
+                    var newNextUrlEl = doc.getElementById('hidden-older-url');
+                    nextUrl = newNextUrlEl ? newNextUrlEl.href : null;
+
+                    } catch (err) {
+                    console.error("Pagination Fetch Error:", err);
+                    break;
+                    }
+                    }
+                    }
+
+                    // 3. Trigger fetch loop if more pages exist
+                    if (document.getElementById('hidden-older-url')) {
+                    fetchHiddenPosts();
+                    }
                     });
                     //]]>
                   </script>
