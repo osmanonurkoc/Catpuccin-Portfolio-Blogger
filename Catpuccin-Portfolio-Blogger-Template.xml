@@ -1266,6 +1266,30 @@
   scrollbar-width: thin !important;
   scrollbar-color: var(--surface2) var(--mantle) !important;
   }
+
+  /* ==========================================
+     INLINE CODE HIGHLIGHTS (FORCED OVERRIDE)
+     Bypasses Blogger's native transparent code styles
+     ========================================== */
+  .page-body code {
+    background-color: var(--surface0) !important;
+    color: var(--accent-primary) !important;
+    padding: 0.2rem 0.4rem !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--card-border) !important;
+    font-family: 'Consolas', 'Fira Code', 'Courier New', monospace !important;
+    font-size: 0.85em !important;
+    word-break: break-word !important;
+  }
+
+  /* Protect the main codeboxes from being affected by inline styles */
+  .cat-codebox code {
+    background-color: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border: none !important;
+    font-size: inherit !important;
+  }
 </style>
 </head>
 <body>
