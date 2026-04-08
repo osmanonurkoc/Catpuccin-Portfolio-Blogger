@@ -305,6 +305,23 @@ You can easily control exactly how many posts appear on a single page directly f
 4. Change the number `6` to whatever limit you prefer (e.g., `4`, `8`, `12`).
 5. Save the theme. The pagination buttons will automatically adapt to your new limit as soon as the background fetch is complete!
 
+---
+
+## 🪄 Supercharge Your Workflow: The Official Chrome Extension
+
+Tired of manually typing `[slideshow]`, `[gallery]`, or `[code]` tags in the Blogger editor? We've built a custom Chrome Extension that integrates perfectly into Blogger's native Compose toolbar!
+
+👉 **[Download the Catppuccin Blogger Editor Tools here!](https://github.com/osmanonurkoc/Catpuccin-Blogger-Extension)**
+
+**Why should you use the extension?**
+* 🖱️ **One-Click Formatting:** Inject galleries, image sliders, code boxes, and custom links with a single click—no brackets required.
+* 🧠 **Smart Toggle Engine:** Highlight an existing gallery and click the button again to safely unwrap the tags without harming your images.
+* 🎨 **Inline Code Highlighting:** The *only* way to apply inline `<code...>` styling inside paragraphs easily. Select a word, click the `</>` button, and it highlights perfectly.
+
+*We highly recommend installing this companion extension before exploring the shortcode features below!*
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
