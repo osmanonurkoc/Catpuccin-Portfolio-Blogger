@@ -2307,7 +2307,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
 </b:with>
 
 <footer class='site-footer'>
-  Catppuccin Portfolio Theme <a href='https://osmanonurkoc.com' target='_blank'>@osmanonurkoc</a>
+  Catppuccin Portfolio Theme, Made with ❤️ <a href='https://osmanonurkoc.com' target='_blank'>@osmanonurkoc</a>
 </footer>
 
 <button class='floating-theme-toggle' id='theme-toggle' title='Toggle Light/Dark Mode'>
