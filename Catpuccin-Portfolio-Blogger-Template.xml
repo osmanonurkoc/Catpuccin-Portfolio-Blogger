@@ -431,6 +431,36 @@
     word-break: break-word;
     }
 
+    /* ==========================================================
+    MINIMALIST BLOCKQUOTE
+    Clean, simple, and unobtrusive quote style.
+    ========================================================== */
+    .page-body blockquote {
+    margin: 2rem 0;
+    padding: 1rem 0 1rem 1.5rem;
+    border-left: 3px solid var(--surface2);
+    background-color: transparent;
+    color: var(--subtext0);
+    font-style: normal;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    transition: all 0.3s ease;
+    }
+
+    .page-body blockquote p {
+    margin-bottom: 0.8rem;
+    }
+
+    .page-body blockquote p:last-child {
+    margin-bottom: 0;
+    }
+
+    /* Subtle hover effect to bring focus */
+    .page-body blockquote:hover {
+    border-left-color: var(--accent-primary);
+    color: var(--text);
+    }
+
     /* --------------------------------------
     9.5. EMPTY STATES & 404 ERROR PAGE
     -------------------------------------- */
