@@ -318,7 +318,7 @@ Tired of manually typing `[slideshow]`, `[gallery]`, or `[code]` tags in the Blo
 * 🧠 **Smart Toggle Engine:** Highlight an existing gallery and click the button again to safely unwrap the tags without harming your images.
 * 🎨 **Inline Code Highlighting:** The *only* way to apply inline `<code...>` styling inside paragraphs easily. Select a word, click the `</>` button, and it highlights perfectly.
 
-*We highly recommend installing this companion extension before exploring the shortcode features below!*
+*We highly recommend installing this companion extension before exploring the shortcode features above!*
 
 ---
 
