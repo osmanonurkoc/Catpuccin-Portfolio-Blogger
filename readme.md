@@ -16,8 +16,17 @@ This theme allows you to customize your entire site without needing to know HTML
 * **Magic Variables:** Change the global accent color (buttons, highlights, shadows, text gradients) instantly by changing a single variable name.
 * **Wide Mode & Lazy Grid:** Easily adjust the maximum width of your website and let the CSS `auto-fit` grid handle the responsive layout automatically.
 * **Smart Lightbox:** Standard images inside your posts automatically feature a sleek, zoomable lightbox modal with a blurred Catppuccin crust overlay.
-* **Interactive Image Compare:** Zero-code before/after image sliders to showcase your design iterations or restoration projects.
+* **Interactive Image Compare:** Zero-code before/after image sliders to showcase your design iterations or restoration projects using `[compare]` tags.
+* **Dynamic Slideshows:** Create touch-friendly, responsive image carousels with captions directly from the standard editor using simple `[slideshow]` tags.
+* **Masonry Image Gallery:** Display photos in a beautiful, Pinterest-style grid with skeleton loading and a full-screen interactive modal via `[gallery]` tags.
+* **Zero-Code Code Blocks:** Share code snippets flawlessly using `[code]` tags that render as Mac-window style syntax boxes, complete with a one-click copy button.
+* **Skill Pills:** Add tags to your projects that automatically apply a sequence of 6 theme-adaptive Catppuccin gradients—no manual CSS classes required.
+* **Themed Custom Links:** Highlight important URLs with a dynamic, theme-adaptive sleeping cat SVG separator using `[link]` tags.
+* **Advanced AJAX Pagination:** A seamless, zero-delay background-fetching engine that intelligently bypasses Blogger's native server-side post limits.
+* **Disqus Integration:** Built-in comment support that automatically detects your theme and perfectly matches the dark Mocha aesthetic.
 * **Boolean Toggle System:** Turn social media buttons, personal info, or project cards ON or OFF simply by changing a `false` to `true` in the HTML. No structural coding required!
+* **Chrome Extension Companion:** Supercharge your writing workflow with our official extension for one-click shortcode formatting right inside the Blogger Compose toolbar.
+
 
 ---
 
