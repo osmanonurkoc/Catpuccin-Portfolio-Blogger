@@ -12,7 +12,7 @@
     Blogger Template Style
     Name:        Catpuccin Portfolio
     License:     MIT License
-    Version:     1.4.1
+    Version:     1.4.2
     Author:      Osman Onur Koç
     Author Url:  https://www.osmanonurkoc.com/
     -----------------------------------------------
@@ -2396,12 +2396,21 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     updateIcon(isLatte);
 
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', function() {
-        document.body.classList.toggle('latte');
-        var currentlyLatte = document.body.classList.contains('latte');
-        localStorage.setItem('portfolio-theme', currentlyLatte ? 'latte' : 'mocha');
-        updateIcon(currentlyLatte);
-      });
+    toggleBtn.addEventListener('click', function() {
+    document.body.classList.toggle('latte');
+    var currentlyLatte = document.body.classList.contains('latte');
+    localStorage.setItem('portfolio-theme', currentlyLatte ? 'latte' : 'mocha');
+    updateIcon(currentlyLatte);
+
+    // Wait for the 0.3s CSS transition to finish before resetting Disqus
+    if (typeof DISQUS !== 'undefined') {
+    setTimeout(function() {
+    DISQUS.reset({
+    reload: true
+    });
+    }, 400);
+    }
+    });
     }
 
     // Smart Social Icon Balancer
