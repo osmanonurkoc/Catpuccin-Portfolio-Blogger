@@ -12,7 +12,7 @@
     Blogger Template Style
     Name:        Catpuccin Portfolio
     License:     MIT License
-    Version:     1.4.2
+    Version:     1.4.3
     Author:      Osman Onur Koç
     Author Url:  https://www.osmanonurkoc.com/
     -----------------------------------------------
@@ -1232,6 +1232,7 @@
     /* Hide all navigation arrows on mobile for a cleaner look */
     .modal-nav-btn { display: none !important; }
     .slide-nav-btn { display: none !important; }
+    }
 
     /* --------------------------------------
     23. NATIVE CAROUSEL & SWIPE OPTIMIZATIONS
@@ -1264,6 +1265,55 @@
         max-width: 100vw;
         overflow-x: hidden;
       }
+    }
+
+    /* ==========================================================
+    24. PORTFOLIO CATEGORY FILTERS
+    ========================================================== */
+    .portfolio-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+    background-color: var(--surface0);
+    color: var(--text);
+    border: 1px solid var(--card-border);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    }
+
+    .filter-btn:hover {
+    background-color: var(--surface1);
+    color: var(--accent-primary);
+    }
+
+    .filter-btn.active {
+    background: var(--gradient-btn);
+    color: var(--app-bg) !important;
+    border-color: transparent;
+    pointer-events: none;
+    }
+
+    /* Animation class for hiding cards smoothly */
+    .project-card.hidden {
+    display: none;
+    }
+
+    .project-card {
+    animation: fadeInScale 0.4s ease forwards;
+    }
+
+    @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
     }
   ]]></b:skin>
 <style type='text/css'>
@@ -1831,10 +1881,18 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
               
               <section id='portfolio'>
                 <h2 class='section-title gradient-text'>Portfolio &amp; Projects</h2>
+                <div class='portfolio-filters'>
+                  <button class='filter-btn active' data-filter='featured'>Featured</button>
+                  <button class='filter-btn' data-filter='coding'>Software Development</button>
+                  <button class='filter-btn' data-filter='web'>Web Development</button>
+                  <button class='filter-btn' data-filter='design'>Design</button>
+                  <button class='filter-btn' data-filter='android'>Android</button>
+                  <button class='filter-btn' data-filter='all'>All</button>
+                </div>
                 <div class='projects-grid'>
 
                   <b:if cond='true'>
-                    <div class='card-base project-card'>
+                    <div class='card-base project-card featured'>
                       <h3>Home Backup &amp; Restore</h3>
                       <p>A powerful backup solution for Windows utilizing NTFS Hard links, featuring Time Machine style incremental backups.</p>
 
@@ -1847,7 +1905,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                   </b:if>
 
                   <b:if cond='true'>
-                    <div class='card-base project-card'>
+                    <div class='card-base project-card android'>
                       <h3>Lavien Adaptive Icons</h3>
                       <p>A comprehensive Android customization tool and icon pack family tailored for seamless and elegant design.</p>
 
@@ -1861,7 +1919,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                   </b:if>
 
                   <b:if cond='true'>
-                    <div class='card-base project-card'>
+                    <div class='card-base project-card design'>
                       <h3>Linux Grub Themes</h3>
                       <p>Clean and modern bootloader interfaces including Papirus and Sheffield themes.</p>
 
@@ -1874,7 +1932,7 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                   </b:if>
 
                   <b:if cond='true'>
-                    <div class='card-base project-card'>
+                    <div class='card-base project-card web'>
                       <h3>Haymatlos.org</h3>
                       <p>Open access societal publishing platform and community content management.</p>
 
@@ -1886,8 +1944,8 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                     </div>
                   </b:if>
                   
-                  <b:if cond='false'>
-                    <div class='card-base project-card'>
+                  <b:if cond='true'>
+                    <div class='card-base project-card coding'>
                       <h3>Open Source Script</h3>
                       <p>An automation script designed to help developers deploy server environments faster and safer.</p>
 
@@ -1899,8 +1957,8 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
                     </div>
                   </b:if>
 
-                  <b:if cond='false'>
-                    <div class='card-base project-card'>
+                  <b:if cond='true'>
+                    <div class='card-base project-card design'>
                       <h3>3D Asset Pack</h3>
                       <p>A collection of stylized 3D models and textures built specifically for indie game developers.</p>
 
@@ -3077,6 +3135,48 @@ Set expr:value='false' to completely hide all blog features. If disabled, direct
     galImg.addEventListener('mouseleave', function() { galIsPanning = false; });
 
   });
+
+  // ==========================================================
+  // 8. PORTFOLIO CATEGORIES ENGINE
+  // ==========================================================
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
+
+      function applyFilter(filterValue) {
+        projectCards.forEach(card => {
+          if (filterValue === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            // classList.contains allows for multi-category support on a single card
+            if (card.classList.contains(filterValue)) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          }
+        });
+      }
+
+      // Apply the default active filter when the page loads (e.g., 'featured')
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) {
+        const initialFilter = activeBtn.getAttribute('data-filter');
+        applyFilter(initialFilter);
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Update the active state of the buttons
+          filterBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+
+          // Apply the selected filter
+          const filterValue = this.getAttribute('data-filter');
+          applyFilter(filterValue);
+        });
+      });
+    });
 
   //]]>
 </script>
